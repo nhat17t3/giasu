@@ -5,10 +5,10 @@ const Header = (props) => {
   return (
     <>
       <header style={{ background: "rgb(255, 255, 255)" }}>
-        <nav className="navbar navbar-default">
+        <nav className="navbar navbar-default" >
           <div
             className="container flex-row-nowrap"
-            style={{ justifyContent: "space-between" }}
+            style={{ justifyContent: "space-between" }} 
           >
             <div
               className="flex-row-nowrap"

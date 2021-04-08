@@ -14,13 +14,11 @@ TutorItem.defaultProps = {
 };
 
 function TutorItem(props) {
-  const { tutor,onViewClick } = props;
+  const { tutor, onViewClick } = props;
 
   const handleVewClick = () => {
     if (onViewClick) onViewClick(tutor);
   };
-
-  
 
   return (
     <>
@@ -34,8 +32,8 @@ function TutorItem(props) {
                   src={tutor.avatar}
                   width={312}
                   height={200}
-                  alt="linh-vu's picture"
-                  title="linh-vu's picture"
+                  alt=" picture"
+                  title=" picture"
                 />
               </a>
             </div>
@@ -45,7 +43,7 @@ function TutorItem(props) {
               </h4>
               <p>
                 <span>{tutor.address}</span> |
-                <span className="mon-hoc">{tutor.subject}</span>
+                <span className="mon-hoc"> {tutor.subject}</span>
               </p>
               <p className="cost">
                 <span> </span>
@@ -60,7 +58,7 @@ function TutorItem(props) {
             <div className="btn-bottom text-right">
               <div className="btn-data" data-object={39782} data-type="user" />
 
-              <button  className="btn btn-default" onClick={handleVewClick}>
+              <button className="btn btn-default" onClick={handleVewClick}>
                 Xem chi tiết
               </button>
             </div>

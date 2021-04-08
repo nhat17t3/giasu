@@ -15,33 +15,6 @@ import { getAllPosts } from "./features/student/PostSlice";
 import { useDispatch } from "react-redux";
 
 function App() {
-  const [productList, setProductList] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchProductList = async () => {
-  //     try {
-  //       const params = {
-  //         _page: 1,
-  //         _limit: 10,
-  //       };
-  //       const response = await postsApi.getAll(params);
-  //       console.log(response, "cc");
-  //       setProductList(response.data);
-  //     } catch (error) {
-  //       console.log("Failed to fetch product list: ", error);
-  //     }
-  //   };
-  //   fetchProductList();
-  // }, []);
-
-  // const dispatch = useDispatch();
-  // useEffect(async () => {
-  //   try {
-  //     await dispatch(getAllPosts());
-  //     console.log("cc");
-  //   } catch (error) {}
-  // }, []);
-
   return (
     <div>
       <BrowserRouter>

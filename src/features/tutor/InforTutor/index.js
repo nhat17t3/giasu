@@ -36,7 +36,7 @@ function InforTutor(props) {
                 className="cover"
                 style={{
                   backgroundImage:
-                    'url("https://getdrive.net/wp-content/uploads/2020/03/Mau-background-powerpoint-giao-duc.jpg")',
+                    'url("https://triggerm.digital/wp-content/uploads/sites/2/2020/10/marketing-nganh-giao-duc-4.png")',
                 }}
               >
                 {/*<img id="show-cover" src=""> */}
@@ -109,15 +109,19 @@ function InforTutor(props) {
                   {/*subjects, cost: only for teacher*/}
                   <div className="headblockSecond">
                     <span className="spanArea mr-15">
-                      <i className="fa fa-book" />
-                      {"  Mon hoc:"}{tutor.subject}
+                      <i className="" />
+                      {"  Môn học:"}  {tutor.subject}
+                    </span>
+                    <span className="spanArea mr-15">
+                      <i className="" />
+                      {"  Lớp:"}  {tutor.grade}
                     </span>
                   </div>
                   {/*Place, teaching type: only for teacher*/}
                   <div className="headblockSecond">
                     <div className="spanArea mr-15" >
                       <i className="fa fa-map-marker" />
-                      {tutor.address}
+                      {" Địa chỉ:"} {tutor.address}
                     </div>
                     
                   </div>
@@ -156,7 +160,7 @@ function InforTutor(props) {
                 <div className="list-categories" style={{ width: "100%" }}>
                   <div className="gblock-v2">
                     <div className="header-block">
-                      <h2>THÔNG TIN GIA SƯ</h2>
+                      <h3>THÔNG TIN GIA SƯ</h3>
                     </div>
                     <div
                       className="body-block"
@@ -170,18 +174,18 @@ function InforTutor(props) {
                       <p>
                       {tutor.description}
                       </p>
-                      <h3>Chủ đề dạy</h3>
+                      <h3>Liên hệ</h3>
                       <ul className="group-tag">
-                      <li><p>{tutor.subject}</p></li>
+                      <li><p>{tutor.phonenumber}</p></li>
                       </ul>
                       <h3>Gia sư đang là</h3>
                       <div className="kieu-giao-vien">
                         <label>{tutor.qualification} </label>
                       </div>
-                      <h3>Lịch dạy gia sư</h3>
+                      {/* <h3>Lịch dạy gia sư</h3>
                       <div className="kieu-giao-vien">
                         <label>{tutor.time} </label>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -189,11 +193,11 @@ function InforTutor(props) {
               
               {/* Hien thi lớp đã dạy */}
               {/* Lịch dạy */}
-              {/* <div id="lich-day">
+               <div id="lich-day">
                 <div className="list-categories">
                   <div className="gblock-v2">
-                    <div className="header-block">
-                      <h2>LỊCH DẠY GIA SƯ</h2>
+                    <div className="">
+                      <h4>LỊCH DẠY GIA SƯ</h4>
                     </div>
                     <div className="body-block block-calender">
                       <div className="row-calendar">
@@ -255,7 +259,7 @@ function InforTutor(props) {
                     </div>
                   </div>
                 </div>
-              </div> */}
+              </div> 
               
             
           

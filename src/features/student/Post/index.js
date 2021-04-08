@@ -33,7 +33,7 @@ function Post(props) {
         })}
       >
         <div
-          className="container p-create-class-body"
+          className="container p-create-class-body region region-content"
           style={{ marginBottom: "20px" }}
         >
           <div className="gform form-article form-product form-nhom-hoc">
@@ -60,8 +60,8 @@ function Post(props) {
                         <div className="row">
                           <div className="col-md-12 class-field">
                             <p className="p-create-class-title">
-                              m tắt yêu cầu tìm gia sư (1 câu, tối đa 100 ký tự){" "}
-                              <span className="class-field-alert">*</span>
+                              Tóm tắt yêu cầu tìm gia sư (1 câu, tối đa 100 ký
+                              tự) <span className="class-field-alert">*</span>
                             </p>
 
                             <Field
@@ -84,19 +84,23 @@ function Post(props) {
                               <Field name="subject" as="select">
                                 <option value></option>
                                 <optgroup label="Môn học phổ thông">
-                                  <option value={1}>Toán</option>
-                                  <option value={2}>Lý</option>
-                                  <option value={3}>Hóa</option>
-                                  <option value={4}>Tiếng anh</option>
-                                  <option value={5}>Văn</option>
-                                  <option value={6}>Tiếng Việt</option>
-                                  <option value={7}>Lịch sử</option>
-                                  <option value={8}>Địa lý</option>
-                                  <option value={9}>Sinh</option>
-                                  <option value={10}>Môn phổ thông khác</option>
+                                  <option value={"Toán"}>Toán</option>
+                                  <option value={"Lý"}>Lý</option>
+                                  <option value={"Hóa"}>Hóa</option>
+                                  <option value={"Tiếng anh"}>Tiếng anh</option>
+                                  <option value={"Văn"}>Văn</option>
+                                  <option value={"Tiếng Việt"}>
+                                    Tiếng Việt
+                                  </option>
+                                  <option value={"Lịch sử"}>Lịch sử</option>
+                                  <option value={"Địa lý"}>Địa lý</option>
+                                  <option value={"Sinh"}>Sinh</option>
+                                  <option value={"khác"}>khác</option>
                                 </optgroup>
                               </Field>
-                              <ErrorMessage name="subject" />
+                              <div style={{ color: "red" }}>
+                                <ErrorMessage name="subject" />
+                              </div>
                             </div>
                           </div>
 
@@ -109,13 +113,15 @@ function Post(props) {
                               <Field name="grade" as="select">
                                 <option value></option>
                                 <optgroup label="cấp 1">
-                                  <option value={1}>lớp 1</option>
-                                  <option value={2}>lớp 2</option>
-                                  <option value={3}>lớp 3</option>
-                                  <option value={5}>lớp 5</option>
+                                  <option value={"Lớp 1"}>lớp 1</option>
+                                  <option value={"Lớp 2"}>lớp 2</option>
+                                  <option value={"Lớp 3"}>lớp 3</option>
+                                  <option value={"Lớp 5"}>lớp 5</option>
                                 </optgroup>
                               </Field>
-                              <ErrorMessage name="grade" />
+                              <div style={{ color: "red" }}>
+                                <ErrorMessage name="grade" />
+                              </div>
                             </div>
                           </div>
 
@@ -155,6 +161,9 @@ function Post(props) {
                                 type="text"
                                 placeholder="Ví dụ: 091234567"
                               />
+                              <div style={{ color: "red" }}>
+                                <ErrorMessage name="phonenumber" />
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -173,6 +182,9 @@ function Post(props) {
                                 type="text"
                                 placeholder="Nhập dia chi"
                               />
+                              <div style={{ color: "red" }}>
+                                <ErrorMessage name="address" />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-12">
@@ -211,8 +223,317 @@ function Post(props) {
                                 as="textarea"
                                 placeholder="Mô tả các nội dung muốn học tại đây... "
                               />
+                              <div style={{ color: "red" }}>
+                                <ErrorMessage name="description" />
+                              </div>
                             </div>
                           </div>
+
+                          <div className="col-md-12">
+                            <p className="p-create-class-title">
+                              <i
+                                className="fa fa-calendar"
+                                aria-hidden="true"
+                              />{" "}
+                              Thời gian có thể học
+                            </p>
+                            <div className="calendar-list-picker">
+                              <div className="row-calendar-check">
+                                <h4>Thứ 2</h4>
+                                <ul>
+                                  <li>
+                                    <label htmlFor="morning-calendar-2" className="lbl-active">
+                                      Sáng
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="morning-calendar-2"
+                                      type="checkbox"
+                                      name="sang_2"
+                                      defaultValue="sang_2"
+                                    />
+                                  </li>
+                                  <li>
+                                    <label htmlFor="afternoon-calendar-2">
+                                      Chiều
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="afternoon-calendar-2"
+                                      type="checkbox"
+                                      name="chieu_2"
+                                      defaultValue="chieu_2"
+                                    />
+                                  </li>
+                                  <li>
+                                    <label htmlFor="evening-calendar-2">
+                                      Tối
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="evening-calendar-2"
+                                      type="checkbox"
+                                      name="toi_2"
+                                      defaultValue="toi_2"
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                              <div className="row-calendar-check">
+                                <h4>Thứ 3</h4>
+                                <ul>
+                                  <li>
+                                    <label htmlFor="morning-calendar-3" className="lbl-active">
+                                      Sáng
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="morning-calendar-3"
+                                      type="checkbox"
+                                      name="sang_3"
+                                      defaultValue="sang_3"
+                                    />
+                                  </li>
+                                  <li>
+                                    <label htmlFor="afternoon-calendar-3">
+                                      Chiều
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="afternoon-calendar-3"
+                                      type="checkbox"
+                                      name="chieu_3"
+                                      defaultValue="chieu_3"
+                                    />
+                                  </li>
+                                  <li>
+                                    <label htmlFor="evening-calendar-3">
+                                      Tối
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="evening-calendar-3"
+                                      type="checkbox"
+                                      name="toi_3"
+                                      defaultValue="toi_3"
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                              <div className="row-calendar-check">
+                                <h4>Thứ 4</h4>
+                                <ul>
+                                  <li>
+                                    <label htmlFor="morning-calendar-4">
+                                      Sáng
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="morning-calendar-4"
+                                      type="checkbox"
+                                      name="sang_4"
+                                      defaultValue="sang_4"
+                                    />
+                                  </li>
+                                  <li>
+                                    <label htmlFor="afternoon-calendar-4">
+                                      Chiều
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="afternoon-calendar-4"
+                                      type="checkbox"
+                                      name="chieu_4"
+                                      defaultValue="chieu_4"
+                                    />
+                                  </li>
+                                  <li>
+                                    <label htmlFor="evening-calendar-4">
+                                      Tối
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="evening-calendar-4"
+                                      type="checkbox"
+                                      name="toi_4"
+                                      defaultValue="toi_4"
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                              <div className="row-calendar-check">
+                                <h4>Thứ 5</h4>
+                                <ul>
+                                  <li>
+                                    <label htmlFor="morning-calendar-5">
+                                      Sáng
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="morning-calendar-5"
+                                      type="checkbox"
+                                      name="sang_5"
+                                      defaultValue="sang_5"
+                                    />
+                                  </li>
+                                  <li>
+                                    <label htmlFor="afternoon-calendar-5">
+                                      Chiều
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="afternoon-calendar-5"
+                                      type="checkbox"
+                                      name="chieu_5"
+                                      defaultValue="chieu_5"
+                                    />
+                                  </li>
+                                  <li>
+                                    <label htmlFor="evening-calendar-5">
+                                      Tối
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="evening-calendar-5"
+                                      type="checkbox"
+                                      name="toi_5"
+                                      defaultValue="toi_5"
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                              <div className="row-calendar-check">
+                                <h4>Thứ 6</h4>
+                                <ul>
+                                  <li>
+                                    <label htmlFor="morning-calendar-6">
+                                      Sáng
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="morning-calendar-6"
+                                      type="checkbox"
+                                      name="sang_6"
+                                      defaultValue="sang_6"
+                                    />
+                                  </li>
+                                  <li>
+                                    <label htmlFor="afternoon-calendar-6">
+                                      Chiều
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="afternoon-calendar-6"
+                                      type="checkbox"
+                                      name="chieu_6"
+                                      defaultValue="chieu_6"
+                                    />
+                                  </li>
+                                  <li>
+                                    <label htmlFor="evening-calendar-6">
+                                      Tối
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="evening-calendar-6"
+                                      type="checkbox"
+                                      name="toi_6"
+                                      defaultValue="toi_6"
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                              <div className="row-calendar-check">
+                                <h4>Thứ 7</h4>
+                                <ul>
+                                  <li>
+                                    <label htmlFor="morning-calendar-7">
+                                      Sáng
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="morning-calendar-7"
+                                      type="checkbox"
+                                      name="sang_7"
+                                      defaultValue="sang_7"
+                                    />
+                                  </li>
+                                  <li>
+                                    <label htmlFor="afternoon-calendar-7">
+                                      Chiều
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="afternoon-calendar-7"
+                                      type="checkbox"
+                                      name="chieu_7"
+                                      defaultValue="chieu_7"
+                                    />
+                                  </li>
+                                  <li>
+                                    <label htmlFor="evening-calendar-7">
+                                      Tối
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="evening-calendar-7"
+                                      type="checkbox"
+                                      name="toi_7"
+                                      defaultValue="toi_7"
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                              <div className="row-calendar-check">
+                                <h4>Chủ nhật</h4>
+                                <ul>
+                                  <li>
+                                    <label htmlFor="morning-calendar-8">
+                                      Sáng
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="morning-calendar-8"
+                                      type="checkbox"
+                                      name="sang_8"
+                                      defaultValue="sang_8"
+                                    />
+                                  </li>
+                                  <li>
+                                    <label htmlFor="afternoon-calendar-8">
+                                      Chiều
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="afternoon-calendar-8"
+                                      type="checkbox"
+                                      name="chieu_8"
+                                      defaultValue="chieu_8"
+                                    />
+                                  </li>
+                                  <li>
+                                    <label htmlFor="evening-calendar-8">
+                                      Tối
+                                    </label>
+                                    <input
+                                      className="radio-calendar"
+                                      id="evening-calendar-8"
+                                      type="checkbox"
+                                      name="toi_8"
+                                      defaultValue="toi_8"
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div style={{ width: "100%", textAlign: "center" }}>
+                              <p className="note-calender">
+                                Bấm để chọn lịch. <span>Màu xanh</span> là những
+                                buổi có thể học.
+                              </p>
+                            </div>
+                          </div>
+
                           <div
                             className="row"
                             style={{ textAlign: "center", padding: "10px 0" }}
@@ -229,50 +550,6 @@ function Post(props) {
                     </div>
                   </div>
                 </Form>
-                {/*Cột bên phải*/}
-                {/* <div
-                  className="col-md-3 hidden-sm hidden-xs"
-                  style={{ paddingRight: "0 !important" }}
-                >
-                  <div className="right-class-new">
-                    <div className="right-class-new-top">
-                      <i
-                        className="fa fa-check-square-o checked-icon"
-                        aria-hidden="true"
-                      />
-                      <div className="right-class-new-top-content">
-                        <h4>Tại sao bạn nên tìm gia sư trên Blacasa ?</h4>
-                        <p>
-                          <i className="fa fa-check" aria-hidden="true" /> Công
-                          ty gia sư hơn 20,000 gia sư lớn nhất Việt Nam.
-                        </p>
-                        <p>
-                          <i className="fa fa-check" aria-hidden="true" /> Gia
-                          sư được sàng lọc, đào tạo kỹ năng và chuyên môn nghiệp
-                          vụ.{" "}
-                        </p>
-                        <p>
-                          <i className="fa fa-check" aria-hidden="true" /> Có
-                          chuyên gia tư vấn, định hướng học tập.
-                        </p>
-                        <p>
-                          <i className="fa fa-check" aria-hidden="true" /> Lộ
-                          trình học rõ ràng, được thiết kế cho sát với trình độ
-                          học viên.
-                        </p>
-                        <p>
-                          <i className="fa fa-check" aria-hidden="true" /> Hỗ
-                          trợ nhiệt tình, thân thiện.
-                        </p>
-                        <p>
-                          <i className="fa fa-check" aria-hidden="true" /> Hoàn
-                          toàn miễn phí
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
-                {/*End cột phải*/}
               </div>
             </div>
             {/* /.body-form */}

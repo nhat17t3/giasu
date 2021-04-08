@@ -6,7 +6,7 @@ const Footer = (props) => {
       <div className="footer-blog">
         
   
-        <div className="footer-blog-copyright">
+        <div className="footer-blog-copyright" >
           <div className="container">
             <div
               className="row"

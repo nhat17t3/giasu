@@ -28,7 +28,7 @@ function Register(props) {
           object: Yup.string().required("Required"),
         })}
       >
-        <div className="gform form-article form-product form-nhom-hoc">
+        <div className="gform form-article form-product form-nhom-hoc region region-content">
           <div className="body-form">
             <div className="row" style={{ margin: 0, paddingTop: "150px" }}>
               <Form action="" method="post">
@@ -120,7 +120,7 @@ function Register(props) {
                             className="btn-bla-big btn-yellowblacasa"
                             style={{ width: "150px" }}
                           >
-                            Login
+                            Register
                           </button>
                         </div>
                       </div>

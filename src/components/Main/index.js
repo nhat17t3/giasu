@@ -31,8 +31,8 @@ const Main = (props) => {
                 Nhanh - Chủ động - Miễn phí
               </p>
               <p style={{ color: "rgb(0, 0, 0)", fontSize: "18px" }}>
-                Hãy để chúng tôi giúp bạn tiến bộ mỗi ngày <br /> với nền tảng gia
-                sư theo công nghệ 4.0
+                Hãy để chúng tôi giúp bạn tiến bộ mỗi ngày <br /> với nền tảng
+                gia sư theo công nghệ 4.0
               </p>
               <p>
                 <Link
@@ -44,9 +44,8 @@ const Main = (props) => {
               </p>
             </div>
           </div>
-          
         </section>
-        
+
         {/* <section className="p-home-section-feature">
           <div className="container">
             <div className="home-banner-statistic">
@@ -110,8 +109,8 @@ const Main = (props) => {
               <h2>Trở thành gia sư</h2>
               <p>
                 Nếu bạn có một khả năng nào đó, hãy đăng ký trở thành gia sư
-                trên hệ thống , bạn sẽ được tiếp cận với hàng ngàn học
-                viên và có cơ hội được truyền đạt kiến thức của mình.
+                trên hệ thống , bạn sẽ được tiếp cận với hàng ngàn học viên và
+                có cơ hội được truyền đạt kiến thức của mình.
               </p>
               <div>
                 <a

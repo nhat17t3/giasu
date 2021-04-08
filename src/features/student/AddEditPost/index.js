@@ -1,11 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import postsApi from "../../../api/postsApi";
 import Layout from "../../../components/Layout";
 // import { randomNumber } from "utils/common";
 import Post from "../Post";
-import { addPost, removePost, updatePost } from "../PostSlice";
+import { EditPost, NewPost } from "../../../api/postsApi";
 
 AddEditPost.propTypes = {};
 
@@ -45,15 +44,13 @@ function AddEditPost(props) {
             ...values,
             // id: 15,
           };
-          await postsApi.add(newPost);
-          const action = addPost(newPost);
-          console.log({ action });
-          dispatch(action);
+          NewPost(dispatch, newPost);
         } else {
           // Do something here
-          await postsApi.edit(postId, values);
-          const action = updatePost(values);
-          dispatch(action);
+          // await postsApi.edit(postId, values);
+          // const action = updatePost(values);
+          // dispatch(action);
+          EditPost(dispatch,values);
         }
 
         history.push("/listpost");

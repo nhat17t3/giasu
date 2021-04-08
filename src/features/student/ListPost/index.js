@@ -4,17 +4,22 @@ import Layout from "../../../components/Layout";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect, useHistory } from "react-router-dom";
-import { addPost, getAllPosts, removePost, updatePost } from "../PostSlice";
+import { GetPosts, DeletePost } from "../../../api/postsApi";
 import PostItem from "./PostItem";
-import postsApi from "../../../api/postsApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 
 ListPost.propTypes = {};
 
 function ListPost(props) {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.posts);
+
   const history = useHistory();
+
+  useEffect(() => {
+    GetPosts(dispatch);
+  }, []);
 
   const handlePostEditClick = (post) => {
     console.log("Edit: ", post);
@@ -29,25 +34,14 @@ function ListPost(props) {
   };
 
   const handlePostRemoveClick = async (post) => {
-    const removePostId = post.id;
-    await postsApi.delete(removePostId);
-    const action = removePost(removePostId);
-    dispatch(action);
-  
-    alert("xoa");
+    console.log("delete: ", post);
+    await DeletePost(dispatch, post);
   };
 
-  //call API
-
-  useEffect(() => {
-    dispatch(getAllPosts());
-    console.log("dcc");
-  }, [dispatch]);
-
-  
   return (
     <>
       <Layout>
+        <ToastContainer />
         <section className="home-category">
           <div className="container" style={{ paddingTop: "10px" }}>
             <div className="region region-content">
@@ -182,13 +176,26 @@ function ListPost(props) {
                                       Áp dụng
                                     </button>
                                   </div>
+
+                                  <div
+                                    className="col-md-2 col-sm-2"
+                                    style={{ marginLeft: "350px" }}
+                                  >
+                                    <Link
+                                      className="btn-bla-big btn-yellowblacasa"
+                                      
+                                      to="/addpost"
+                                    >
+                                      Add New Post
+                                    </Link>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </form>{" "}
                         </div>
                       </div>
-                      <div className="row">
+                      {/* <div className="row">
                         <div className="col-md-10 col-sm-10"></div>
 
                         <div className="col-md-2 col-sm-2">
@@ -200,17 +207,17 @@ function ListPost(props) {
                             Add New Post
                           </Link>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="view-content">
                         <div className="row-tittle hidden-xs ">
-                          <div >
+                          <div>
                             <div className="col-md-2 col-sm-2">
-                              <div className="">
+                              <div>
                                 <h3>NGƯỜI ĐĂNG</h3>
                               </div>
                             </div>
                             <div className="col-md-6 col-sm-6">
-                              <div >
+                              <div>
                                 <h3>NỘI DUNG LỚP HỌC TÌM GIA SƯ</h3>
                               </div>
                             </div>
@@ -221,20 +228,20 @@ function ListPost(props) {
                             </div>
                             <div className="col-md-2 col-sm-2">
                               <div className="">
-                                <h3>PHÍ NHẬN LỚP</h3>
+                                <h3>HÀNH ĐỘNG</h3>
                               </div>
                             </div>
                           </div>
                         </div>
 
-                        {posts && posts.map((post) => (
+                        {posts.map((post) => (
                           <div key={post.id}>
-                          <PostItem 
-                            post={post}
-                            onRemoveClick={handlePostRemoveClick}
-                            onEditClick={handlePostEditClick}
-                            onViewClick={handlePostViewClick}
-                          />
+                            <PostItem
+                              post={post}
+                              onRemoveClick={handlePostRemoveClick}
+                              onEditClick={handlePostEditClick}
+                              onViewClick={handlePostViewClick}
+                            />
                           </div>
                         ))}
                       </div>

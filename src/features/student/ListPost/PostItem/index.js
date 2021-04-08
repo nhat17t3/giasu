@@ -32,13 +32,16 @@ function PostItem(props) {
   return (
     <>
       {/* bla-common-shadow */}
-      <div className="row-request ">
+      <div
+        className="row-request bla-common-shadow "
+        style={{ margin: "auto" }}
+      >
         <div className="">
           <div className="row">
             <div className="col-md-2 col-sm-2">
               <div className="">
                 <p className="creator-name">
-                  <a href="/blacasa-cskh-02">Tên người đăng {post.id}</a>
+                  <div>Bài đăng số {post.id}</div>
                 </p>
                 <p className="created-date">25/03/2021</p>
               </div>
@@ -56,14 +59,20 @@ function PostItem(props) {
                     }}
                     title="Đã xác thực thông tin"
                   ></i>
-                  <a href="" target="_blank">
-                    {post.title}
-                  </a>{" "}
+
+                  {post.title}
                 </h2>
                 <p style={{ fontStyle: "italic" }}>{post.description}</p>
-                <span className="group-span">lớp{post.grade} </span>
-                <span className="group-span">{post.subject} </span>
-                <span className="group-span">{post.address} </span>
+                <span className="group-span" style={{ margin: "5px" }}>
+                  {post.grade}{" "}
+                </span>
+                <span className="group-span" style={{ margin: "5px" }}>
+                  {" "}
+                  Môn {post.subject}{" "}
+                </span>
+                <span className="group-span" style={{ margin: "5px" }}>
+                  {post.address}{" "}
+                </span>
               </div>
             </div>
             <div className="col-md-1 col-sm-1">
@@ -71,6 +80,7 @@ function PostItem(props) {
                 <div className="green-text" style={{ color: "#FF961E" }}>
                   <div
                     style={{
+                      marginTop: "5px",
                       fontSize: "18px",
                       fontWeight: "bold",
                       color: "#FF961E",
@@ -86,19 +96,22 @@ function PostItem(props) {
               <div className="">
                 <div className="action-group text-right show-when-hover">
                   <button
-                    className="btn-bla-big btn-yellowblacasa"
+                    className="btn-bla-big  "
+                    style={{ background: "green", width: "70px" }}
                     onClick={handleViewClick}
                   >
                     View
                   </button>
                   <button
-                    className="btn-bla-big btn-yellowblacasa"
+                    className="btn-bla-big"
+                    style={{ background: "blue", width: "70px" }}
                     onClick={handleEditClick}
                   >
                     Edit
                   </button>
                   <button
-                    className="btn-bla-big btn-yellowblacasa"
+                    className="btn-bla-big "
+                    style={{ background: "red", width: "70px" }}
                     onClick={handleRemoveClick}
                   >
                     Delete

@@ -25,7 +25,7 @@ function Login(props) {
           password: Yup.string().required("Required"),
         })}
       >
-        <div className="gform   form-nhom-hoc">
+        <div className="gform   form-nhom-hoc region region-content">
           <div className="body-form">
             <div className="row" style={{ margin: 0, paddingTop: "150px" }}>
               <Form action="" method="post">
