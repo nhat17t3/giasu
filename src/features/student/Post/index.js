@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -15,6 +15,11 @@ Post.defaultProps = {
 
 function Post(props) {
   const { initialValues, isAddMode } = props;
+
+  const [sang_2,setSang_2]= useState(true);
+  console.log('cc',sang_2);
+  const a = [sang_2,]
+  
 
   return (
     <>
@@ -242,15 +247,17 @@ function Post(props) {
                                 <h4>Thứ 2</h4>
                                 <ul>
                                   <li>
-                                    <label htmlFor="morning-calendar-2" className="lbl-active">
+                                    <label htmlFor="morning-calendar-2"  className={sang_2?"lbl-active":""}>
                                       Sáng
                                     </label>
                                     <input
+                                   
                                       className="radio-calendar"
                                       id="morning-calendar-2"
                                       type="checkbox"
                                       name="sang_2"
-                                      defaultValue="sang_2"
+                                      defaultValue={sang_2}
+                                      onChange={()=>setSang_2(!sang_2)}
                                     />
                                   </li>
                                   <li>
@@ -286,7 +293,8 @@ function Post(props) {
                                     <label htmlFor="morning-calendar-3" className="lbl-active">
                                       Sáng
                                     </label>
-                                    <input
+                                    <input  
+                                    
                                       className="radio-calendar"
                                       id="morning-calendar-3"
                                       type="checkbox"
@@ -406,7 +414,7 @@ function Post(props) {
                                 <h4>Thứ 6</h4>
                                 <ul>
                                   <li>
-                                    <label htmlFor="morning-calendar-6">
+                                    <label htmlFor="morning-calendar-6" >
                                       Sáng
                                     </label>
                                     <input

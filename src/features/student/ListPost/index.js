@@ -8,12 +8,15 @@ import { GetPosts, DeletePost } from "../../../api/postsApi";
 import PostItem from "./PostItem";
 import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
+import userEvent from "@testing-library/user-event";
 
 ListPost.propTypes = {};
 
 function ListPost(props) {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.posts);
+  const editedPost = useSelector((state) => state.posts.posts.filter((x) => x.idcustomer === +2));
+  
 
   const history = useHistory();
 
@@ -183,8 +186,7 @@ function ListPost(props) {
                                   >
                                     <Link
                                       className="btn-bla-big btn-yellowblacasa"
-                                      
-                                      to="/addpost"
+                                      to ="/addpost"
                                     >
                                       Add New Post
                                     </Link>
@@ -234,7 +236,7 @@ function ListPost(props) {
                           </div>
                         </div>
 
-                        {posts.map((post) => (
+                        {editedPost.map((post) => (
                           <div key={post.id}>
                             <PostItem
                               post={post}

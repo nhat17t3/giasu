@@ -5,13 +5,20 @@ import Layout from "../../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import TutorItem from "./TutorItem";
+import { ToastContainer } from "react-toastify";
+import { GetTutors } from "../../../api/tutorsApi";
+import { useEffect, useState } from "react";
 
 ListTutor.propTypes = {};
 
 function ListTutor(props) {
   const dispatch = useDispatch();
-  const tutors = useSelector((state) => state.tutors);
+  const tutors = useSelector((state) => state.tutors.tutors);
   const history = useHistory();
+
+  useEffect(() => {
+    GetTutors(dispatch);
+  }, []);
 
   const handleViewClick = (tutor) => {
     console.log("xem: ", tutor);
@@ -22,6 +29,7 @@ function ListTutor(props) {
   return (
     <>
       <Layout>
+      <ToastContainer />
         <section className="home-category">
           <div className="container" style={{ paddingTop: "10px" }}>
             <div className="region region-content">
