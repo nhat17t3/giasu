@@ -4,6 +4,8 @@ import Layout from "../../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { Container } from "reactstrap";
+import { GetPosts } from "../../../api/postsApi";
+import { useEffect } from "react";
 
 InforPost.propTypes = {};
 
@@ -11,13 +13,22 @@ function InforPost(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { postId } = useParams();
+
+  useEffect(() => {
+    GetPosts(dispatch);
+  }, []);
+
   const editedPost = useSelector((state) => {
     const foundPost = state.posts.posts.find((x) => x.id === +postId);
     // console.log({ posts: state.posts, postId, foundPost });
     return foundPost;
   });
+
+  const v = useSelector((state) => state.posts.posts);
+  if (v.length == 0) return null;
   // console.log({ postId, editedPost });
   const postview = editedPost;
+  console.log("vieeeepost",postview)
 
   return (
     <>
@@ -144,14 +155,17 @@ function InforPost(props) {
           <div className="container">
             <div className="row group-study-detail">
               <div className="gblock-v2 detail-content">
-                <div style={{
-                  padding: "15px 0",
-                  borderTop: "1px solid #e7e7e7",
-                  fontSize: "16px",
-                  fontWeight: "revert",
-                }}>
+                <div
+                  style={{
+                    padding: "15px 0",
+                    borderTop: "1px solid #e7e7e7",
+                    fontSize: "16px",
+                    fontWeight: "revert",
+                  }}
+                >
                   <h4>
-                    <i className="fa fa-quote-right" aria-hidden="true" /> CHI TIẾT NỘI DUNG CẦN HỌC
+                    <i className="fa fa-quote-right" aria-hidden="true" /> CHI
+                    TIẾT NỘI DUNG CẦN HỌC
                   </h4>
                   {postview.description}
                 </div>
@@ -160,63 +174,191 @@ function InforPost(props) {
                   <div className="list-categories">
                     <div className="gblock-v2">
                       <h4>
-                        <i className="fa fa-calendar" aria-hidden="true" /> LỊCH HỌC DỰ KIẾN
+                        <i className="fa fa-calendar" aria-hidden="true" /> LỊCH
+                        HỌC DỰ KIẾN
                       </h4>
                       <div className="body-block block-calender">
                         <div className="row-calendar">
                           <h3>Thứ 2</h3>
                           <ul>
-                            <li className="calendar-normal">Sáng</li>
-                            <li className="calendar-normal">Chiều</li>
-                            <li className="calendar-normal">Tối</li>
+                            <li
+                              className={
+                                postview.schedule.sang_2 ? "calendar-active" : ""
+                              }
+                            >
+                              Sáng
+                            </li>
+
+                            <li
+                              className={
+                                postview.schedule.chieu_2 ? "calendar-active" : ""
+                              }
+                            >
+                              Chiều
+                            </li>
+                            <li
+                              className={
+                                postview.schedule.toi_2 ? "calendar-active" : ""
+                              }
+                            >
+                              Tối
+                            </li>
                           </ul>
                         </div>
                         <div className="row-calendar">
                           <h3>Thứ 3</h3>
                           <ul>
-                            <li className="calendar-normal">Sáng</li>
-                            <li className="calendar-normal">Chiều</li>
-                            <li className="calendar-active">Tối</li>
+                            <li
+                              className={
+                                postview.schedule.sang_3 ? "calendar-active" : ""
+                              }
+                            >
+                              Sáng
+                            </li>
+                            <li
+                              className={
+                                postview.schedule.chieu_3 ? "calendar-active" : ""
+                              }
+                            >
+                              Chiều
+                            </li>
+                            <li
+                              className={
+                                postview.schedule.toi_3 ? "calendar-active" : ""
+                              }
+                            >
+                              Tối
+                            </li>
                           </ul>
                         </div>
                         <div className="row-calendar">
                           <h3>Thứ 4</h3>
                           <ul>
-                            <li className="calendar-normal">Sáng</li>
-                            <li className="calendar-normal">Chiều</li>
-                            <li className="calendar-normal">Tối</li>
+                            <li
+                              className={
+                                postview.schedule.sang_4 ? "calendar-active" : ""
+                              }
+                            >
+                              Sáng
+                            </li>
+                            <li
+                              className={
+                                postview.schedule.chieu_4 ? "calendar-active" : ""
+                              }
+                            >
+                              Chiều
+                            </li>
+                            <li
+                              className={
+                                postview.schedule.toi_4 ? "calendar-active" : ""
+                              }
+                            >
+                              Tối
+                            </li>
                           </ul>
                         </div>
                         <div className="row-calendar">
                           <h3>Thứ 5</h3>
                           <ul>
-                            <li className="calendar-normal">Sáng</li>
-                            <li className="calendar-normal">Chiều</li>
-                            <li className="calendar-active">Tối</li>
+                            <li
+                              className={
+                                postview.schedule.sang_5 ? "calendar-active" : ""
+                              }
+                            >
+                              Sáng
+                            </li>
+                            <li
+                              className={
+                                postview.schedule.chieu_5 ? "calendar-active" : ""
+                              }
+                            >
+                              Chiều
+                            </li>
+                            <li
+                              className={
+                                postview.schedule.toi_5 ? "calendar-active" : ""
+                              }
+                            >
+                              Tối
+                            </li>
                           </ul>
                         </div>
                         <div className="row-calendar">
                           <h3>Thứ 6</h3>
                           <ul>
-                            <li className="calendar-normal">Sáng</li>
-                            <li className="calendar-normal">Chiều</li>
-                            <li className="calendar-normal">Tối</li>
+                            <li
+                              className={
+                                postview.schedule.sang_6 ? "calendar-active" : ""
+                              }
+                            >
+                              Sáng
+                            </li>
+                            <li
+                              className={
+                                postview.schedule.chieu_6 ? "calendar-active" : ""
+                              }
+                            >
+                              Chiều
+                            </li>
+                            <li
+                              className={
+                                postview.schedule.toi_6 ? "calendar-active" : ""
+                              }
+                            >
+                              Tối
+                            </li>
                           </ul>
                         </div>
                         <div className="row-calendar">
                           <h3>Thứ 7</h3>
                           <ul>
-                            <li className="calendar-normal">Sáng</li>
-                            <li className="calendar-normal">Chiều</li>
-                            <li className="calendar-normal">Tối</li>
+                            <li
+                              className={
+                                postview.schedule.sang_7 ? "calendar-active" : ""
+                              }
+                            >
+                              Sáng
+                            </li>
+                            <li
+                              className={
+                                postview.schedule.chieu_7 ? "calendar-active" : ""
+                              }
+                            >
+                              Chiều
+                            </li>
+                            <li
+                              className={
+                                postview.schedule.toi_7 ? "calendar-active" : ""
+                              }
+                            >
+                              Tối
+                            </li>
                           </ul>
                         </div>
                         <div className="row-calendar">
                           <h3>CN</h3>
                           <ul>
-                            <li className="calendar-normal">Sáng</li>
-                            <li className="calendar-normal">Chiều</li>
-                            <li className="calendar-normal">Tối</li>
+                            <li
+                              className={
+                                postview.schedule.sang_8 ? "calendar-active" : ""
+                              }
+                            >
+                              Sáng
+                            </li>
+                            <li
+                              className={
+                                postview.schedule.chieu_8 ? "calendar-active" : ""
+                              }
+                            >
+                              Chiều
+                            </li>
+                            <li
+                              className={
+                                postview.schedule.toi_8 ? "calendar-active" : ""
+                              }
+                            >
+                              Tối
+                            </li>
                           </ul>
                         </div>{" "}
                       </div>

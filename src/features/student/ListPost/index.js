@@ -8,21 +8,64 @@ import { GetPosts, DeletePost } from "../../../api/postsApi";
 import PostItem from "./PostItem";
 import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
-import userEvent from "@testing-library/user-event";
+import Pagination from "../../../components/Pagination";
 
 ListPost.propTypes = {};
 
 function ListPost(props) {
-  const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts.posts);
-  const editedPost = useSelector((state) => state.posts.posts.filter((x) => x.idcustomer === +2));
-  
-
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const [subject, setSubject] = useState("All");
+  const [grade, setGrade] = useState("All");
+  const [address, setAddress] = useState("All");
+  const [listpost, setListpost] = useState([]);
+
+  // const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(10);
 
   useEffect(() => {
     GetPosts(dispatch);
   }, []);
+
+  const posts = useSelector((state) => state.posts.posts);
+  // const editedPost = useSelector((state) =>
+  //   state.posts.posts.filter((x) => x.idcustomer === +2)
+  // );
+
+  useEffect(() => {
+    setListpost(posts);
+  }, [posts]);
+
+   // Get current tutors
+   const indexOfLastPost = currentPage * postsPerPage;
+   const indexOfFirstPost = indexOfLastPost - postsPerPage;
+   const currentTutors = listpost.slice(indexOfFirstPost, indexOfLastPost);
+   // Change page
+   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+   const checkfilter = (subject, grade, address, post) => {
+    let checka = false;
+    let checkb = false;
+    let checkc = false;
+    if (subject == "All") checka = true;
+    else checka = post.subject === subject;
+    if (grade == "All") checkb = true;
+    else checkb = post.grade === grade;
+    if (address == "All") checkc = true;
+    else checkc = post.address.toLowerCase().includes(address.toLowerCase());
+    return checka && checkb && checkc;
+  };
+
+  const handlefillter = (e) => {
+    console.log(subject, grade, address);
+
+    const listfillter = posts.filter((tutor) =>
+      checkfilter(subject, grade, address, tutor)
+    );
+    console.log(listfillter);
+    setListpost(listfillter);
+  };
 
   const handlePostEditClick = (post) => {
     console.log("Edit: ", post);
@@ -32,7 +75,7 @@ function ListPost(props) {
 
   const handlePostViewClick = (post) => {
     console.log("View: ", post);
-    const viewPostUrl = `/listpostview/${post.id}`;
+    const viewPostUrl = `/postview/${post.id}`;
     history.push(viewPostUrl);
   };
 
@@ -58,145 +101,164 @@ function ListPost(props) {
                       <div className="view-header">
                         <span>Lớp phù hợp với bạn</span>
                       </div>
-                      <div className="bg-gradient-pink">
-                        <div className="page-classes-filters">
-                          <form
-                            action="/class"
-                            method="get"
-                            id="views-exposed-form-nhom-hoc-chung-page-3"
-                            acceptCharset="UTF-8"
-                          >
-                            <div>
-                              <div className="views-exposed-form">
-                                <div className="views-exposed-widgets clearfix">
-                                  <div
-                                    id="edit-place-wrapper"
-                                    className="views-exposed-widget views-widget-filter-field_place_tid"
-                                  >
-                                    <div className="views-widget">
-                                      <div className="form-item form-type-select form-item-place">
-                                        <select
-                                          id="edit-place"
-                                          name="place"
-                                          className="form-select"
-                                        >
-                                          <option
-                                            value="All"
-                                            selected="selected"
-                                          >
-                                            - Chọn địa điểm -
-                                          </option>
-                                          <optgroup label="Địa điểm phổ biến">
-                                            <option value={1}>Hà Nội</option>
-                                            <option value={2}>
-                                              Hồ Chí Minh
-                                            </option>
-                                            <option value={10}>
-                                              Hải Phòng
-                                            </option>
-                                            <option value={3}>Đà Nẵng</option>
-                                            <option value={11}>Cần Thơ</option>
-                                          </optgroup>
-                                          <optgroup label="Tỉnh, thành phố khác">
-                                            <option value={17}>An Giang</option>
-                                            <option value={18}>
-                                              Bà Rịa-Vũng Tàu
-                                            </option>
-                                            <option value={21}>
-                                              Bắc Giang
-                                            </option>
-                                            <option value={20}>Bắc Kạn</option>
-                                            <option value={19}>Bạc Liêu</option>
-                                            <option value={22}>Bắc Ninh</option>
-                                          </optgroup>
-                                        </select>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    id="edit-subject-wrapper"
-                                    className="views-exposed-widget views-widget-filter-field_subject_tid"
-                                  >
-                                    <div className="views-widget">
-                                      <div className="form-item form-type-select form-item-subject">
-                                        <select
-                                          id="edit-subject"
-                                          name="subject"
-                                          className="form-select"
-                                        >
-                                          <option
-                                            value="All"
-                                            selected="selected"
-                                          >
-                                            - Chọn môn học -
-                                          </option>
-                                          <optgroup label="Môn học phổ thông">
-                                            <option value={72}>Toán</option>
-                                            <option value={73}>Lý</option>
-                                            <option value={74}>Hóa</option>
-                                            <option value={76}>Văn</option>
-                                            <option value={677}>
-                                              Tiếng Việt
-                                            </option>
-                                            <option value={406}>Lịch sử</option>
-                                            <option value={407}>Địa lý</option>
-                                            <option value={81}>Sinh</option>
-                                            <option value={410}>
-                                              Môn phổ thông khác
-                                            </option>
-                                          </optgroup>
-                                        </select>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    id="edit-topic-wrapper"
-                                    className="views-exposed-widget views-widget-filter-field_study_topic_tid"
-                                  >
-                                    <div className="views-widget">
-                                      <div className="form-item form-type-select form-item-topic">
-                                        <select
-                                          id="edit-topic"
-                                          name="topic"
-                                          className="form-select"
-                                        >
-                                          <option
-                                            value="All"
-                                            selected="selected"
-                                          >
-                                            -Chọn lớp-
-                                          </option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div className="views-exposed-widget views-submit-button">
-                                    <button
-                                      className="form-submit btn-yellowblacasa"
-                                      type="submit"
+                      <div
+                          className="bg-gradient-pink"
+                          style={{ padding: "0 10px" }}
+                        >
+                          <div className="view-filters box-search">
+                            <div
+                            // action=""
+                            // method="get"
+                            // id="views-exposed-form-users-page-2"
+                            // acceptCharset="UTF-8"
+                            >
+                              <div>
+                                <div className="views-exposed-form">
+                                  <div className="views-exposed-widgets clearfix">
+                                    <div
+                                      id="edit-place-wrapper"
+                                      className="views-exposed-widget views-widget-filter-field_place_tid"
                                     >
-                                      Áp dụng
-                                    </button>
-                                  </div>
-
-                                  <div
-                                    className="col-md-2 col-sm-2"
-                                    style={{ marginLeft: "350px" }}
-                                  >
-                                    <Link
-                                      className="btn-bla-big btn-yellowblacasa"
-                                      to ="/addpost"
+                                      <div className="views-widget">
+                                        <div className="form-item form-type-select form-item-place">
+                                          <select
+                                            id="edit-place"
+                                            name="place"
+                                            className="form-select"
+                                            onChange={(e) =>
+                                              setAddress(e.target.value)
+                                            }
+                                          >
+                                            <option
+                                              value="All"
+                                              selected="selected"
+                                              defaultValue="All"
+                                            >
+                                              - Chọn địa điểm -
+                                            </option>
+                                            <optgroup label="Địa điểm phổ biến">
+                                              <option value={"Hà Nội"}>
+                                                Hà Nội
+                                              </option>
+                                              <option value={"Nghệ An"}>
+                                                Nghệ An
+                                              </option>
+                                              {/* <option value={2}>
+                                                Hồ Chí Minh
+                                              </option>
+                                              <option value={10}>
+                                                Hải Phòng
+                                              </option>
+                                              <option value={3}>Đà Nẵng</option>
+                                              <option value={11}>
+                                                Cần Thơ
+                                              </option> */}
+                                            </optgroup>
+                                          </select>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      id="edit-subject-wrapper"
+                                      className="views-exposed-widget views-widget-filter-field_subject_tid"
                                     >
-                                      Add New Post
-                                    </Link>
+                                      <div className="views-widget">
+                                        <div className="form-item form-type-select form-item-subject">
+                                          <select
+                                            id="edit-subject"
+                                            name="subject"
+                                            className="form-select"
+                                            onChange={(e) =>
+                                              setSubject(e.target.value)
+                                            }
+                                          >
+                                            <option
+                                              value="All"
+                                              selected="selected"
+                                            >
+                                              - Chọn môn học -
+                                            </option>
+                                            <optgroup label="Môn học phổ thông">
+                                              <option value={"Toán"}>
+                                                Toán
+                                              </option>
+                                              <option value={"Lý"}>Lý</option>
+                                              <option value={"Hóa"}>Hóa</option>
+                                              <option value={"Văn"}>Văn</option>
+                                              <option value={"Tiếng Việt"}>
+                                                Tiếng Việt
+                                              </option>
+                                              <option value={"Lịch sử"}>
+                                                Lịch sử
+                                              </option>
+                                              <option value={"Địa lý"}>
+                                                Địa lý
+                                              </option>
+                                              <option value={"Sinh"}>
+                                                Sinh
+                                              </option>
+                                              <option
+                                                value={"Môn phổ thông khác"}
+                                              >
+                                                Môn phổ thông khác
+                                              </option>
+                                            </optgroup>
+                                          </select>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      id="edit-topic-wrapper"
+                                      className="views-exposed-widget views-widget-filter-field_study_topic_tid"
+                                    >
+                                      <div className="views-widget">
+                                        <div className="form-item form-type-select form-item-topic">
+                                          <select
+                                            id="edit-topic"
+                                            name="grade"
+                                            className="form-select"
+                                            onChange={(e) =>
+                                              setGrade(e.target.value)
+                                            }
+                                          >
+                                            <option
+                                              value="All"
+                                              selected="selected"
+                                            >
+                                              -Chọn Lớp-
+                                            </option>
+                                            <option value={"Lớp 1"}>
+                                              Lớp 1
+                                            </option>
+                                            <option value={"Lớp 2"}>
+                                              Lớp 2
+                                            </option>
+                                            <option value={"Lớp 3"}>
+                                              Lớp 3
+                                            </option>
+                                            <option value={"Lớp 5"}>
+                                              Lớp 5
+                                            </option>
+                                          </select>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div className="views-exposed-widget views-submit-button">
+                                      <button
+                                        className="form-submit btn-yellowblacasa"
+                                        // type="submit"
+                                        onClick={handlefillter}
+                                      >
+                                        Áp dụng
+                                      </button>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          </form>{" "}
+                            </div>{" "}
+                          </div>
                         </div>
-                      </div>
                       {/* <div className="row">
                         <div className="col-md-10 col-sm-10"></div>
 
@@ -236,7 +298,7 @@ function ListPost(props) {
                           </div>
                         </div>
 
-                        {editedPost.map((post) => (
+                        {currentTutors.map((post) => (
                           <div key={post.id}>
                             <PostItem
                               post={post}
@@ -248,23 +310,11 @@ function ListPost(props) {
                         ))}
                       </div>
                       <h2 className="element-invisible">Pages</h2>
-                      <div className="item-list">
-                        <ul className="pager">
-                          <li className="pager-first first" />
-                          <li className="pager-current">1</li>
-                          <li className="pager-item">
-                            <a title="Go to page 2" href="/class?page=1">
-                              2
-                            </a>
-                          </li>
-                          <li className="pager-next">
-                            <a href="/class?page=1">sau ›</a>
-                          </li>
-                          <li className="pager-last last">
-                            <a href="/class?page=1">cuối »</a>
-                          </li>
-                        </ul>
-                      </div>{" "}
+                      <Pagination
+                          postsPerPage={postsPerPage}
+                          totalPosts={listpost.length}
+                          paginate={paginate}
+                        />
                     </div>
                   </div>
                 </div>

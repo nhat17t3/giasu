@@ -11,8 +11,8 @@ const Main = (props) => {
             className="item home-banner-call-action"
             style={{
               background:
-                'url("https://timviec365.vn/pictures/images_11_2020/gia-su-day-kem-tai-nha-4.jpg") 0% 0% / cover',
-              height: "430px",
+                'url("https://static.tapchitaichinh.vn/images/upload/vuminh/01092019/education1.jpg") 0% 0% / cover',
+              height: "450px",
             }}
           >
             <div className="banner-caption">

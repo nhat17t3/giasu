@@ -4,20 +4,21 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { FormFeedback } from "reactstrap";
 import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { SignIn } from '../../../api/authenticationAPI';
 
 Login.propTypes = {};
 function Login(props) {
+  const dispatch = useDispatch();
   return (
     <>
       <Formik
-        onSubmit={(values) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-          }, 400);
+        onSubmit={(values, { setSubmitting }) => {
+          setSubmitting=false;
+          SignIn(dispatch, values);
         }}
         initialValues={{ email: "", password: "" }}
-        // initialValues={initialValues}
-        // onSubmit={props.onSubmit}
+
         validationSchema={Yup.object({
           email: Yup.string()
             .required("Required")
@@ -25,6 +26,12 @@ function Login(props) {
           password: Yup.string().required("Required"),
         })}
       >
+        {({
+
+         isSubmitting,
+         /* and other goodies */
+       }) => (
+       
         <div className="gform   form-nhom-hoc region region-content">
           <div className="body-form">
             <div className="row" style={{ margin: 0, paddingTop: "150px" }}>
@@ -96,6 +103,7 @@ function Login(props) {
                             type="submit"
                             className="btn-bla-big btn-yellowblacasa"
                             style={{ width: "150px" }}
+                            disabled={isSubmitting}
                           >
                             Login
                           </button>
@@ -108,6 +116,7 @@ function Login(props) {
             </div>
           </div>
         </div>
+       )}
       </Formik>
     </>
   );

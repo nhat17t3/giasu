@@ -26,7 +26,7 @@ function TutorItem(props) {
         <div className="box-content" data-original-title title>
           <div className="tile-v-12">
             <div className="img">
-              <a href="">
+              <div href="">
                 <img
                   typeof="foaf:Image"
                   src={tutor.avatar}
@@ -35,11 +35,12 @@ function TutorItem(props) {
                   alt=" picture"
                   title=" picture"
                 />
-              </a>
+              </div>
             </div>
             <div className="name">
               <h4>
-                <a href="">{tutor.name}</a>
+                <a>{tutor.name}</a>
+               
               </h4>
               <p>
                 <span>{tutor.address}</span> |

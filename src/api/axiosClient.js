@@ -11,10 +11,14 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(async (config) => {
   //handle token
+  // config.headers = {
+  //   authorization: "Bearer " + localStorage.getItem("token"),
+  // };
   return config;
 });
 
-axiosClient.interceptors.response.use((response) => {
+axiosClient.interceptors.response.use(
+  (response) => {
     return response;
   },
 

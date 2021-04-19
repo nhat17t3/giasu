@@ -23,7 +23,7 @@ import { toast } from "react-toastify";
 const ToastMiddleware = () => (next) => (action) => {
   switch (action.type) {
     case setPosts.type:
-      toast.success("call api successfully");
+      toast.success("call api posts successfully");
       break;
     case newPost.type:
       toast.success("New post added successfully");
