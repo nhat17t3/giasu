@@ -3,74 +3,83 @@ import PropTypes from "prop-types";
 import Layout from "../../../components/Layout";
 
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
-import TutorItem from "./TutorItem";
-import { ToastContainer } from "react-toastify";
-import { GetTutors } from "../../../api/tutorsApi";
+import { Link, Redirect, useHistory } from "react-router-dom";
+import { GetPosts, DeletePost } from "../../../api/postsApi";
 import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 import Pagination from "../../../components/Pagination";
+import PostItemShare from "./PostItemShare";
 
-ListTutor.propTypes = {};
+ListPostShare.propTypes = {};
 
-function ListTutor(props) {
+function ListPostShare(props) {
   const history = useHistory();
   const dispatch = useDispatch();
 
   const [subject, setSubject] = useState("All");
   const [grade, setGrade] = useState("All");
   const [address, setAddress] = useState("All");
-  const [listtutor, setListtutor] = useState([]);
+  const [listpost, setListpost] = useState([]);
 
   // const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(3);
+  const [postsPerPage] = useState(10);
 
   useEffect(() => {
-    GetTutors(dispatch);
+    GetPosts(dispatch);
   }, []);
 
-  const tutors = useSelector((state) => state.tutors.tutors);
+  const posts = useSelector((state) => state.posts.posts);
 
   useEffect(() => {
-    setListtutor(tutors);
-  }, [tutors]);
+    setListpost(posts);
+  }, [posts]);
 
-  // Get current tutors
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentTutors = listtutor.slice(indexOfFirstPost, indexOfLastPost);
-  // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  const checkfilter = (subject, grade, address, tutor) => {
+   // Get current tutors
+   const indexOfLastPost = currentPage * postsPerPage;
+   const indexOfFirstPost = indexOfLastPost - postsPerPage;
+   const currentTutors = listpost.slice(indexOfFirstPost, indexOfLastPost);
+   // Change page
+   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+   const checkfilter = (subject, grade, address, post) => {
     let checka = false;
     let checkb = false;
     let checkc = false;
     if (subject == "All") checka = true;
-    else checka = tutor.subject === subject;
+    else checka = post.subject === subject;
     if (grade == "All") checkb = true;
-    else checkb = tutor.grade === grade;
+    else checkb = post.grade === grade;
     if (address == "All") checkc = true;
-    else checkc = tutor.address.toLowerCase().includes(address.toLowerCase());
+    else checkc = post.address.toLowerCase().includes(address.toLowerCase());
     return checka && checkb && checkc;
   };
 
   const handlefillter = (e) => {
     console.log(subject, grade, address);
 
-    const listfillter = tutors.filter((tutor) =>
+    const listfillter = posts.filter((tutor) =>
       checkfilter(subject, grade, address, tutor)
     );
     console.log(listfillter);
-    setListtutor(listfillter);
+    setListpost(listfillter);
   };
 
-  const handleViewClick = (tutor) => {
-    // console.log("xem: ", tutor);
-    const ViewUrl = `/tutorview/${tutor.id}`;
-    history.push(ViewUrl);
+  // const handlePostEditClick = (post) => {
+  //   console.log("Edit: ", post);
+  //   const editPostUrl = `/listpostedit/${post.id}`;
+  //   history.push(editPostUrl);
+  // };
+
+  const handlePostViewClick = (post) => {
+    console.log("View: ", post);
+    const viewPostUrl = `/postview/${post.id}`;
+    history.push(viewPostUrl);
   };
 
+  // const handlePostRemoveClick = async (post) => {
+  //   console.log("delete: ", post);
+  //   await DeletePost(dispatch, post);
+  // };
 
   return (
     <>
@@ -82,13 +91,14 @@ function ListTutor(props) {
               <div id="block-system-main" className="block block-system">
                 <div className="content">
                   <div className="main-wrapper">
-                    <div className="view view-users view-id-users view-display-id-page_2 col-popover view-dom-id-b046246a230e0acb397239e119f93361">
-                      <div className="content-category fixed">
-                        <div className="view-user-page2-view-header">
-                          <span>Danh sách gia sư</span>
-                        </div>
-                        {/*filter*/}
-                        <div
+                    <div
+                      className="view view-nhom-hoc-chung view-id-nhom_hoc_chung view-display-id-page_3 view-dom-id-de23177844ac75a81b70d55e14cc7e19"
+                      style={{ backgroundColor: "#fff", paddingBottom: "10px" }}
+                    >
+                      <div className="view-header">
+                        <span>Lớp phù hợp với bạn</span>
+                      </div>
+                      <div
                           className="bg-gradient-pink"
                           style={{ padding: "0 10px" }}
                         >
@@ -246,62 +256,62 @@ function ListTutor(props) {
                             </div>{" "}
                           </div>
                         </div>
-                        {/* if not empty, then show order by
-                        <div className="header-block">
-                          <button className="visible-xs">
-                            <i className="fa fa-list" />
-                          </button>
-                          <ul className="nav nav-tabs pull-left">
-                            <li className="active">
-                              <a href="/teacher">Đúng nhất</a>
-                            </li>
-                            <li className>
-                              <a href="/teacher?orderby=review">
-                                Đánh giá tốt nhất
-                              </a>
-                            </li>
-                            <li className>
-                              <a href="/teacher?orderby=view">Xem nhiều nhất</a>
-                            </li>
-                            <li className>
-                              <a href="/teacher?orderby=price">
-                                Học phí tốt nhất
-                              </a>
-                            </li>
-                          </ul>
-                        </div> */}
-                        {/* /.header-block */}
-                        {/* Tab panes */}
-                        <div className="tab-content">
-                          <div
-                            role="tabpanel"
-                            className="tab-pane active"
-                            id="tab-1"
+                      {/* <div className="row">
+                        <div className="col-md-10 col-sm-10"></div>
+
+                        <div className="col-md-2 col-sm-2">
+                          <Link
+                            className="btn-bla-big btn-yellowblacasa"
+                            style={{ width: "150px" }}
+                            to="/addpost"
                           >
-                            <div className="view view-users view-id-users view-display-id-page_2 col-popover view-dom-id-b046246a230e0acb397239e119f93361">
-                              <div className="view-content">
-                                <div className="row">
-                                  {currentTutors.map((tutor) => (
-                                    <TutorItem
-                                      tutor={tutor}
-                                      onViewClick={handleViewClick}
-                                    />
-                                  ))}
-                                </div>
+                            Add New Post
+                          </Link>
+                        </div>
+                      </div> */}
+                      <div className="view-content">
+                        <div className="row-tittle hidden-xs ">
+                          <div>
+                            <div className="col-md-2 col-sm-2">
+                              <div>
+                                <h3>NGƯỜI ĐĂNG</h3>
+                              </div>
+                            </div>
+                            <div className="col-md-6 col-sm-6">
+                              <div>
+                                <h3>NỘI DUNG LỚP HỌC TÌM GIA SƯ</h3>
+                              </div>
+                            </div>
+                            <div className="col-md-2 col-sm-2">
+                              <div className="">
+                                <h3>HỌC PHÍ </h3>
+                              </div>
+                            </div>
+                            <div className="col-md-2 col-sm-2">
+                              <div className="">
+                                <h3>HÀNH ĐỘNG</h3>
                               </div>
                             </div>
                           </div>
-                          {/* /#tab-1 */}
                         </div>
-                        {/* /.tab-content */}
-                        <h2 className="element-invisible">Pages</h2>
-                        <Pagination
+
+                        {currentTutors.map((post) => (
+                          <div key={post.id}>
+                            <PostItemShare
+                              post={post}
+                              // onRemoveClick={handlePostRemoveClick}
+                              // onEditClick={handlePostEditClick}
+                              onViewClick={handlePostViewClick}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <h2 className="element-invisible">Pages</h2>
+                      <Pagination
                           postsPerPage={postsPerPage}
-                          totalPosts={listtutor.length}
+                          totalPosts={listpost.length}
                           paginate={paginate}
                         />
-                      </div>
-                      {/* /.content-category */}
                     </div>
                   </div>
                 </div>
@@ -314,4 +324,4 @@ function ListTutor(props) {
   );
 }
 
-export default ListTutor;
+export default ListPostShare;

@@ -6,6 +6,8 @@ import { useHistory, useParams } from "react-router-dom";
 import { Container } from "reactstrap";
 import { GetPosts } from "../../../api/postsApi";
 import { useEffect } from "react";
+import { NewSuggestion } from "../../../api/suggestionsApi";
+import { useState } from "react";
 
 InforPost.propTypes = {};
 
@@ -13,6 +15,7 @@ function InforPost(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { postId } = useParams();
+  const [disbutton, setDisbutton] = useState(false);
 
   useEffect(() => {
     GetPosts(dispatch);
@@ -24,11 +27,14 @@ function InforPost(props) {
     return foundPost;
   });
 
+  const idtutor = useSelector((state) => state.user.user.id);
+
   const v = useSelector((state) => state.posts.posts);
   if (v.length == 0) return null;
   // console.log({ postId, editedPost });
   const postview = editedPost;
-  console.log("vieeeepost",postview)
+  console.log("vieeeepost", postview);
+  const idcustomer = postview.idcustomer;
 
   return (
     <>
@@ -121,6 +127,32 @@ function InforPost(props) {
                     <i className="" /> Lịch có thể học:{" "}
                     <span>{postview.time} </span>
                   </p>
+
+                  <div className="headblockThird">
+                    <div
+                      className="wrapBlockInvite"
+                      style={{ marginTop: "10px" }}
+                    >
+                      <button
+                        className="  btn btn-bla-big   "
+                        style={{ background: "blue", width: "100px" }}
+                        disabled={disbutton}
+                        onClick={() => {
+                          const suggestion = {
+                            idpost: Number(postId),
+                            idcustomer: Number(idcustomer),
+                            idtutor,
+                            status: false,
+                          };
+                          alert(JSON.stringify(suggestion));
+                          NewSuggestion(dispatch, suggestion);
+                          setDisbutton(true);
+                        }}
+                      >
+                        de nghi dạy
+                      </button>
+                    </div>
+                  </div>
                 </div>
                 {/* <div className="col-md-4 col-sm-4">
                   <div className="header-study-group-right">
@@ -183,7 +215,9 @@ function InforPost(props) {
                           <ul>
                             <li
                               className={
-                                postview.schedule.sang_2 ? "calendar-active" : ""
+                                postview.schedule.sang_2
+                                  ? "calendar-active"
+                                  : ""
                               }
                             >
                               Sáng
@@ -191,7 +225,9 @@ function InforPost(props) {
 
                             <li
                               className={
-                                postview.schedule.chieu_2 ? "calendar-active" : ""
+                                postview.schedule.chieu_2
+                                  ? "calendar-active"
+                                  : ""
                               }
                             >
                               Chiều
@@ -210,14 +246,18 @@ function InforPost(props) {
                           <ul>
                             <li
                               className={
-                                postview.schedule.sang_3 ? "calendar-active" : ""
+                                postview.schedule.sang_3
+                                  ? "calendar-active"
+                                  : ""
                               }
                             >
                               Sáng
                             </li>
                             <li
                               className={
-                                postview.schedule.chieu_3 ? "calendar-active" : ""
+                                postview.schedule.chieu_3
+                                  ? "calendar-active"
+                                  : ""
                               }
                             >
                               Chiều
@@ -236,14 +276,18 @@ function InforPost(props) {
                           <ul>
                             <li
                               className={
-                                postview.schedule.sang_4 ? "calendar-active" : ""
+                                postview.schedule.sang_4
+                                  ? "calendar-active"
+                                  : ""
                               }
                             >
                               Sáng
                             </li>
                             <li
                               className={
-                                postview.schedule.chieu_4 ? "calendar-active" : ""
+                                postview.schedule.chieu_4
+                                  ? "calendar-active"
+                                  : ""
                               }
                             >
                               Chiều
@@ -262,14 +306,18 @@ function InforPost(props) {
                           <ul>
                             <li
                               className={
-                                postview.schedule.sang_5 ? "calendar-active" : ""
+                                postview.schedule.sang_5
+                                  ? "calendar-active"
+                                  : ""
                               }
                             >
                               Sáng
                             </li>
                             <li
                               className={
-                                postview.schedule.chieu_5 ? "calendar-active" : ""
+                                postview.schedule.chieu_5
+                                  ? "calendar-active"
+                                  : ""
                               }
                             >
                               Chiều
@@ -288,14 +336,18 @@ function InforPost(props) {
                           <ul>
                             <li
                               className={
-                                postview.schedule.sang_6 ? "calendar-active" : ""
+                                postview.schedule.sang_6
+                                  ? "calendar-active"
+                                  : ""
                               }
                             >
                               Sáng
                             </li>
                             <li
                               className={
-                                postview.schedule.chieu_6 ? "calendar-active" : ""
+                                postview.schedule.chieu_6
+                                  ? "calendar-active"
+                                  : ""
                               }
                             >
                               Chiều
@@ -314,14 +366,18 @@ function InforPost(props) {
                           <ul>
                             <li
                               className={
-                                postview.schedule.sang_7 ? "calendar-active" : ""
+                                postview.schedule.sang_7
+                                  ? "calendar-active"
+                                  : ""
                               }
                             >
                               Sáng
                             </li>
                             <li
                               className={
-                                postview.schedule.chieu_7 ? "calendar-active" : ""
+                                postview.schedule.chieu_7
+                                  ? "calendar-active"
+                                  : ""
                               }
                             >
                               Chiều
@@ -340,14 +396,18 @@ function InforPost(props) {
                           <ul>
                             <li
                               className={
-                                postview.schedule.sang_8 ? "calendar-active" : ""
+                                postview.schedule.sang_8
+                                  ? "calendar-active"
+                                  : ""
                               }
                             >
                               Sáng
                             </li>
                             <li
                               className={
-                                postview.schedule.chieu_8 ? "calendar-active" : ""
+                                postview.schedule.chieu_8
+                                  ? "calendar-active"
+                                  : ""
                               }
                             >
                               Chiều

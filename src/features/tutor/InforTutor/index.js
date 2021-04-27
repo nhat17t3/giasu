@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GetTutors } from "../../../api/tutorsApi";
+import { NewInvitation } from "../../../api/invitationsApi";
+import { number } from "yup";
+import ListComment from "../../comment/ListComment";
+import AddComment from "../../comment/AddComment";
 
 InforTutor.propTypes = {};
 
@@ -12,6 +16,7 @@ function InforTutor(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { tutorId } = useParams();
+  const [disbutton, setDisbutton] = useState(false);
 
   useEffect(() => {
     GetTutors(dispatch);
@@ -21,13 +26,12 @@ function InforTutor(props) {
     const foundTutor = state.tutors.tutors.find((x) => x.id === +tutorId);
     return foundTutor;
   });
+  const tutor = viewTutor;
+
+  const idcustomer = useSelector((state) => state.user.user.id);
 
   const v = useSelector((state) => state.tutors.tutors);
   if (v.length == 0) return null;
-
-  const tutor = viewTutor;
-
-  console.log("cc", tutor);
 
   return (
     <>
@@ -135,12 +139,24 @@ function InforTutor(props) {
                         className="wrapBlockInvite"
                         style={{ marginTop: "10px" }}
                       >
-                        <a
-                          href=""
+                        <button
                           className="ctools-use-modal btnInvite btn btn-md  ctools-use-modal-processed"
+                          disabled={disbutton}
+                          onClick={(tutor) => {
+                            const invite = {
+                              idcustomer,
+                              idtutor: Number(tutorId),
+                              status: false,
+                              comment: "",
+                              rating: 0,
+                            };
+                            alert(JSON.stringify(invite));
+                            NewInvitation(dispatch, invite);
+                            setDisbutton(true);
+                          }}
                         >
                           Mời dạy
-                        </a>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -431,6 +447,35 @@ function InforTutor(props) {
                             </li>
                           </ul>
                         </div>{" "}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="list-categories">
+                  <div className="gblock-v2">
+                    <div className="">
+                      <h4>Bình Luận</h4>
+                    </div>
+                    <AddComment IDTUTOR={tutorId}/>
+                  </div>
+                </div>
+
+                <h4>Danh sách bình luận</h4>
+                <div>
+                  <div className="list-categories" style={{ width: "100%" }}>
+                    <div className="gblock-v2">
+                              
+                      <div
+                        className="body-block"
+                        style={{
+                          display: "block",
+                          background: "#fff",
+                          padding: "10px",
+                        }}
+                      >
+                       
+                        <ListComment IDTUTOR={tutorId} />
                       </div>
                     </div>
                   </div>

@@ -5,7 +5,6 @@ export const authenticationSlice = createSlice({
   initialState: {
     token: "",
     isLoggedIn: false,
-    user: {},
   },
   reducers: {
     userAuthenticated: (state, action) => {
@@ -15,36 +14,16 @@ export const authenticationSlice = createSlice({
         ...{
           token: action.payload.token,
           isLoggedIn: true,
-          user: action.payload.user,
         },
       };
     },
+
     logout: () => {
       localStorage.clear();
-    },
-    getprofile: (state, action) => {
-      return {
-        ...state,
-        ...{
-          // token: action.payload.token,
-          isLoggedIn: true,
-          user: action.payload.user,
-        },
-      };
-    },
-    updateprofile: (state, action) => {
-      return {
-        ...state,
-        ...{
-          // token: action.payload.token,
-          // isLoggedIn: true,
-          user: action.payload,
-        },
-      };
     },
   },
 });
 
-export const { userAuthenticated, logout,getprofile ,updateprofile } = authenticationSlice.actions;
+export const { userAuthenticated, logout } = authenticationSlice.actions;
 
 export default authenticationSlice.reducer;

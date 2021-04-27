@@ -24,7 +24,7 @@ export const GetTutors = async (dispatch) => {
 export const NewTutor = async (dispatch, tutor) => {
   try {
     // api call
-    const { data } = await axiosClient.tutor("/tutors", tutor);
+    const { data } = await axiosClient.post("/tutors", tutor);
     dispatch(newTutor(data));
   } catch {
     dispatch(newTutorError());

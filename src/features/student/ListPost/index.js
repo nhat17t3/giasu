@@ -29,22 +29,22 @@ function ListPost(props) {
     GetPosts(dispatch);
   }, []);
 
-  const posts = useSelector((state) => state.posts.posts);
-  // const editedPost = useSelector((state) =>
-  //   state.posts.posts.filter((x) => x.idcustomer === +2)
-  // );
+  const userID = useSelector((state) => state.user.user.id);
+  const posts = useSelector((state) =>
+    state.posts.posts.filter((x) => x.idcustomer === +userID)
+  );
 
   useEffect(() => {
     setListpost(posts);
   }, [posts]);
 
-   // Get current tutors
-   const indexOfLastPost = currentPage * postsPerPage;
-   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-   const currentTutors = listpost.slice(indexOfFirstPost, indexOfLastPost);
-   // Change page
-   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-   const checkfilter = (subject, grade, address, post) => {
+  // Get current tutors
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentTutors = listpost.slice(indexOfFirstPost, indexOfLastPost);
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const checkfilter = (subject, grade, address, post) => {
     let checka = false;
     let checkb = false;
     let checkc = false;
@@ -102,48 +102,48 @@ function ListPost(props) {
                         <span>Lớp phù hợp với bạn</span>
                       </div>
                       <div
-                          className="bg-gradient-pink"
-                          style={{ padding: "0 10px" }}
-                        >
-                          <div className="view-filters box-search">
-                            <div
-                            // action=""
-                            // method="get"
-                            // id="views-exposed-form-users-page-2"
-                            // acceptCharset="UTF-8"
-                            >
-                              <div>
-                                <div className="views-exposed-form">
-                                  <div className="views-exposed-widgets clearfix">
-                                    <div
-                                      id="edit-place-wrapper"
-                                      className="views-exposed-widget views-widget-filter-field_place_tid"
-                                    >
-                                      <div className="views-widget">
-                                        <div className="form-item form-type-select form-item-place">
-                                          <select
-                                            id="edit-place"
-                                            name="place"
-                                            className="form-select"
-                                            onChange={(e) =>
-                                              setAddress(e.target.value)
-                                            }
+                        className="bg-gradient-pink"
+                        style={{ padding: "0 10px" }}
+                      >
+                        <div className="view-filters box-search">
+                          <div
+                          // action=""
+                          // method="get"
+                          // id="views-exposed-form-users-page-2"
+                          // acceptCharset="UTF-8"
+                          >
+                            <div>
+                              <div className="views-exposed-form">
+                                <div className="views-exposed-widgets clearfix">
+                                  <div
+                                    id="edit-place-wrapper"
+                                    className="views-exposed-widget views-widget-filter-field_place_tid"
+                                  >
+                                    <div className="views-widget">
+                                      <div className="form-item form-type-select form-item-place">
+                                        <select
+                                          id="edit-place"
+                                          name="place"
+                                          className="form-select"
+                                          onChange={(e) =>
+                                            setAddress(e.target.value)
+                                          }
+                                        >
+                                          <option
+                                            value="All"
+                                            selected="selected"
+                                            defaultValue="All"
                                           >
-                                            <option
-                                              value="All"
-                                              selected="selected"
-                                              defaultValue="All"
-                                            >
-                                              - Chọn địa điểm -
+                                            - Chọn địa điểm -
+                                          </option>
+                                          <optgroup label="Địa điểm phổ biến">
+                                            <option value={"Hà Nội"}>
+                                              Hà Nội
                                             </option>
-                                            <optgroup label="Địa điểm phổ biến">
-                                              <option value={"Hà Nội"}>
-                                                Hà Nội
-                                              </option>
-                                              <option value={"Nghệ An"}>
-                                                Nghệ An
-                                              </option>
-                                              {/* <option value={2}>
+                                            <option value={"Nghệ An"}>
+                                              Nghệ An
+                                            </option>
+                                            {/* <option value={2}>
                                                 Hồ Chí Minh
                                               </option>
                                               <option value={10}>
@@ -153,112 +153,100 @@ function ListPost(props) {
                                               <option value={11}>
                                                 Cần Thơ
                                               </option> */}
-                                            </optgroup>
-                                          </select>
-                                        </div>
+                                          </optgroup>
+                                        </select>
                                       </div>
                                     </div>
-                                    <div
-                                      id="edit-subject-wrapper"
-                                      className="views-exposed-widget views-widget-filter-field_subject_tid"
-                                    >
-                                      <div className="views-widget">
-                                        <div className="form-item form-type-select form-item-subject">
-                                          <select
-                                            id="edit-subject"
-                                            name="subject"
-                                            className="form-select"
-                                            onChange={(e) =>
-                                              setSubject(e.target.value)
-                                            }
+                                  </div>
+                                  <div
+                                    id="edit-subject-wrapper"
+                                    className="views-exposed-widget views-widget-filter-field_subject_tid"
+                                  >
+                                    <div className="views-widget">
+                                      <div className="form-item form-type-select form-item-subject">
+                                        <select
+                                          id="edit-subject"
+                                          name="subject"
+                                          className="form-select"
+                                          onChange={(e) =>
+                                            setSubject(e.target.value)
+                                          }
+                                        >
+                                          <option
+                                            value="All"
+                                            selected="selected"
                                           >
-                                            <option
-                                              value="All"
-                                              selected="selected"
-                                            >
-                                              - Chọn môn học -
+                                            - Chọn môn học -
+                                          </option>
+                                          <optgroup label="Môn học phổ thông">
+                                            <option value={"Toán"}>Toán</option>
+                                            <option value={"Lý"}>Lý</option>
+                                            <option value={"Hóa"}>Hóa</option>
+                                            <option value={"Văn"}>Văn</option>
+                                            <option value={"Tiếng Việt"}>
+                                              Tiếng Việt
                                             </option>
-                                            <optgroup label="Môn học phổ thông">
-                                              <option value={"Toán"}>
-                                                Toán
-                                              </option>
-                                              <option value={"Lý"}>Lý</option>
-                                              <option value={"Hóa"}>Hóa</option>
-                                              <option value={"Văn"}>Văn</option>
-                                              <option value={"Tiếng Việt"}>
-                                                Tiếng Việt
-                                              </option>
-                                              <option value={"Lịch sử"}>
-                                                Lịch sử
-                                              </option>
-                                              <option value={"Địa lý"}>
-                                                Địa lý
-                                              </option>
-                                              <option value={"Sinh"}>
-                                                Sinh
-                                              </option>
-                                              <option
-                                                value={"Môn phổ thông khác"}
-                                              >
-                                                Môn phổ thông khác
-                                              </option>
-                                            </optgroup>
-                                          </select>
-                                        </div>
+                                            <option value={"Lịch sử"}>
+                                              Lịch sử
+                                            </option>
+                                            <option value={"Địa lý"}>
+                                              Địa lý
+                                            </option>
+                                            <option value={"Sinh"}>Sinh</option>
+                                            <option
+                                              value={"Môn phổ thông khác"}
+                                            >
+                                              Môn phổ thông khác
+                                            </option>
+                                          </optgroup>
+                                        </select>
                                       </div>
                                     </div>
-                                    <div
-                                      id="edit-topic-wrapper"
-                                      className="views-exposed-widget views-widget-filter-field_study_topic_tid"
-                                    >
-                                      <div className="views-widget">
-                                        <div className="form-item form-type-select form-item-topic">
-                                          <select
-                                            id="edit-topic"
-                                            name="grade"
-                                            className="form-select"
-                                            onChange={(e) =>
-                                              setGrade(e.target.value)
-                                            }
+                                  </div>
+                                  <div
+                                    id="edit-topic-wrapper"
+                                    className="views-exposed-widget views-widget-filter-field_study_topic_tid"
+                                  >
+                                    <div className="views-widget">
+                                      <div className="form-item form-type-select form-item-topic">
+                                        <select
+                                          id="edit-topic"
+                                          name="grade"
+                                          className="form-select"
+                                          onChange={(e) =>
+                                            setGrade(e.target.value)
+                                          }
+                                        >
+                                          <option
+                                            value="All"
+                                            selected="selected"
                                           >
-                                            <option
-                                              value="All"
-                                              selected="selected"
-                                            >
-                                              -Chọn Lớp-
-                                            </option>
-                                            <option value={"Lớp 1"}>
-                                              Lớp 1
-                                            </option>
-                                            <option value={"Lớp 2"}>
-                                              Lớp 2
-                                            </option>
-                                            <option value={"Lớp 3"}>
-                                              Lớp 3
-                                            </option>
-                                            <option value={"Lớp 5"}>
-                                              Lớp 5
-                                            </option>
-                                          </select>
-                                        </div>
+                                            -Chọn Lớp-
+                                          </option>
+                                          <option value={"Lớp 1"}>Lớp 1</option>
+                                          <option value={"Lớp 2"}>Lớp 2</option>
+                                          <option value={"Lớp 3"}>Lớp 3</option>
+                                          <option value={"Lớp 5"}>Lớp 5</option>
+                                        </select>
                                       </div>
                                     </div>
+                                  </div>
 
-                                    <div className="views-exposed-widget views-submit-button">
-                                      <button
-                                        className="form-submit btn-yellowblacasa"
-                                        // type="submit"
-                                        onClick={handlefillter}
-                                      >
-                                        Áp dụng
-                                      </button>
-                                    </div>
+                                  <div className="views-exposed-widget views-submit-button">
+                                    <button
+                                      className="form-submit btn-yellowblacasa"
+                                      // type="submit"
+                                      onClick={handlefillter}
+                                    >
+                                      Áp dụng
+                                    </button>
                                   </div>
                                 </div>
                               </div>
-                            </div>{" "}
-                          </div>
+                            </div>
+                          </div>{" "}
                         </div>
+                      </div>
                       {/* <div className="row">
                         <div className="col-md-10 col-sm-10"></div>
 
@@ -311,10 +299,10 @@ function ListPost(props) {
                       </div>
                       <h2 className="element-invisible">Pages</h2>
                       <Pagination
-                          postsPerPage={postsPerPage}
-                          totalPosts={listpost.length}
-                          paginate={paginate}
-                        />
+                        postsPerPage={postsPerPage}
+                        totalPosts={listpost.length}
+                        paginate={paginate}
+                      />
                     </div>
                   </div>
                 </div>

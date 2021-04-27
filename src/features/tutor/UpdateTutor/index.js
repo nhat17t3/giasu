@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { EditTutor } from "../../../api/tutorsApi";
-import { GetProfile, UpdateProfile } from "../../../api/authenticationAPI";
+import { GetProfile, UpdateProfile } from "../../../api/userApi";
 import { useEffect } from "react";
 
 UpdateTutor.propTypes = {};
@@ -25,7 +25,7 @@ function UpdateTutor(props) {
   });
 
   const initialValues = editedTutor;
-  console.log(initialValues);
+  // console.log(initialValues);
 
   // const v = useSelector((state) => state.user.user);
   if (initialValues.id == null) return null;

@@ -9,11 +9,10 @@ const axiosClient = axios.create({
   paramsSerializer: (params) => queryString.stringify(params),
 });
 
-axiosClient.interceptors.request.use(async (config) => {
+axiosClient.interceptors.request.use( (config) => {
   //handle token
-  // config.headers = {
-  //   authorization: "Bearer " + localStorage.getItem("token"),
-  // };
+  config.headers = { Authorization: 'Bearer ' + localStorage.getItem('token') };
+  
   return config;
 });
 

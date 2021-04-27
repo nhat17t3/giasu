@@ -84,7 +84,7 @@ function Register(props) {
                           <div className="col-md-12 class-field">
                             <Field
                               name="password"
-                              type="text"
+                              type="password"
                               placeholder="Password"
                             />
                             <div style={{ color: "red" }}>
@@ -94,8 +94,8 @@ function Register(props) {
                           <div className="col-md-12 class-field">
                             <Field name="object" as="select">
                               <option value>Bạn là học sinh hay gia sư?</option>
-                              <option value="student">student</option>
-                              <option value="tutor">tutor</option>
+                              <option value="student">Student</option>
+                              <option value="tutor">Tutor</option>
                             </Field>
                             <div style={{ color: "red" }}>
                               <ErrorMessage name="object" />
