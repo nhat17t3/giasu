@@ -10,7 +10,7 @@ export const userSlice = createSlice({
       return {
         ...state,
         ...{
-          user: action.payload.user,
+          user: action.payload,
         },
       };
     },

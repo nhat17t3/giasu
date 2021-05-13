@@ -9,10 +9,16 @@ import { EditTutor } from "../../../api/tutorsApi";
 import { GetProfile, UpdateProfile } from "../../../api/authenticationAPI";
 import { useEffect } from "react";
 import InvitationItem from "../InvitationItem";
+
+import { GetStudents } from "../../../api/studentsApi";
+
 import {
+  AcceptInvitation,
   DeleteInvitation,
   EditInvitation,
   GetInvitations,
+  GetInvitationsByTutor,
+  RefuseInvitation,
 } from "../../../api/invitationsApi";
 import { useState } from "react";
 
@@ -24,40 +30,60 @@ function ManageInvitation(props) {
   const [listinvite, setListinvite] = useState([]);
 
   useEffect(() => {
-    GetInvitations(dispatch);
+    GetStudents(dispatch);
   }, []);
 
-  const userID = useSelector((state) => state.user.user.id);
-  const invitations = useSelector((state) =>
-    state.invitations.invitations.filter((x) => x.idtutor === +userID)
-  );
-
   useEffect(() => {
-    setListinvite(invitations);
-  }, [invitations]);
+    GetInvitationsByTutor(dispatch);
+  }, []);
 
-  const handleEditClick = async (invitation) => {
+  // const userID = useSelector((state) => state.user.user.id);
+  const invitations = useSelector((state) => state.invitations.invitations);
+
+  // useEffect(() => {
+  //   const k = invitations.filter((x) => x.idTutor === +userID);
+  //   setListinvite(k);
+  // }, [invitations]);
+
+  const handleEditAcceptClick = async (invitation) => {
     console.log("Edit: ", invitation);
 
     const editInvitation = {
-      id: invitation.id,
-      idcustomer: invitation.idcustomer,
-      idtutor: invitation.idtutor,
-      comment: invitation.comment,
-      rating: invitation.rating,
-      status: true,
+      // id: invitation.id,
+      idStudent: invitation.idStudent,
+      // idTutor: invitation.idTutor,
+      // comment: invitation.comment,
+      // rating: invitation.rating,
+      // status: 1,
     };
 
-    EditInvitation(dispatch, editInvitation);
+    AcceptInvitation(dispatch, editInvitation);
     setTimeout(async () => {
       history.push("/manageinvitation");
     }, 500);
   };
 
-  const handleRemoveClick = async (invitation) => {
-    console.log("delete: ", invitation);
-    await DeleteInvitation(dispatch, invitation);
+  const handleEditRefuseClick = async (invitation) => {
+    console.log("Edit: ", invitation);
+
+    const editInvitation = {
+      // id: invitation.id,
+      idStudent: invitation.idStudent,
+      // idTutor: invitation.idTutor,
+      // comment: invitation.comment,
+      // rating: invitation.rating,
+      // status: 2,
+    };
+
+    RefuseInvitation(dispatch, editInvitation);
+    setTimeout(async () => {
+      history.push("/manageinvitation");
+    }, 500);
   };
+  // const handleRemoveClick = async (invitation) => {
+  //   console.log("delete: ", invitation);
+  //   await DeleteInvitation(dispatch, invitation);
+  // };
 
   return (
     <>
@@ -150,12 +176,12 @@ function ManageInvitation(props) {
               </div>
 
               {/* row */}
-              {listinvite.map((invitation) => (
+              {invitations.map((invitation) => (
                 <div key={invitation.id}>
                   <InvitationItem
                     invitation={invitation}
-                    onRemoveClick={handleRemoveClick}
-                    onEditClick={handleEditClick}
+                    onEditAcceptClick={handleEditAcceptClick}
+                    onEditRefuseClick={handleEditRefuseClick}
                   />
                 </div>
               ))}
@@ -164,7 +190,7 @@ function ManageInvitation(props) {
             {/* end content */}
           </div>
         </div>
-        <div style={{"height":"480px"}}></div>
+        <div style={{ height: "480px" }}></div>
       </Layout>
     </>
   );

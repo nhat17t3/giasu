@@ -68,7 +68,7 @@ function PostItem(props) {
                 </span>
                 <span className="group-span" style={{ margin: "5px" }}>
                   {" "}
-                  Môn {post.subject}{" "}
+                  Môn {post.subjects[0]}{" "}
                 </span>
                 <span className="group-span" style={{ margin: "5px" }}>
                   {post.address}{" "}

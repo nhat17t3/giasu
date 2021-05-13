@@ -14,7 +14,7 @@ import {
 export const GetComments = async (dispatch) => {
   try {
     // api call
-    const { data } = await axiosClient.get("/comments");
+    const { data } = await axiosClient.get("/comment");
     dispatch(setComments(data));
     return {data};
   } catch {
@@ -25,8 +25,8 @@ export const GetComments = async (dispatch) => {
 export const NewComment = async (dispatch, comment) => {
   try {
     // api call
-    const { data } = await axiosClient.post("/comments", comment);
-    dispatch(newComment(data));
+    await axiosClient.post("/api/comment", comment);
+    // dispatch(newComment(data));
   } catch {
     dispatch(newCommentError());
   }
@@ -35,7 +35,7 @@ export const NewComment = async (dispatch, comment) => {
 export const EditComment = async (dispatch, comment) => {
   try {
     // api call
-    await axiosClient.put(`/comments/${comment.id}`, comment);
+    await axiosClient.put(`/api/comment/${comment.id}`, comment);
     dispatch(editComment(comment));
   } catch {
     dispatch(editCommentError());
@@ -45,7 +45,7 @@ export const EditComment = async (dispatch, comment) => {
 export const DeleteComment = async (dispatch, comment) => {
   try {
     // api call
-    await axiosClient.delete(`/comments/${comment.id}`);
+    await axiosClient.delete(`/api/comment/${comment.id}`);
     // await axiosClient.delete('/comments/${comment.id}', { data: { ...comment } });
     dispatch(deleteComment(comment));
   } catch {

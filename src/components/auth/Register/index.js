@@ -1,29 +1,44 @@
 import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { SignUp } from "../../../api/authenticationAPI";
 import { useDispatch } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 Register.propTypes = {};
 
 function Register(props) {
   const dispatch = useDispatch();
+  const history = useHistory();
   return (
     <>
       <Formik
         onSubmit={(values, { setSubmitting }) => {
-          setSubmitting = false;
-          SignUp(dispatch, values);
+          const { role, ...rest } = values;
+          const send = {
+            ...rest,
+            role: [role],
+          };
+          // alert(JSON.stringify(send));
+          // setSubmitting = false;
+          SignUp(dispatch, send);
         }}
-        initialValues={{ email: "", password: "", name: "", object: "" }}
+        initialValues={{
+          username: "",
+          email: "",
+          phonenumber: "",
+          password: "",
+          role: "",
+        }}
         validationSchema={Yup.object({
-          name: Yup.string().required("Required"),
+          username: Yup.string().required("Required"),
           email: Yup.string()
             .required("Required")
             .email("Invalid email address"),
           password: Yup.string().required("Required"),
-          object: Yup.string()
+          phonenumber: Yup.number().required("Required"),
+          role: Yup.string()
             .oneOf(["student", "tutor"], "Invalid object")
             .required("Required"),
         })}
@@ -33,8 +48,9 @@ function Register(props) {
           /* and other goodies */
         }) => (
           <div className="gform form-article form-product form-nhom-hoc region region-content">
+            <ToastContainer />
             <div className="body-form">
-              <div className="row" style={{ margin: 0, paddingTop: "150px" }}>
+              <div className="row" style={{ margin: 0, paddingTop: "100px" }}>
                 <Form action="" method="post">
                   <div className="col-md-4 "></div>
                   <div
@@ -63,12 +79,12 @@ function Register(props) {
                             style={{ marginTop: "20px" }}
                           >
                             <Field
-                              name="name"
+                              name="username"
                               type="text"
                               placeholder="Username"
                             />
                             <div style={{ color: "red" }}>
-                              <ErrorMessage name="name" />
+                              <ErrorMessage name="username" />
                             </div>
                           </div>
                           <div className="col-md-12 class-field">
@@ -83,6 +99,16 @@ function Register(props) {
                           </div>
                           <div className="col-md-12 class-field">
                             <Field
+                              name="phonenumber"
+                              type="text"
+                              placeholder="Phonenumber"
+                            />
+                            <div style={{ color: "red" }}>
+                              <ErrorMessage name="phonenumber" />
+                            </div>
+                          </div>
+                          <div className="col-md-12 class-field">
+                            <Field
                               name="password"
                               type="password"
                               placeholder="Password"
@@ -92,7 +118,7 @@ function Register(props) {
                             </div>
                           </div>
                           <div className="col-md-12 class-field">
-                            <Field name="object" as="select">
+                            <Field name="role" as="select">
                               <option value>Bạn là học sinh hay gia sư?</option>
                               <option value="student">Student</option>
                               <option value="tutor">Tutor</option>
@@ -127,7 +153,7 @@ function Register(props) {
                               type="submit"
                               className="btn-bla-big btn-yellowblacasa"
                               style={{ width: "150px" }}
-                              disabled={isSubmitting}
+                              // disabled={isSubmitting}
                             >
                               Register
                             </button>

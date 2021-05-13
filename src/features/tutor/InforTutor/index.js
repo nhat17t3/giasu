@@ -17,18 +17,21 @@ function InforTutor(props) {
   const history = useHistory();
   const { tutorId } = useParams();
   const [disbutton, setDisbutton] = useState(false);
+  const { roles } = useSelector((state) => state.user.user);
 
   useEffect(() => {
     GetTutors(dispatch);
   }, []);
 
-  const viewTutor = useSelector((state) => {
+  const viewTutor1 = useSelector((state) => {
     const foundTutor = state.tutors.tutors.find((x) => x.id === +tutorId);
     return foundTutor;
   });
-  const tutor = viewTutor;
 
   const idcustomer = useSelector((state) => state.user.user.id);
+
+  const tutor = viewTutor1;
+  console.log("tutorview", tutor);
 
   const v = useSelector((state) => state.tutors.tutors);
   if (v.length == 0) return null;
@@ -119,11 +122,11 @@ function InforTutor(props) {
                     <div className="headblockSecond">
                       <span className="spanArea mr-15">
                         <i className="" />
-                        {"  Môn học:"} {tutor.subject}
+                        {"  Môn học:"} {tutor.subjects[0]}
                       </span>
                       <span className="spanArea mr-15">
                         <i className="" />
-                        {"  Lớp:"} {tutor.grade}
+                        {"  Lớp:"} {tutor.grades[0]}
                       </span>
                     </div>
                     {/*Place, teaching type: only for teacher*/}
@@ -144,13 +147,11 @@ function InforTutor(props) {
                           disabled={disbutton}
                           onClick={(tutor) => {
                             const invite = {
-                              idcustomer,
-                              idtutor: Number(tutorId),
-                              status: false,
-                              comment: "",
-                              rating: 0,
+                              // idcustomer,
+                              idTutor: Number(tutorId),
+                              // status: 0,
                             };
-                            alert(JSON.stringify(invite));
+                            // alert(JSON.stringify(invite));
                             NewInvitation(dispatch, invite);
                             setDisbutton(true);
                           }}
@@ -227,7 +228,7 @@ function InforTutor(props) {
                           <ul>
                             <li
                               className={
-                                tutor.schedule.sang_2
+                                tutor.schedules.sang_2
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -237,7 +238,7 @@ function InforTutor(props) {
 
                             <li
                               className={
-                                tutor.schedule.chieu_2
+                                tutor.schedules.chieu_2
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -246,7 +247,7 @@ function InforTutor(props) {
                             </li>
                             <li
                               className={
-                                tutor.schedule.toi_2
+                                tutor.schedules.toi_2
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -260,7 +261,7 @@ function InforTutor(props) {
                           <ul>
                             <li
                               className={
-                                tutor.schedule.sang_3
+                                tutor.schedules.sang_3
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -269,7 +270,7 @@ function InforTutor(props) {
                             </li>
                             <li
                               className={
-                                tutor.schedule.chieu_3
+                                tutor.schedules.chieu_3
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -278,7 +279,7 @@ function InforTutor(props) {
                             </li>
                             <li
                               className={
-                                tutor.schedule.toi_3
+                                tutor.schedules.toi_3
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -292,7 +293,7 @@ function InforTutor(props) {
                           <ul>
                             <li
                               className={
-                                tutor.schedule.sang_4
+                                tutor.schedules.sang_4
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -301,7 +302,7 @@ function InforTutor(props) {
                             </li>
                             <li
                               className={
-                                tutor.schedule.chieu_4
+                                tutor.schedules.chieu_4
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -324,7 +325,7 @@ function InforTutor(props) {
                           <ul>
                             <li
                               className={
-                                tutor.schedule.sang_5
+                                tutor.schedules.sang_5
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -333,7 +334,7 @@ function InforTutor(props) {
                             </li>
                             <li
                               className={
-                                tutor.schedule.chieu_5
+                                tutor.schedules.chieu_5
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -342,7 +343,7 @@ function InforTutor(props) {
                             </li>
                             <li
                               className={
-                                tutor.schedule.toi_5
+                                tutor.schedules.toi_5
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -356,7 +357,7 @@ function InforTutor(props) {
                           <ul>
                             <li
                               className={
-                                tutor.schedule.sang_6
+                                tutor.schedules.sang_6
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -365,7 +366,7 @@ function InforTutor(props) {
                             </li>
                             <li
                               className={
-                                tutor.schedule.chieu_6
+                                tutor.schedules.chieu_6
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -374,7 +375,7 @@ function InforTutor(props) {
                             </li>
                             <li
                               className={
-                                tutor.schedule.toi_6
+                                tutor.schedules.toi_6
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -388,7 +389,7 @@ function InforTutor(props) {
                           <ul>
                             <li
                               className={
-                                tutor.schedule.sang_7
+                                tutor.schedules.sang_7
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -397,7 +398,7 @@ function InforTutor(props) {
                             </li>
                             <li
                               className={
-                                tutor.schedule.chieu_7
+                                tutor.schedules.chieu_7
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -406,7 +407,7 @@ function InforTutor(props) {
                             </li>
                             <li
                               className={
-                                tutor.schedule.toi_7
+                                tutor.schedules.toi_7
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -420,7 +421,7 @@ function InforTutor(props) {
                           <ul>
                             <li
                               className={
-                                tutor.schedule.sang_8
+                                tutor.schedules.sang_8
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -429,7 +430,7 @@ function InforTutor(props) {
                             </li>
                             <li
                               className={
-                                tutor.schedule.chieu_8
+                                tutor.schedules.chieu_8
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -438,7 +439,7 @@ function InforTutor(props) {
                             </li>
                             <li
                               className={
-                                tutor.schedule.toi_8
+                                tutor.schedules.toi_8
                                   ? "calendar-active"
                                   : "calendar-normal"
                               }
@@ -452,20 +453,21 @@ function InforTutor(props) {
                   </div>
                 </div>
 
-                <div className="list-categories">
-                  <div className="gblock-v2">
-                    <div className="">
-                      <h4>Bình Luận</h4>
+                {roles[0] == "ROLE_STUDENT" ? (
+                  <div className="list-categories">
+                    <div className="gblock-v2">
+                      <div className="">
+                        <h4>Bình Luận</h4>
+                      </div>
+                      <AddComment IDTUTOR={tutorId} />
                     </div>
-                    <AddComment IDTUTOR={tutorId}/>
                   </div>
-                </div>
+                ) : null}
 
                 <h4>Danh sách bình luận</h4>
                 <div>
                   <div className="list-categories" style={{ width: "100%" }}>
                     <div className="gblock-v2">
-                              
                       <div
                         className="body-block"
                         style={{
@@ -474,7 +476,6 @@ function InforTutor(props) {
                           padding: "10px",
                         }}
                       >
-                       
                         <ListComment IDTUTOR={tutorId} />
                       </div>
                     </div>

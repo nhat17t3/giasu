@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 import { GetComments } from "../../../api/commentsApi";
+import { GetStudents } from "../../../api/studentsApi";
 import CommentItem from "./CommentItem";
 
 ListComment.propTypes = {};
@@ -22,17 +23,20 @@ function ListComment(props) {
 
   const [listcomment, setListcomment] = useState([]);
 
-  useEffect(() => {
-    GetComments(dispatch);
+  useEffect( async () => {
+    await GetStudents(dispatch);
+    await GetComments(dispatch);
   }, []);
 
-  // const userID = useSelector((state) => state.user.user.id);
-  const comments = useSelector((state) =>
-    state.comments.comments.filter((x) => x.idtutor === +IDTUTOR)
-  );
+  // useEffect(() => {
+  //   GetComments(dispatch);
+  // }, []);
+
+  let comments = useSelector((state) => state.comments.comments);
 
   useEffect(() => {
-    setListcomment(comments);
+    const k = comments.filter((x) => x.idTutor === +IDTUTOR);
+    setListcomment(k);
   }, [comments]);
 
   return (

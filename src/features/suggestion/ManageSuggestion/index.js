@@ -5,14 +5,18 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { EditTutor } from "../../../api/tutorsApi";
+import { EditTutor, GetTutors } from "../../../api/tutorsApi";
 import { GetProfile, UpdateProfile } from "../../../api/authenticationAPI";
 import { useEffect } from "react";
 import SuggestionItem from "../SuggestionItem";
+import { GetPosts } from "../../../api/postsApi";
 import {
+  AcceptSuggestion,
   DeleteSuggestion,
   EditSuggestion,
   GetSuggestions,
+  GetSuggestionsByStudent,
+  RefuseSuggestion,
 } from "../../../api/suggestionsApi";
 import { useState } from "react";
 
@@ -21,45 +25,72 @@ ManageSuggestion.propTypes = {};
 function ManageSuggestion(props) {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [listinvite, setListinvite] = useState([]);
+  const [listsuggest, setListsuggest] = useState([]);
 
-  useEffect(() => {
-    GetSuggestions(dispatch);
+  useEffect(async () => {
+    await GetTutors(dispatch);
+    await GetPosts(dispatch);
+    await GetSuggestionsByStudent(dispatch);
   }, []);
 
-  const userID = useSelector((state) => state.user.user.id);
-  const suggestions = useSelector((state) =>
-    state.suggestions.suggestions.filter((x) => x.idcustomer === +userID)
-  );
+  // useEffect(() => {
+  //   GetSuggestions(dispatch);
+  // }, []);
 
-  useEffect(() => {
-    setListinvite(suggestions);
-  }, [suggestions]);
+  // const userID = useSelector((state) => state.user.user.id);
+  // const suggestions = useSelector((state) => state.suggestions.suggestions);
+  // const suggest = suggestions.filter((x) => x.idStudent === +userID);
 
-  const handleEditClick = async (suggestion) => {
+  // useEffect(() => {
+  //   const suggest = suggestions.filter((x) => x.idStudent === +userID);
+  //   setListsuggest(suggest);
+  // }, [suggestions]);
+
+  // useEffect(() => {
+  //   GetSuggestionsByStudent(dispatch);
+  // }, []);
+
+  const suggestions = useSelector((state) => state.suggestions.suggestions);
+
+  const handleEditAcceptClick = async (suggestion) => {
     console.log("Edit: ", suggestion);
 
-    const editSuggestion = {
-      id: suggestion.id,
-      idpost: suggestion.idpost,
-      idcustomer: suggestion.idcustomer,
-      idtutor: suggestion.idtutor,
-      status: true,
+    const k = {
+      // id: suggestion.id,
+      idPost: suggestion.idPost,
+      // idStudent: suggestion.idStudent,
+      idTutor: suggestion.idTutor,
+      // status: 1,
     };
 
-    EditSuggestion(dispatch, editSuggestion);
+    await AcceptSuggestion(dispatch, k);
     setTimeout(async () => {
       history.push("/managesuggestion");
-    }, 500);
+    }, 1000);
+  };
+  const handleEditRefuseClick = async (suggestion) => {
+    console.log("Edit: ", suggestion);
+
+    const k = {
+      // id: suggestion.id,
+      idPost: suggestion.idPost,
+      // idStudent: suggestion.idStudent,
+      idTutor: suggestion.idTutor,
+      // status: 2,
+    };
+
+    await RefuseSuggestion(dispatch, k);
+
+    await history.push("/managesuggestion");
   };
 
-  const handleRemoveClick = async (suggestion) => {
-    console.log("delete: ", suggestion);
-    await DeleteSuggestion(dispatch, suggestion);
-  };
+  // const handleRemoveClick = async (suggestion) => {
+  //   console.log("delete: ", suggestion);
+  //   await DeleteSuggestion(dispatch, suggestion);
+  // };
 
   const handleViewClick = async (suggestion) => {
-    const ViewUrl = `/tutorview/${suggestion.idtutor}`;
+    const ViewUrl = `/tutorview/${suggestion.idTutor}`;
     history.push(ViewUrl);
   };
 
@@ -104,12 +135,12 @@ function ManageSuggestion(props) {
               </div>
 
               {/* row */}
-              {listinvite.map((suggestion) => (
+              {suggestions.map((suggestion) => (
                 <div key={suggestion.id}>
                   <SuggestionItem
                     suggestion={suggestion}
-                    onRemoveClick={handleRemoveClick}
-                    onEditClick={handleEditClick}
+                    onEditAcceptClick={handleEditAcceptClick}
+                    onEditRefuseClick={handleEditRefuseClick}
                     onViewClick={handleViewClick}
                   />
                 </div>

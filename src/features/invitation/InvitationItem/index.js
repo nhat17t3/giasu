@@ -4,31 +4,33 @@ import { useSelector } from "react-redux";
 
 InvitationItem.propTypes = {
   invitation: PropTypes.object,
-  onEditClick: PropTypes.func,
-  onRemoveClick: PropTypes.func,
+  onEditAcceptClick: PropTypes.func,
+  onEditRefuseClick: PropTypes.func,
 };
 
 InvitationItem.defaultProps = {
   invitation: {},
-  onEditClick: null,
-  onRemoveClick: null,
+  onEditAcceptClick: null,
+  onEditRefuseClick: null,
 };
 
 function InvitationItem(props) {
-  const { invitation, onEditClick, onRemoveClick } = props;
+  const { invitation, onEditRefuseClick, onEditAcceptClick } = props;
+
+  let student1 = useSelector((state) => state.students.students).find((x) => x.id === +invitation.idStudent);
 
   // const customer = useSelector((state) =>
   //   state.customers.customers.filter(
-  //     (x) => x.idcustomer === +invitation.idcustomer
+  //     (x) => x.idStudent === +invitation.idStudent
   //   )
   // );
 
-  const handleEditClick = () => {
-    if (onEditClick) onEditClick(invitation);
+  const handleEditAcceptClick = () => {
+    if (onEditAcceptClick) onEditAcceptClick(invitation);
   };
 
-  const handleRemoveClick = () => {
-    if (onRemoveClick) onRemoveClick(invitation);
+  const handleEditRefuseClick = () => {
+    if (onEditRefuseClick) onEditRefuseClick(invitation);
   };
 
   return (
@@ -43,7 +45,7 @@ function InvitationItem(props) {
             <div className="col-md-2 col-sm-2">
               <div className="">
                 <p className="creator-name">
-                  <div>Thông báo: {invitation.id}</div>
+                  <div>id invitation Thông báo: {invitation.id}</div>
                 </p>
                 {/* <p className="created-date">25/03/2021</p> */}
               </div>
@@ -51,7 +53,9 @@ function InvitationItem(props) {
             <div className="col-md-5 col-sm-5">
               <div className="">
                 <h2 className="row-request-title">
-                 Studentcó id = {invitation.idcustomer} đã mời bạn làm gia sư
+                 {/* Studentcó id = {invitation.idStudent} {student1.name} đã mời bạn làm gia sư */}
+                 Studentcó id = {invitation.idStudent}  đã mời bạn làm gia sư
+
                 </h2>
               </div>
             </div>
@@ -78,17 +82,19 @@ function InvitationItem(props) {
                   <button
                     className="  btn btn-bla-big   "
                     style={{ background: "blue", width: "70px" }}
-                    onClick={handleEditClick}
-                    disabled={invitation.status}
+                    onClick={handleEditAcceptClick}
+                     disabled={invitation.status==1}
                   >
                     Accept
                   </button>
                   <button
                     className=" btn btn-bla-big "
                     style={{ background: "red", width: "70px" }}
-                    onClick={handleRemoveClick}
+                    onClick={handleEditRefuseClick}
+                    disabled={invitation.status==2}
                   >
-                    Delete
+                    tu choi
+
                   </button>
                 </div>
               </div>

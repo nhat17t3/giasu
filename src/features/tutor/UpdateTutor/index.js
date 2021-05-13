@@ -8,6 +8,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { EditTutor } from "../../../api/tutorsApi";
 import { GetProfile, UpdateProfile } from "../../../api/userApi";
 import { useEffect } from "react";
+import { GetTutorsByToken, UpdateMyTutor } from "../../../api/mytutorApi";
 
 UpdateTutor.propTypes = {};
 
@@ -16,19 +17,62 @@ function UpdateTutor(props) {
   const history = useHistory();
 
   useEffect(() => {
-    GetProfile(dispatch);
+    GetTutorsByToken(dispatch);
   }, []);
 
-  const editedTutor = useSelector((state) => {
-    const getTutor = state.user.user;
-    return getTutor;
-  });
+  // const editedTutor = useSelector((state) => {
+  //   const getTutor = state.user.user;
+  //   return getTutor;
+  // });
 
-  const initialValues = editedTutor;
+  // const initialValues = editedTutor;
   // console.log(initialValues);
 
-  // const v = useSelector((state) => state.user.user);
-  if (initialValues.id == null) return null;
+  // if (initialValues.id == null) return null;
+
+  const editedPost = useSelector((state) => {
+    const getTutor = state.mytutor.mytutor;
+    return getTutor;
+  });
+  if (editedPost.id == null) return null;
+
+  const initialValues = {
+    id: editedPost.id,
+    name: editedPost.name,
+    grade: editedPost.grades[0],
+    subject: editedPost.subjects[0],
+    // price: editedPost.price,
+    phonenumber: editedPost.phonenumber,
+    address: editedPost.address,
+    description: editedPost.description,
+    qualification: editedPost.qualification,
+    avatar: editedPost.avatar,
+    schedules: {
+      sang_2: editedPost.schedules.sang_2,
+      chieu_2: editedPost.schedules.chieu_2,
+      toi_2: editedPost.schedules.toi_2,
+      sang_3: editedPost.schedules.sang_3,
+      chieu_3: editedPost.schedules.chieu_3,
+      toi_3: editedPost.schedules.toi_3,
+      sang_4: editedPost.schedules.sang_4,
+      chieu_4: editedPost.schedules.chieu_4,
+      toi_4: editedPost.schedules.toi_4,
+      sang_5: editedPost.schedules.sang_5,
+      chieu_5: editedPost.schedules.chieu_5,
+      toi_5: editedPost.schedules.toi_5,
+      sang_6: editedPost.schedules.sang_6,
+      chieu_6: editedPost.schedules.chieu_6,
+      toi_6: editedPost.schedules.toi_6,
+      sang_7: editedPost.schedules.sang_7,
+      chieu_7: editedPost.schedules.chieu_7,
+      toi_7: editedPost.schedules.toi_7,
+      sang_8: editedPost.schedules.sang_8,
+      chieu_8: editedPost.schedules.chieu_8,
+      toi_8: editedPost.schedules.toi_8,
+    },
+  };
+
+  console.log(initialValues);
 
   return (
     <>
@@ -36,8 +80,35 @@ function UpdateTutor(props) {
         <Formik
           initialValues={initialValues}
           onSubmit={(values) => {
-            console.log("valueeee", values);
-            UpdateProfile(dispatch, values);
+            const {
+              name,
+              avatar,
+              qualification,
+              grade,
+              subject,
+              price,
+              phonenumber,
+              address,
+              description,
+              schedules,
+            } = { ...values };
+            const k = {
+              // id: postId,
+              // idStudent,
+              // title,
+              name,
+              avatar,
+              qualification,
+              grade: [grade],
+              subjects: [subject],
+              // price,
+              phonenumber,
+              address,
+              description,
+              schedule: schedules,
+            };
+            // console.log("valueeee", values);
+            UpdateMyTutor(dispatch, k);
             history.push("/updatetutor");
           }}
           validationSchema={Yup.object({
@@ -251,10 +322,12 @@ function UpdateTutor(props) {
                                             <option value={"Toán"}>Toán</option>
                                             <option value={"Lý"}>Lý</option>
                                             <option value={"Hóa"}>Hóa</option>
-                                            <option value={"Tiếng anh"}>
-                                              Tiếng anh
+                                            <option value={"Tiếng Anh"}>
+                                              Tiếng Anh
                                             </option>
-                                            <option value={"Văn"}>Văn</option>
+                                            <option value={"Ngữ Văn"}>
+                                              Văn
+                                            </option>
                                             <option value={"Tiếng Việt"}>
                                               Tiếng Việt
                                             </option>
@@ -265,7 +338,7 @@ function UpdateTutor(props) {
                                               Địa lý
                                             </option>
                                             <option value={"Sinh"}>Sinh</option>
-                                            <option value={"khác"}>khác</option>
+                                            <option value={"Khác"}>khác</option>
                                           </optgroup>
                                         </Field>
                                         <div style={{ color: "red" }}>
@@ -295,8 +368,36 @@ function UpdateTutor(props) {
                                             <option value={"Lớp 3"}>
                                               lớp 3
                                             </option>
+                                            <option value={"Lớp 4"}>
+                                              lớp 4
+                                            </option>
                                             <option value={"Lớp 5"}>
                                               lớp 5
+                                            </option>
+                                          </optgroup>
+                                          <optgroup label="cấp 2">
+                                            <option value={"Lớp 6"}>
+                                              lớp 6
+                                            </option>
+                                            <option value={"Lớp 7"}>
+                                              lớp 7
+                                            </option>
+                                            <option value={"Lớp 8"}>
+                                              lớp 8
+                                            </option>
+                                            <option value={"Lớp 9"}>
+                                              lớp 9
+                                            </option>
+                                          </optgroup>
+                                          <optgroup label="cấp 3">
+                                            <option value={"Lớp 10"}>
+                                              lớp 10
+                                            </option>
+                                            <option value={"Lớp 11"}>
+                                              lớp 11
+                                            </option>
+                                            <option value={"Lớp 12"}>
+                                              lớp 12
                                             </option>
                                           </optgroup>
                                         </Field>
@@ -316,22 +417,37 @@ function UpdateTutor(props) {
                                 <div className="group-row">
                                   <div className="row">
                                     <div className="col-md-6">
-                                      <div className="class-field-6 class-field">
+                                      <div className="class-field-7 class-field class-address">
                                         <p className="p-create-class-title">
-                                          Học phí dự kiến (vnđ/buổi){" "}
+                                          Địa chỉ cụ thể diễn ra lớp học{" "}
                                           <span className="class-field-alert">
                                             *
                                           </span>
                                         </p>
 
-                                        <Field
-                                          name="price"
-                                          type="text"
-                                          placeholder="Ví dụ:250,000"
-                                          className="numberOnly"
-                                        />
+                                        <Field name="address" as="select">
+                                          <option value></option>
+                                          <option value={"Liên Chiểu"}>
+                                            Liên Chiểu
+                                          </option>
+                                          <option value={"Ngũ Hành Sơn"}>
+                                            Ngũ Hành Sơn
+                                          </option>
+                                          <option value={"Sơn Trà"}>
+                                            Sơn Trà
+                                          </option>
+                                          <option value={"Thanh Khê"}>
+                                            Thanh Khê
+                                          </option>
+                                          <option value={"Hoà Vang"}>
+                                            Hoà Vang
+                                          </option>
+                                          <option value={"Hải Châu"}>
+                                            Hải Châu
+                                          </option>
+                                        </Field>
                                         <div style={{ color: "red" }}>
-                                          <ErrorMessage name="price" />
+                                          <ErrorMessage name="address" />
                                         </div>
                                       </div>
                                     </div>
@@ -349,13 +465,13 @@ function UpdateTutor(props) {
                                             ban lam nghe gi???
                                           </option>
 
-                                          <option value={"Sinh viên"}>
+                                          <option value={"Sinh Viên"}>
                                             Sinh viên
                                           </option>
-                                          <option value={"Giáo viên"}>
+                                          <option value={"Giáo Viên"}>
                                             Giáo viên
                                           </option>
-                                          <option value={"Thạc sĩ"}>
+                                          <option value={"Thạc Sĩ"}>
                                             Thạc sĩ
                                           </option>
                                           <option value={"Người đã đi làm"}>
@@ -370,43 +486,6 @@ function UpdateTutor(props) {
                                   </div>
 
                                   {/*address*/}
-                                  <div className="row">
-                                    <div className="col-md-6">
-                                      <div className="class-field-7 class-field class-address">
-                                        <p className="p-create-class-title">
-                                          Địa chỉ cụ thể diễn ra lớp học{" "}
-                                          <span className="class-field-alert">
-                                            *
-                                          </span>
-                                        </p>
-
-                                        <Field
-                                          name="address"
-                                          type="text"
-                                          placeholder="Nhập dia chi"
-                                        />
-                                        <div style={{ color: "red" }}>
-                                          <ErrorMessage name="address" />
-                                        </div>
-                                      </div>
-                                    </div>
-                                    {/* <div className="col-md-12">
-                                    <div className="class-field-7 class-field class-address">
-                                      <p className="p-create-class-title">
-                                        Thời gian có thể hoc{" "}
-                                        <span className="class-field-alert">
-                                          *
-                                        </span>
-                                      </p>
-
-                                      <Field
-                                        name="time"
-                                        type="text"
-                                        placeholder="Nhập thời gian có thể học"
-                                      />
-                                    </div>
-                                  </div> */}
-                                  </div>
                                 </div>
                                 {/*Mô tả chi tiết nội dung  học*/}
                                 <div className="group-row">
@@ -453,7 +532,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="morning-calendar-2"
                                                 className={
-                                                  values.schedule.sang_2
+                                                  values.schedules.sang_2
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -464,7 +543,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="morning-calendar-2"
                                                 type="checkbox"
-                                                name="schedule.sang_2"
+                                                name="schedules.sang_2"
                                                 // value={sang_2}
                                                 // defaultValue={sang_2}
                                                 // onChange={() => setSang_2(!sang_2)}
@@ -474,7 +553,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="afternoon-calendar-2"
                                                 className={
-                                                  values.schedule.chieu_2
+                                                  values.schedules.chieu_2
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -485,7 +564,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="afternoon-calendar-2"
                                                 type="checkbox"
-                                                name="schedule.chieu_2"
+                                                name="schedules.chieu_2"
                                                 // defaultValue="chieu_2"
                                                 // onChange={() => setChieu_2(!chieu_2)}
                                               />
@@ -494,7 +573,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="evening-calendar-2"
                                                 className={
-                                                  values.schedule.toi_2
+                                                  values.schedules.toi_2
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -505,7 +584,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="evening-calendar-2"
                                                 type="checkbox"
-                                                name="schedule.toi_2"
+                                                name="schedules.toi_2"
                                                 // defaultValue="toi_2"
                                                 // onChange={() => setToi_2(!toi_2)}
                                               />
@@ -519,7 +598,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="morning-calendar-3"
                                                 className={
-                                                  values.schedule.sang_3
+                                                  values.schedules.sang_3
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -530,7 +609,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="morning-calendar-3"
                                                 type="checkbox"
-                                                name="schedule.sang_3"
+                                                name="schedules.sang_3"
                                                 // defaultValue="sang_3"
                                                 // onChange={() => setSang_3(!sang_3)}
                                               />
@@ -539,7 +618,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="afternoon-calendar-3"
                                                 className={
-                                                  values.schedule.chieu_3
+                                                  values.schedules.chieu_3
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -550,7 +629,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="afternoon-calendar-3"
                                                 type="checkbox"
-                                                name="schedule.chieu_3"
+                                                name="schedules.chieu_3"
                                                 // defaultValue="chieu_3"
                                                 // onChange={() => setChieu_3(!chieu_3)}
                                               />
@@ -559,7 +638,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="evening-calendar-3"
                                                 className={
-                                                  values.schedule.toi_3
+                                                  values.schedules.toi_3
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -570,7 +649,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="evening-calendar-3"
                                                 type="checkbox"
-                                                name="schedule.toi_3"
+                                                name="schedules.toi_3"
                                                 // defaultValue="toi_3"
                                                 // onChange={() => setToi_3(!toi_3)}
                                               />
@@ -584,7 +663,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="morning-calendar-4"
                                                 className={
-                                                  values.schedule.sang_4
+                                                  values.schedules.sang_4
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -595,7 +674,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="morning-calendar-4"
                                                 type="checkbox"
-                                                name="schedule.sang_4"
+                                                name="schedules.sang_4"
                                                 // defaultValue="sang_4"
                                                 // onChange={() => setSang_4(!sang_4)}
                                               />
@@ -604,7 +683,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="afternoon-calendar-4"
                                                 className={
-                                                  values.schedule.chieu_4
+                                                  values.schedules.chieu_4
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -615,7 +694,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="afternoon-calendar-4"
                                                 type="checkbox"
-                                                name="schedule.chieu_4"
+                                                name="schedules.chieu_4"
                                                 // defaultValue="chieu_4"
                                                 // onChange={() => setChieu_4(!chieu_4)}
                                               />
@@ -624,7 +703,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="evening-calendar-4"
                                                 className={
-                                                  values.schedule.toi_4
+                                                  values.schedules.toi_4
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -635,7 +714,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="evening-calendar-4"
                                                 type="checkbox"
-                                                name="schedule.toi_4"
+                                                name="schedules.toi_4"
                                                 // defaultValue="toi_4"
                                                 // onChange={() => setToi_4(!toi_4)}
                                               />
@@ -649,7 +728,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="morning-calendar-5"
                                                 className={
-                                                  values.schedule.sang_5
+                                                  values.schedules.sang_5
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -660,7 +739,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="morning-calendar-5"
                                                 type="checkbox"
-                                                name="schedule.sang_5"
+                                                name="schedules.sang_5"
                                                 // defaultValue="sang_5"
                                                 // onChange={() => setSang_5(!sang_5)}
                                               />
@@ -669,7 +748,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="afternoon-calendar-5"
                                                 className={
-                                                  values.schedule.chieu_5
+                                                  values.schedules.chieu_5
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -680,7 +759,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="afternoon-calendar-5"
                                                 type="checkbox"
-                                                name="schedule.chieu_5"
+                                                name="schedules.chieu_5"
                                                 // defaultValue="chieu_5"
                                                 // onChange={() => setChieu_5(!chieu_5)}
                                               />
@@ -689,7 +768,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="evening-calendar-5"
                                                 className={
-                                                  values.schedule.toi_5
+                                                  values.schedules.toi_5
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -700,7 +779,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="evening-calendar-5"
                                                 type="checkbox"
-                                                name="schedule.toi_5"
+                                                name="schedules.toi_5"
                                                 // defaultValue="toi_5"
                                                 // onChange={() => setToi_5(!toi_5)}
                                               />
@@ -714,7 +793,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="morning-calendar-6"
                                                 className={
-                                                  values.schedule.sang_6
+                                                  values.schedules.sang_6
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -725,7 +804,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="morning-calendar-6"
                                                 type="checkbox"
-                                                name="schedule.sang_6"
+                                                name="schedules.sang_6"
                                                 // defaultValue="sang_6"
                                                 // onChange={() => setSang_6(!sang_6)}
                                               />
@@ -734,7 +813,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="afternoon-calendar-6"
                                                 className={
-                                                  values.schedule.chieu_6
+                                                  values.schedules.chieu_6
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -745,7 +824,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="afternoon-calendar-6"
                                                 type="checkbox"
-                                                name="schedule.chieu_6"
+                                                name="schedules.chieu_6"
                                                 // defaultValue="chieu_6"
                                                 // onChange={() => setChieu_6(!chieu_6)}
                                               />
@@ -754,7 +833,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="evening-calendar-6"
                                                 className={
-                                                  values.schedule.toi_6
+                                                  values.schedules.toi_6
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -765,7 +844,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="evening-calendar-6"
                                                 type="checkbox"
-                                                name="schedule.toi_6"
+                                                name="schedules.toi_6"
                                                 // defaultValue="toi_6"
                                                 // onChange={() => setToi_6(!toi_6)}
                                               />
@@ -779,7 +858,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="morning-calendar-7"
                                                 className={
-                                                  values.schedule.sang_7
+                                                  values.schedules.sang_7
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -790,7 +869,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="morning-calendar-7"
                                                 type="checkbox"
-                                                name="schedule.sang_7"
+                                                name="schedules.sang_7"
                                                 // defaultValue="sang_7"
                                                 // onChange={() => setSang_7(!sang_7)}
                                               />
@@ -799,7 +878,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="afternoon-calendar-7"
                                                 className={
-                                                  values.schedule.chieu_7
+                                                  values.schedules.chieu_7
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -810,7 +889,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="afternoon-calendar-7"
                                                 type="checkbox"
-                                                name="schedule.chieu_7"
+                                                name="schedules.chieu_7"
                                                 // defaultValue="chieu_7"
                                                 // onChange={() => setChieu_7(!chieu_7)}
                                               />
@@ -819,7 +898,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="evening-calendar-7"
                                                 className={
-                                                  values.schedule.toi_7
+                                                  values.schedules.toi_7
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -830,7 +909,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="evening-calendar-7"
                                                 type="checkbox"
-                                                name="schedule.toi_7"
+                                                name="schedules.toi_7"
                                                 // defaultValue="toi_7"
                                                 // onChange={() => setToi_7(!toi_7)}
                                               />
@@ -844,7 +923,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="morning-calendar-8"
                                                 className={
-                                                  values.schedule.sang_8
+                                                  values.schedules.sang_8
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -855,7 +934,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="morning-calendar-8"
                                                 type="checkbox"
-                                                name="schedule.sang_8"
+                                                name="schedules.sang_8"
                                                 // defaultValue="sang_8"
                                                 // onChange={() => setSang_8(!sang_8)}
                                               />
@@ -864,7 +943,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="afternoon-calendar-8"
                                                 className={
-                                                  values.schedule.chieu_8
+                                                  values.schedules.chieu_8
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -875,7 +954,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="afternoon-calendar-8"
                                                 type="checkbox"
-                                                name="schedule.chieu_8"
+                                                name="schedules.chieu_8"
                                                 // defaultValue="chieu_8"
                                                 // onChange={() => setChieu_8(!chieu_8)}
                                               />
@@ -884,7 +963,7 @@ function UpdateTutor(props) {
                                               <label
                                                 htmlFor="evening-calendar-8"
                                                 className={
-                                                  values.schedule.toi_8
+                                                  values.schedules.toi_8
                                                     ? "lbl-active"
                                                     : ""
                                                 }
@@ -895,7 +974,7 @@ function UpdateTutor(props) {
                                                 className="radio-calendar"
                                                 id="evening-calendar-8"
                                                 type="checkbox"
-                                                name="schedule.toi_8"
+                                                name="schedules.toi_8"
                                                 // defaultValue="toi_8"
                                                 // onChange={() => setToi_8(!toi_8)}
                                               />

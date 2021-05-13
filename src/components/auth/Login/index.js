@@ -6,6 +6,7 @@ import { FormFeedback } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { SignIn } from "../../../api/authenticationAPI";
+import { ToastContainer } from "react-toastify";
 
 Login.propTypes = {};
 function Login(props) {
@@ -14,15 +15,13 @@ function Login(props) {
     <>
       <Formik
         onSubmit={(values, { setSubmitting }) => {
-          setSubmitting = false;
+          // setSubmitting = false;
           // alert(JSON.stringify(values));
           SignIn(dispatch, values);
         }}
-        initialValues={{ email: "", password: "" }}
+        initialValues={{ username: "", password: "" }}
         validationSchema={Yup.object({
-          email: Yup.string()
-            .required("Required")
-            .email("Invalid email address"),
+          username: Yup.string().required("Required"),
           password: Yup.string().required("Required"),
         })}
       >
@@ -31,6 +30,7 @@ function Login(props) {
           /* and other goodies */
         }) => (
           <div className="gform   form-nhom-hoc region region-content">
+            <ToastContainer />
             <div className="body-form">
               <div className="row" style={{ margin: 0, paddingTop: "150px" }}>
                 <Form action="" method="post">
@@ -61,12 +61,12 @@ function Login(props) {
                             style={{ marginTop: "20px" }}
                           >
                             <Field
-                              name="email"
+                              name="username"
                               type="text"
-                              placeholder="Email"
+                              placeholder="Username"
                             />
                             <div style={{ color: "red" }}>
-                              <ErrorMessage name="email" />
+                              <ErrorMessage name="username" />
                             </div>
                           </div>
                           <div className="col-md-12 class-field">
@@ -105,7 +105,7 @@ function Login(props) {
                               type="submit"
                               className="btn-bla-big btn-yellowblacasa"
                               style={{ width: "150px" }}
-                              disabled={isSubmitting}
+                              // disabled={isSubmitting}
                             >
                               Login
                             </button>

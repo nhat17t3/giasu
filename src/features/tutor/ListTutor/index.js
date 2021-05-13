@@ -23,13 +23,13 @@ function ListTutor(props) {
 
   // const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(3);
+  const [postsPerPage] = useState(8);
 
   useEffect(() => {
     GetTutors(dispatch);
   }, []);
 
-  const tutors = useSelector((state) => state.tutors.tutors);
+  let tutors = useSelector((state) => state.tutors.tutors);
 
   useEffect(() => {
     setListtutor(tutors);
@@ -70,7 +70,6 @@ function ListTutor(props) {
     const ViewUrl = `/tutorview/${tutor.id}`;
     history.push(ViewUrl);
   };
-
 
   return (
     <>
@@ -282,10 +281,12 @@ function ListTutor(props) {
                               <div className="view-content">
                                 <div className="row">
                                   {currentTutors.map((tutor) => (
-                                    <TutorItem
-                                      tutor={tutor}
-                                      onViewClick={handleViewClick}
-                                    />
+                                    <div key={tutor.id}>
+                                      <TutorItem
+                                        tutor={tutor}
+                                        onViewClick={handleViewClick}
+                                      />
+                                    </div>
                                   ))}
                                 </div>
                               </div>

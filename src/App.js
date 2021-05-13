@@ -22,25 +22,22 @@ import AddComment from "./features/comment/AddComment";
 import ListComment from "./features/comment/ListComment";
 
 import { userAuthenticated } from "./components/auth/authenticationSlice";
+import { GetTutorsByToken } from "./api/mytutorApi";
 
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const {role} = useSelector((state)=>state.user.user);
-  console.log("ccc",role);
-  
+  // const { role } = useSelector((state) => state.user.user);
+  // console.log("role", role);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token !== undefined && token !== null) {
-      dispatch(userAuthenticated({ token: token }));
+      dispatch(userAuthenticated({ accessToken: token }));
       GetProfile(dispatch);
+      // GetTutorsByToken(dispatch);
     }
-
-    
   }, []);
-
- 
 
   return (
     <div>
@@ -105,15 +102,6 @@ function App() {
             path="/notifycation"
             render={() => (!isLoggedIn ? <Login /> : <ListNotification />)}
           />
-
-          <Route
-            path="/f"
-            render={() => (!isLoggedIn ? <Login /> : <AddComment />)}
-          />
-          <Route
-            path="/comment"
-            render={() => (!isLoggedIn ? <Login /> : <ListComment />)}
-          />
         </Switch>
       </BrowserRouter>
     </div>
@@ -122,19 +110,33 @@ function App() {
 
 export default App;
 
-// <Route path="/listpost" component={ListPost} />
-// <Route path="/listpostedit/:postId" component={EditPost1} />
-// <Route path="/addpost" component={AddPost} />
-// <Route path="/postview/:postId" component={InforPost} />
-// <Route path="/listpostshare" component={ListPostShare} />
+// {
+//   /* <Route
+//             path="/f"
+//             render={() => (!isLoggedIn ? <Login /> : <AddComment />)}
+//           /> */
+// }
+// {
+//   /* <Route
+//             path="/comment"
+//             render={() => (!isLoggedIn ? <Login /> : <ListComment />)}
+//           /> */
+// }
+// {
+//   /* <Route path="/listpost" component={ListPost} />
+//           <Route path="/listpostedit/:postId" component={EditPost1} />
+//           <Route path="/addpost" component={AddPost} />
+//           <Route path="/postview/:postId" component={InforPost} />
+//           <Route path="/listpostshare" component={ListPostShare} />
 
-// <Route path="/listtutor" component={ListTutor} />
-// <Route path="/tutorview/:tutorId" component={InforTutor} />
-// <Route path="/updatetutor" component={UpdateTutor} />
+//           <Route path="/listtutor" component={ListTutor} />
+//           <Route path="/tutorview/:tutorId" component={InforTutor} />
+//           <Route path="/updatetutor" component={UpdateTutor} />
 
-// <Route path="/manageinvitation" component={ManageInvitation} />
-// <Route path="/managesuggestion" component={ManageSuggestion} />
-// <Route path="/notifycation" component={ListNotification} />
+//           <Route path="/manageinvitation" component={ManageInvitation} />
+//           <Route path="/managesuggestion" component={ManageSuggestion} />
+//           <Route path="/notifycation" component={ListNotification} />
 
-// <Route path="/f" component={AddComment} />
-// <Route path="/comment" component={ListComment} />
+//           <Route path="/f" component={AddComment} />
+//           <Route path="/comment" component={ListComment} /> */
+// }

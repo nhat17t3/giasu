@@ -16,12 +16,13 @@ function InforPost(props) {
   const history = useHistory();
   const { postId } = useParams();
   const [disbutton, setDisbutton] = useState(false);
+  const { roles } = useSelector((state) => state.user.user);
 
   useEffect(() => {
     GetPosts(dispatch);
   }, []);
 
-  const editedPost = useSelector((state) => {
+  const Post = useSelector((state) => {
     const foundPost = state.posts.posts.find((x) => x.id === +postId);
     // console.log({ posts: state.posts, postId, foundPost });
     return foundPost;
@@ -32,9 +33,9 @@ function InforPost(props) {
   const v = useSelector((state) => state.posts.posts);
   if (v.length == 0) return null;
   // console.log({ postId, editedPost });
-  const postview = editedPost;
+  const postview = Post;
   console.log("vieeeepost", postview);
-  const idcustomer = postview.idcustomer;
+  const idStudent = postview.idStudent;
 
   return (
     <>
@@ -66,7 +67,7 @@ function InforPost(props) {
                 }}
               >
                 <i className="fa fa-user-o" />{" "}
-                <span> id khach hang {postview.idcustomer}</span>{" "}
+                <span> id student {postview.idStudent}</span>{" "}
               </p>
               {/* <p className="create inline" style={{ paddingRight: "20px" }}>
                 <i className="fa fa-calendar" /> 24.03.2021 - 11:28{" "}
@@ -90,7 +91,7 @@ function InforPost(props) {
                     <span>Đang tìm giáo viên</span>
                   </p>
                   <p>
-                    <i className="" /> Môn: <span>{postview.subject} </span>
+                    <i className="" /> Môn: <span>{postview.subjects[0]} </span>
                   </p>
                   <p>
                     <i className="" /> Lớp: <span>{postview.grade} </span>
@@ -121,36 +122,38 @@ function InforPost(props) {
                   </p>
                   <p>
                     <i className="" /> Số điện thoại liên hệ:{" "}
-                    <span>{postview.phonenumber} </span>
+                    <span>{postview.phoneNumber} </span>
                   </p>
-                  <p>
+                  {/* <p>
                     <i className="" /> Lịch có thể học:{" "}
                     <span>{postview.time} </span>
-                  </p>
+                  </p> */}
 
                   <div className="headblockThird">
                     <div
                       className="wrapBlockInvite"
                       style={{ marginTop: "10px" }}
                     >
-                      <button
-                        className="  btn btn-bla-big   "
-                        style={{ background: "blue", width: "100px" }}
-                        disabled={disbutton}
-                        onClick={() => {
-                          const suggestion = {
-                            idpost: Number(postId),
-                            idcustomer: Number(idcustomer),
-                            idtutor,
-                            status: false,
-                          };
-                          alert(JSON.stringify(suggestion));
-                          NewSuggestion(dispatch, suggestion);
-                          setDisbutton(true);
-                        }}
-                      >
-                        de nghi dạy
-                      </button>
+                      {(roles[0] == "ROLE_TUTOR") ? (
+                        <button
+                          className="  btn btn-bla-big   "
+                          style={{ background: "blue", width: "120px" }}
+                          disabled={disbutton}
+                          onClick={() => {
+                            const suggestion = {
+                              idPost: Number(postId),
+                              idStudent: Number(idStudent),
+                              // idtutor,
+                              // status: 0,
+                            };
+                            // alert(JSON.stringify(suggestion));
+                            NewSuggestion(dispatch, suggestion);
+                            setDisbutton(true);
+                          }}
+                        >
+                          de nghi dạy
+                        </button>
+                      ) : null}
                     </div>
                   </div>
                 </div>

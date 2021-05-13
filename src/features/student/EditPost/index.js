@@ -14,56 +14,6 @@ EditPost1.propTypes = {};
 EditPost1.defaultProps = {};
 
 function EditPost1(props) {
-  //   const { initialValues, isAddMode } = props;
-  //   console.log(initialValues);
-
-  // const [sang_2, setSang_2] = useState(false);
-  // const [chieu_2, setChieu_2] = useState(false);
-  // const [toi_2, setToi_2] = useState(false);
-  // const [sang_3, setSang_3] = useState(false);
-  // const [chieu_3, setChieu_3] = useState(false);
-  // const [toi_3, setToi_3] = useState(false);
-  // const [sang_4, setSang_4] = useState(false);
-  // const [chieu_4, setChieu_4] = useState(false);
-  // const [toi_4, setToi_4] = useState(false);
-  // const [sang_5, setSang_5] = useState(false);
-  // const [chieu_5, setChieu_5] = useState(false);
-  // const [toi_5, setToi_5] = useState(false);
-  // const [sang_6, setSang_6] = useState(false);
-  // const [chieu_6, setChieu_6] = useState(false);
-  // const [toi_6, setToi_6] = useState(false);
-  // const [sang_7, setSang_7] = useState(false);
-  // const [chieu_7, setChieu_7] = useState(false);
-  // const [toi_7, setToi_7] = useState(false);
-  // const [sang_8, setSang_8] = useState(false);
-  // const [chieu_8, setChieu_8] = useState(false);
-  // const [toi_8, setToi_8] = useState(false);
-
-  // const schedule = {
-  //   sang_2: sang_2,
-  //   chieu_2: chieu_2,
-  //   toi_2: toi_2,
-  //   sang_3: sang_3,
-  //   chieu_3: chieu_3,
-  //   toi_3: toi_3,
-  //   sang_4: sang_4,
-  //   chieu_4: chieu_4,
-  //   toi_4: toi_4,
-  //   sang_5: sang_5,
-  //   chieu_5: chieu_5,
-  //   toi_5: toi_5,
-  //   sang_6: sang_6,
-  //   chieu_6: chieu_6,
-  //   toi_6: toi_6,
-  //   sang_7: sang_7,
-  //   chieu_7: chieu_7,
-  //   toi_7: toi_7,
-  //   sang_8: sang_8,
-  //   chieu_8: chieu_8,
-  //   toi_8: toi_8,
-  // };
-  // console.log(schedule);
-
   const dispatch = useDispatch();
   const history = useHistory();
   const { postId } = useParams();
@@ -77,19 +27,18 @@ function EditPost1(props) {
     return foundPost;
   });
 
-  console.log("editttpos", editedPost);
+  console.log("editttpost", editedPost);
 
   // const userID = useSelector((state) => state.user.user.id);
 
   const initialValues = {
-    idcustomer: editedPost.idcustomer,
+    idStudent: editedPost.idStudent,
     title: editedPost.title,
     grade: editedPost.grade,
-    subject: editedPost.subject,
+    subject: editedPost.subjects[0],
     price: editedPost.price,
-    phonenumber: editedPost.phonenumber,
+    phoneNumber: editedPost.phoneNumber,
     address: editedPost.address,
-    time: editedPost.time,
     description: editedPost.description,
     schedule: {
       sang_2: editedPost.schedule.sang_2,
@@ -123,16 +72,16 @@ function EditPost1(props) {
     <>
       <Layout>
         <Formik
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={(values, setSubmitting) => {
             setSubmitting = false;
             //   alert(JSON.stringify(values));
             const {
-              idcustomer,
+              idStudent,
               title,
               grade,
               subject,
               price,
-              phonenumber,
+              phoneNumber,
               address,
               time,
               description,
@@ -140,18 +89,19 @@ function EditPost1(props) {
             } = { ...values };
             const editPost = {
               id: postId,
-              idcustomer,
+              idStudent,
               title,
               grade,
-              subject,
+              subjects: [subject],
               price,
-              phonenumber,
+              phoneNumber,
               address,
               time,
               description,
               schedule,
             };
 
+            console.log(editPost);
             EditPost(dispatch, editPost);
             setTimeout(async () => {
               history.push("/listpost");
@@ -162,16 +112,18 @@ function EditPost1(props) {
             title: Yup.string().required("Required"),
             grade: Yup.string().required("Required"),
             subject: Yup.string().required("Required"),
-            // price: Yup.number("invalid number").required("Required"),
-            // phonenumber: Yup.number()
-            //   .typeError("That doesn't look like a phone number")
-            //   .positive("A phone number can't start with a minus")
-            //   .integer("A phone number can't include a decimal point")
-            //   .required(" Required"),
-            // address: Yup.string().required("Required"),
-            // time: Yup.string().required("Required"),
-            // descroption: Yup.string().required("Required"),
-            //   schedule: Yup.object(),
+            price: Yup.number()
+              .required("price is required.")
+              .positive("price most be a positive number.")
+              .integer("price most be an integer."),
+            phoneNumber: Yup.string()
+              .matches(
+                RegExp(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/),
+                "is not valid"
+              )
+              .required("Phone is required"),
+            address: Yup.string().required("Required"),
+            description: Yup.string().required("Required"),
           })}
         >
           {({
@@ -238,17 +190,17 @@ function EditPost1(props) {
                                       <option value={"Toán"}>Toán</option>
                                       <option value={"Lý"}>Lý</option>
                                       <option value={"Hóa"}>Hóa</option>
-                                      <option value={"Tiếng anh"}>
-                                        Tiếng anh
+                                      <option value={"Tiếng Anh"}>
+                                        Tiếng Anh
                                       </option>
-                                      <option value={"Văn"}>Văn</option>
+                                      <option value={"Ngữ Văn"}>Văn</option>
                                       <option value={"Tiếng Việt"}>
                                         Tiếng Việt
                                       </option>
                                       <option value={"Lịch sử"}>Lịch sử</option>
                                       <option value={"Địa lý"}>Địa lý</option>
                                       <option value={"Sinh"}>Sinh</option>
-                                      <option value={"khác"}>khác</option>
+                                      <option value={"Khác"}>khác</option>
                                     </optgroup>
                                   </Field>
                                   <div style={{ color: "red" }}>
@@ -270,7 +222,19 @@ function EditPost1(props) {
                                       <option value={"Lớp 1"}>lớp 1</option>
                                       <option value={"Lớp 2"}>lớp 2</option>
                                       <option value={"Lớp 3"}>lớp 3</option>
+                                      <option value={"Lớp 4"}>lớp 4</option>
                                       <option value={"Lớp 5"}>lớp 5</option>
+                                    </optgroup>
+                                    <optgroup label="cấp 2">
+                                      <option value={"Lớp 6"}>lớp 6</option>
+                                      <option value={"Lớp 7"}>lớp 7</option>
+                                      <option value={"Lớp 8"}>lớp 8</option>
+                                      <option value={"Lớp 9"}>lớp 9</option>
+                                    </optgroup>
+                                    <optgroup label="cấp 3">
+                                      <option value={"Lớp 10"}>lớp 10</option>
+                                      <option value={"Lớp 11"}>lớp 11</option>
+                                      <option value={"Lớp 12"}>lớp 12</option>
                                     </optgroup>
                                   </Field>
                                   <div style={{ color: "red" }}>
@@ -301,6 +265,9 @@ function EditPost1(props) {
                                     placeholder="Ví dụ:250,000"
                                     className="numberOnly"
                                   />
+                                  <div style={{ color: "red" }}>
+                                    <ErrorMessage name="price" />
+                                  </div>
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -311,12 +278,12 @@ function EditPost1(props) {
                                   </p>
 
                                   <Field
-                                    name="phonenumber"
+                                    name="phoneNumber"
                                     type="text"
                                     placeholder="Ví dụ: 091234567"
                                   />
                                   <div style={{ color: "red" }}>
-                                    <ErrorMessage name="phonenumber" />
+                                    <ErrorMessage name="phoneNumber" />
                                   </div>
                                 </div>
                               </div>
@@ -331,11 +298,21 @@ function EditPost1(props) {
                                     <span className="class-field-alert">*</span>
                                   </p>
 
-                                  <Field
-                                    name="address"
-                                    type="text"
-                                    placeholder="Nhập dia chi"
-                                  />
+                                  <Field name="address" as="select">
+                                    <option value></option>
+                                    <option value={"Liên Chiểu"}>
+                                      Liên Chiểu
+                                    </option>
+                                    <option value={"Ngũ Hành Sơn"}>
+                                      Ngũ Hành Sơn
+                                    </option>
+                                    <option value={"Sơn Trà"}>Sơn Trà</option>
+                                    <option value={"Thanh Khê"}>
+                                      Thanh Khê
+                                    </option>
+                                    <option value={"Hoà Vang"}>Hoà Vang</option>
+                                    <option value={"Hải Châu"}>Hải Châu</option>
+                                  </Field>
                                   <div style={{ color: "red" }}>
                                     <ErrorMessage name="address" />
                                   </div>

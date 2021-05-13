@@ -77,7 +77,7 @@ const InvitationSlice = createSlice({
   },
   reducers: {
     setInvitations: (state, action) => {
-      return { ...state, invitations: [...action.payload] };
+      return { ...state, invitations: [...action.payload.invitations] };
     },
 
     newInvitation: (state, action) => {

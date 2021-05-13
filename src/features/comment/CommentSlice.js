@@ -14,7 +14,7 @@ const CommentSlice = createSlice({
   },
   reducers: {
     setComments: (state, action) => {
-      return { ...state, comments: [...action.payload] };
+      return { ...state, comments: [...action.payload.comments] };
     },
 
     newComment: (state, action) => {

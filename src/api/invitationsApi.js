@@ -15,7 +15,18 @@ import {
 export const GetInvitations = async (dispatch) => {
   try {
     // api call
-    const { data } = await axiosClient.get("/invitations");
+    const { data } = await axiosClient.get("/api/invitation");
+    dispatch(setInvitations(data));
+    // return {data};
+  } catch {
+    dispatch(setInvitationError());
+  }
+};
+
+export const GetInvitationsByTutor = async (dispatch) => {
+  try {
+    // api call
+    const { data } = await axiosClient.get("/api/invitation");
     dispatch(setInvitations(data));
     // return {data};
   } catch {
@@ -26,30 +37,40 @@ export const GetInvitations = async (dispatch) => {
 export const NewInvitation = async (dispatch, invitation) => {
   try {
     // api call
-    const { data } = await axiosClient.post("/invitations", invitation);
-    dispatch(newInvitation(data));
+    await axiosClient.post(`/api/invitation?idTutor=${invitation.idTutor}`);
+    // dispatch(newInvitation(data));
   } catch {
     dispatch(newInvitationError());
   }
 };
 
-export const EditInvitation = async (dispatch, invitation) => {
+export const AcceptInvitation = async (dispatch, invitation) => {
   try {
     // api call
-    await axiosClient.put(`/invitations/${invitation.id}`, invitation);
-    dispatch(editInvitation(invitation));
+    await axiosClient.put(`/api/invitation/acceptance?idStudent=${invitation.idStudent}`);
+    // dispatch(editInvitation(invitation));
   } catch {
     dispatch(editInvitationError());
   }
 };
 
-export const DeleteInvitation = async (dispatch, invitation) => {
+export const RefuseInvitation = async (dispatch, invitation) => {
   try {
     // api call
-    await axiosClient.delete(`/invitations/${invitation.id}`);
-    // await axiosClient.delete('/invitations/${invitation.id}', { data: { ...invitation } });
-    dispatch(deleteInvitation(invitation));
+    await axiosClient.put(`/api/invitation/denial?idStudent=${invitation.idStudent}`);
+    // dispatch(editInvitation(invitation));
   } catch {
-    dispatch(deleteInvitationError());
+    dispatch(editInvitationError());
   }
 };
+
+// export const DeleteInvitation = async (dispatch, invitation) => {
+//   try {
+//     // api call
+//     await axiosClient.delete(`/invitations/${invitation.id}`);
+//     // await axiosClient.delete('/invitations/${invitation.id}', { data: { ...invitation } });
+//     dispatch(deleteInvitation(invitation));
+//   } catch {
+//     dispatch(deleteInvitationError());
+//   }
+// };

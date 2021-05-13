@@ -45,33 +45,57 @@ export const GetSuggestions = async (dispatch) => {
   }
 };
 
+export const GetSuggestionsByStudent = async (dispatch) => {
+  try {
+    // api call
+    const { data } = await axiosClient.get("/api/suggestion");
+    dispatch(setSuggestions(data));
+    // return {data};
+  } catch {
+    dispatch(setSuggestionError());
+  }
+};
+
 export const NewSuggestion = async (dispatch, suggestion) => {
   try {
     // api call
-    const { data } = await axiosClient.post("/suggestions", suggestion);
-    dispatch(newSuggestion(data));
+    await axiosClient.post(`/api/suggestion?idStudent=${suggestion.idStudent}&idPost=${suggestion.idPost}`);
+    // dispatch(newSuggestion(data));
   } catch {
     dispatch(newSuggestionError());
   }
 };
 
-export const EditSuggestion = async (dispatch, suggestion) => {
+export const AcceptSuggestion = async (dispatch, suggestion) => {
   try {
     // api call
-    await axiosClient.put(`/suggestions/${suggestion.id}`, suggestion);
+    await axiosClient.put(`/api/suggestion/acceptance?idPost=${suggestion.idPost}&idTutor=${suggestion.idTutor}`);
     dispatch(editSuggestion(suggestion));
   } catch {
     dispatch(editSuggestionError());
   }
 };
 
-export const DeleteSuggestion = async (dispatch, suggestion) => {
+export const RefuseSuggestion = async (dispatch, suggestion) => {
   try {
     // api call
-    await axiosClient.delete(`/suggestions/${suggestion.id}`);
-    // await axiosClient.delete('/suggestions/${suggestion.id}', { data: { ...suggestion } });
-    dispatch(deleteSuggestion(suggestion));
+    await axiosClient.put(`/api/suggestion/denial?idPost=${suggestion.idPost}&idTutor=${suggestion.idTutor}`);
+    dispatch(editSuggestion(suggestion));
   } catch {
-    dispatch(deleteSuggestionError());
+    dispatch(editSuggestionError());
   }
 };
+
+
+
+
+// export const DeleteSuggestion = async (dispatch, suggestion) => {
+//   try {
+//     // api call
+//     await axiosClient.delete(`/suggestions/${suggestion.id}`);
+//     // await axiosClient.delete('/suggestions/${suggestion.id}', { data: { ...suggestion } });
+//     dispatch(deleteSuggestion(suggestion));
+//   } catch {
+//     dispatch(deleteSuggestionError());
+//   }
+// };

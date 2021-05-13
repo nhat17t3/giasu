@@ -21,8 +21,8 @@ function AddComment(props) {
   const { IDTUTOR } = props;
 
   const initialValues = {
-    idcustomer: userID,
-    idtutor: Number(IDTUTOR),
+    // idcustomer: userID,
+    idTutor: Number(IDTUTOR),
     content: "",
   };
 
@@ -30,10 +30,11 @@ function AddComment(props) {
     <>
       <Formik
         onSubmit={(values, { setSubmitting }) => {
-          alert(JSON.stringify(values));
+          // alert(JSON.stringify(values));
           NewComment(dispatch, values);
+          
 
-          const Url = `/tutorview/${values.idtutor}`;
+          const Url = `/tutorview/${values.idTutor}`;
           history.push(Url);
         }}
         initialValues={initialValues}

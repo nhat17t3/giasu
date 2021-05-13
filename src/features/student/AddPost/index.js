@@ -69,14 +69,14 @@ function AddPost(props) {
   const userID = useSelector((state) => state.user.user.id);
 
   const initialValues = {
-    idcustomer:userID,
+    // idcustomer: userID,
     title: "",
     grade: "",
     subject: "",
     price: "",
-    phonenumber: "",
+    phoneNumber: "",
     address: "",
-    time: "",
+    // time: "",
     description: "",
     schedule: {
       sang_2: false,
@@ -108,9 +108,16 @@ function AddPost(props) {
       <Layout>
         <Formik
           onSubmit={(values, { setSubmitting }) => {
-            setSubmitting = false;
-            //   alert(JSON.stringify(values));
-            NewPost(dispatch, values);
+            // setSubmitting = false;
+            const { subject, ...rest } = values;
+            const k = {
+              subjects: [subject],
+              ...rest,
+            };
+            // console.log(k);
+            // alert(JSON.stringify(k));
+
+            NewPost(dispatch, k);
             history.push("/listpost");
           }}
           initialValues={initialValues}
@@ -118,16 +125,18 @@ function AddPost(props) {
             title: Yup.string().required("Required"),
             grade: Yup.string().required("Required"),
             subject: Yup.string().required("Required"),
-            // price: Yup.number("invalid number").required("Required"),
-            // phonenumber: Yup.number()
-            //   .typeError("That doesn't look like a phone number")
-            //   .positive("A phone number can't start with a minus")
-            //   .integer("A phone number can't include a decimal point")
-            //   .required(" Required"),
-            // address: Yup.string().required("Required"),
-            // time: Yup.string().required("Required"),
-            // descroption: Yup.string().required("Required"),
-            //   schedule: Yup.object(),
+            price: Yup.number()
+              .required("price is required.")
+              .positive("price most be a positive number.")
+              .integer("price most be an integer."),
+            phoneNumber: Yup.string()
+              .matches(
+                RegExp(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/),
+                "is not valid"
+              )
+              .required("Phone is required"),
+            address: Yup.string().required("Required"),
+            description: Yup.string().required("Required"),
           })}
         >
           {({
@@ -194,17 +203,17 @@ function AddPost(props) {
                                       <option value={"Toán"}>Toán</option>
                                       <option value={"Lý"}>Lý</option>
                                       <option value={"Hóa"}>Hóa</option>
-                                      <option value={"Tiếng anh"}>
-                                        Tiếng anh
+                                      <option value={"Tiếng Anh"}>
+                                        Tiếng Anh
                                       </option>
-                                      <option value={"Văn"}>Văn</option>
+                                      <option value={"Ngữ Văn"}>Văn</option>
                                       <option value={"Tiếng Việt"}>
                                         Tiếng Việt
                                       </option>
                                       <option value={"Lịch sử"}>Lịch sử</option>
                                       <option value={"Địa lý"}>Địa lý</option>
                                       <option value={"Sinh"}>Sinh</option>
-                                      <option value={"khác"}>khác</option>
+                                      <option value={"Khác"}>khác</option>
                                     </optgroup>
                                   </Field>
                                   <div style={{ color: "red" }}>
@@ -226,7 +235,19 @@ function AddPost(props) {
                                       <option value={"Lớp 1"}>lớp 1</option>
                                       <option value={"Lớp 2"}>lớp 2</option>
                                       <option value={"Lớp 3"}>lớp 3</option>
+                                      <option value={"Lớp 4"}>lớp 4</option>
                                       <option value={"Lớp 5"}>lớp 5</option>
+                                    </optgroup>
+                                    <optgroup label="cấp 2">
+                                      <option value={"Lớp 6"}>lớp 6</option>
+                                      <option value={"Lớp 7"}>lớp 7</option>
+                                      <option value={"Lớp 8"}>lớp 8</option>
+                                      <option value={"Lớp 9"}>lớp 9</option>
+                                    </optgroup>
+                                    <optgroup label="cấp 3">
+                                      <option value={"Lớp 10"}>lớp 10</option>
+                                      <option value={"Lớp 11"}>lớp 11</option>
+                                      <option value={"Lớp 12"}>lớp 12</option>
                                     </optgroup>
                                   </Field>
                                   <div style={{ color: "red" }}>
@@ -257,6 +278,9 @@ function AddPost(props) {
                                     placeholder="Ví dụ:250,000"
                                     className="numberOnly"
                                   />
+                                  <div style={{ color: "red" }}>
+                                    <ErrorMessage name="price" />
+                                  </div>
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -267,12 +291,12 @@ function AddPost(props) {
                                   </p>
 
                                   <Field
-                                    name="phonenumber"
+                                    name="phoneNumber"
                                     type="text"
                                     placeholder="Ví dụ: 091234567"
                                   />
                                   <div style={{ color: "red" }}>
-                                    <ErrorMessage name="phonenumber" />
+                                    <ErrorMessage name="phoneNumber" />
                                   </div>
                                 </div>
                               </div>
@@ -287,11 +311,21 @@ function AddPost(props) {
                                     <span className="class-field-alert">*</span>
                                   </p>
 
-                                  <Field
-                                    name="address"
-                                    type="text"
-                                    placeholder="Nhập dia chi"
-                                  />
+                                  <Field name="address" as="select">
+                                    <option value></option>
+                                    <option value={"Liên Chiểu"}>
+                                      Liên Chiểu
+                                    </option>
+                                    <option value={"Ngũ Hành Sơn"}>
+                                      Ngũ Hành Sơn
+                                    </option>
+                                    <option value={"Sơn Trà"}>Sơn Trà</option>
+                                    <option value={"Thanh Khê"}>
+                                      Thanh Khê
+                                    </option>
+                                    <option value={"Hoà Vang"}>Hoà Vang</option>
+                                    <option value={"Hải Châu"}>Hải Châu</option>
+                                  </Field>
                                   <div style={{ color: "red" }}>
                                     <ErrorMessage name="address" />
                                   </div>
@@ -827,7 +861,7 @@ function AddPost(props) {
                                 <button
                                   type="submit"
                                   className="btn-bla-big btn-yellowblacasa"
-                                  disabled={isSubmitting}
+                                  // disabled={isSubmitting}
                                 >
                                   Đăng yêu cầu
                                 </button>

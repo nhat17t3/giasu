@@ -77,7 +77,7 @@ const SuggestionSlice = createSlice({
   },
   reducers: {
     setSuggestions: (state, action) => {
-      return { ...state, suggestions: [...action.payload] };
+      return { ...state, suggestions: [...action.payload.suggestions] };
     },
 
     newSuggestion: (state, action) => {

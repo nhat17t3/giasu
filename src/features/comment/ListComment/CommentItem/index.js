@@ -7,11 +7,16 @@ function CommentItem(props) {
   const { comment } = props;
   const history = useHistory();
 
+  const student = useSelector((state) =>
+    state.students.students.find((x) => x.id === comment.idStudent)
+  );
+
+
   return (
     <>
       <div className="row">
-        <div className="col-md-2">
-          <h5>Student: {comment.idcustomer}</h5>
+        <div className="col-md-3">
+          <h5>Student: {student.name} : id {student.id}</h5>
         </div>
         <div className="col-md-7">
           <p>{comment.content}</p>

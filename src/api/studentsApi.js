@@ -13,7 +13,7 @@ import {
 export const GetStudents = async (dispatch) => {
   try {
     // api call
-    const { data } = await axiosClient.get("/students");
+    const { data } = await axiosClient.get("/student");
     dispatch(setStudents(data));
     return { data };
   } catch {
@@ -24,7 +24,7 @@ export const GetStudents = async (dispatch) => {
 export const NewStudent = async (dispatch, student) => {
   try {
     // api call
-    const { data } = await axiosClient.post("/students", student);
+    const { data } = await axiosClient.post("/student", student);
     dispatch(newStudent(data));
   } catch {
     dispatch(newStudentError());
@@ -34,7 +34,7 @@ export const NewStudent = async (dispatch, student) => {
 export const EditStudent = async (dispatch, student) => {
   try {
     // api call
-    await axiosClient.put(`/students/${student.id}`, student);
+    await axiosClient.put(`/student/${student.id}`, student);
     dispatch(editStudent(student));
   } catch {
     dispatch(editStudentError());
@@ -44,7 +44,7 @@ export const EditStudent = async (dispatch, student) => {
 export const DeleteStudent = async (dispatch, student) => {
   try {
     // api call
-    await axiosClient.delete(`/students/${student.id}`);
+    await axiosClient.delete(`/student/${student.id}`);
     // await axiosClient.delete('/students/${student.id}', { data: { ...student } });
     dispatch(deleteStudent(student));
   } catch {

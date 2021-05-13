@@ -15,7 +15,7 @@ const StudentSlice = createSlice({
   
   reducers: {
     setStudents: (state, action) => {
-      return { ...state, students: [...action.payload] };
+      return { ...state, students: [...action.payload.students] };
     },
 
     newStudent: (state, action) => {

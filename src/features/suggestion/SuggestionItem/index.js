@@ -1,45 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 
 SuggestionItem.propTypes = {
   suggestion: PropTypes.object,
-  onEditClick: PropTypes.func,
-  onRemoveClick: PropTypes.func,
-  onViewClick:PropTypes.func,
-
+  onEditAcceptClick: PropTypes.func,
+  onEditRefuseClick: PropTypes.func,
+  onViewClick: PropTypes.func,
 };
 
 SuggestionItem.defaultProps = {
   suggestion: {},
-  onEditClick: null,
-  onRemoveClick: null,
-  onViewClick:null
+  onEditAcceptClick: null,
+  onEditRefuseClick: null,
+  onViewClick: null,
 };
 
 function SuggestionItem(props) {
-  const { suggestion, onEditClick, onRemoveClick , onViewClick } = props;
+  const { suggestion, onViewClick, onEditRefuseClick, onEditAcceptClick } = props;
   const history = useHistory();
 
-  // const customer = useSelector((state) =>
-  //   state.customers.customers.filter(
-  //     (x) => x.idcustomer === +suggestion.idcustomer
-  //   )
-  // );
+  let tutor1 = useSelector((state) => state.tutors.tutors).find((x) => x.id === +suggestion.idTutor);
+  let post1 = useSelector((state) => state.posts.posts).find((x) => x.id === +suggestion.idPost);
 
-  const handleEditClick = () => {
-    if (onEditClick) onEditClick(suggestion);
+
+  const handleEditAcceptClick = () => {
+    if (onEditAcceptClick) onEditAcceptClick(suggestion);
   };
 
-  const handleRemoveClick = () => {
-    if (onRemoveClick) onRemoveClick(suggestion);
+  const handleEditRefuseClick = () => {
+    if (onEditRefuseClick) onEditRefuseClick(suggestion);
   };
 
   const handleViewClick = () => {
     if (onViewClick) onViewClick(suggestion);
   };
-  
 
   return (
     <>
@@ -60,9 +56,12 @@ function SuggestionItem(props) {
             </div>
             <div className="col-md-5 col-sm-5">
               {/* <div onClick={history.push(`/postview/${suggestion.idpost}`)}> */}
-                <h2 className="row-request-title">
-                 Tutor idtutor = {suggestion.idtutor} đã đề nghị dạy lớp idpost = {suggestion.idpost} của bạn
-                </h2>
+              <h2 className="row-request-title">
+                Tutor có name = {tutor1.name} idtutor = {suggestion.idTutor} đã
+                đề nghị dạy lớp idpost = {suggestion.idPost} {post1.title} của bạn
+                {/* Tutor có name =  idtutor = {suggestion.idTutor} đã
+                đề nghị dạy lớp idpost = {suggestion.idPost}  của bạn */}
+              </h2>
               {/* </div> */}
             </div>
             <div className="col-md-2 col-sm-2">
@@ -88,22 +87,24 @@ function SuggestionItem(props) {
                   <button
                     className="  btn btn-bla-big   "
                     style={{ background: "blue", width: "70px" }}
-                    onClick={handleEditClick}
-                    disabled={suggestion.status}
+                    onClick={handleEditAcceptClick}
+                    disabled={suggestion.status==1}
                   >
-                    Accept
+                    accept
                   </button>
                   <button
                     className=" btn btn-bla-big "
                     style={{ background: "red", width: "70px" }}
-                    onClick={handleRemoveClick}
+                    onClick={handleEditRefuseClick}
+                    disabled={suggestion.status==2}
                   >
-                    Delete
+                    Từ chối
                   </button>
                   <button
                     className=" btn btn-bla-big "
                     style={{ background: "red", width: "100px" }}
                     onClick={handleViewClick}
+                    
                   >
                     view tutor
                   </button>

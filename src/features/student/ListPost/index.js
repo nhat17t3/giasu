@@ -4,7 +4,7 @@ import Layout from "../../../components/Layout";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect, useHistory } from "react-router-dom";
-import { GetPosts, DeletePost } from "../../../api/postsApi";
+import { GetPosts, DeletePost, GetPostsByToken } from "../../../api/postsApi";
 import PostItem from "./PostItem";
 import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
@@ -26,15 +26,14 @@ function ListPost(props) {
   const [postsPerPage] = useState(10);
 
   useEffect(() => {
-    GetPosts(dispatch);
+    GetPostsByToken(dispatch);
   }, []);
 
-  const userID = useSelector((state) => state.user.user.id);
-  const posts = useSelector((state) =>
-    state.posts.posts.filter((x) => x.idcustomer === +userID)
-  );
+  // const userID = useSelector((state) => state.user.user.id);
+  let posts = useSelector((state) => state.posts.posts);
 
   useEffect(() => {
+    // const k = posts.filter((x) => x.idStudent === +4);
     setListpost(posts);
   }, [posts]);
 
@@ -87,7 +86,7 @@ function ListPost(props) {
   return (
     <>
       <Layout>
-        <ToastContainer />
+        
         <section className="home-category">
           <div className="container" style={{ paddingTop: "10px" }}>
             <div className="region region-content">
@@ -137,22 +136,24 @@ function ListPost(props) {
                                             - Chọn địa điểm -
                                           </option>
                                           <optgroup label="Địa điểm phổ biến">
-                                            <option value={"Hà Nội"}>
-                                              Hà Nội
+                                            <option value={"Liên Chiểu"}>
+                                              Liên Chiểu
                                             </option>
-                                            <option value={"Nghệ An"}>
-                                              Nghệ An
+                                            <option value={"Ngũ Hành Sơn"}>
+                                              Ngũ Hành Sơn
                                             </option>
-                                            {/* <option value={2}>
-                                                Hồ Chí Minh
-                                              </option>
-                                              <option value={10}>
-                                                Hải Phòng
-                                              </option>
-                                              <option value={3}>Đà Nẵng</option>
-                                              <option value={11}>
-                                                Cần Thơ
-                                              </option> */}
+                                            <option value={"Sơn Trà"}>
+                                              Sơn Trà
+                                            </option>
+                                            <option value={"Thanh Khê"}>
+                                              Thanh Khê
+                                            </option>
+                                            <option value={"Hoà Vang"}>
+                                              Hoà Vang
+                                            </option>
+                                            <option value={"Hải Châu"}>
+                                              Hải Châu
+                                            </option>
                                           </optgroup>
                                         </select>
                                       </div>
@@ -182,7 +183,12 @@ function ListPost(props) {
                                             <option value={"Toán"}>Toán</option>
                                             <option value={"Lý"}>Lý</option>
                                             <option value={"Hóa"}>Hóa</option>
-                                            <option value={"Văn"}>Văn</option>
+                                            <option value={"Tiếng Anh"}>
+                                              Tiếng Anh
+                                            </option>
+                                            <option value={"Ngữ Văn"}>
+                                              Văn
+                                            </option>
                                             <option value={"Tiếng Việt"}>
                                               Tiếng Việt
                                             </option>
@@ -193,11 +199,7 @@ function ListPost(props) {
                                               Địa lý
                                             </option>
                                             <option value={"Sinh"}>Sinh</option>
-                                            <option
-                                              value={"Môn phổ thông khác"}
-                                            >
-                                              Môn phổ thông khác
-                                            </option>
+                                            <option value={"Khác"}>khác</option>
                                           </optgroup>
                                         </select>
                                       </div>
@@ -223,10 +225,48 @@ function ListPost(props) {
                                           >
                                             -Chọn Lớp-
                                           </option>
-                                          <option value={"Lớp 1"}>Lớp 1</option>
-                                          <option value={"Lớp 2"}>Lớp 2</option>
-                                          <option value={"Lớp 3"}>Lớp 3</option>
-                                          <option value={"Lớp 5"}>Lớp 5</option>
+                                          <optgroup label="cấp 1">
+                                            <option value={"Lớp 1"}>
+                                              lớp 1
+                                            </option>
+                                            <option value={"Lớp 2"}>
+                                              lớp 2
+                                            </option>
+                                            <option value={"Lớp 3"}>
+                                              lớp 3
+                                            </option>
+                                            <option value={"Lớp 4"}>
+                                              lớp 4
+                                            </option>
+                                            <option value={"Lớp 5"}>
+                                              lớp 5
+                                            </option>
+                                          </optgroup>
+                                          <optgroup label="cấp 2">
+                                            <option value={"Lớp 6"}>
+                                              lớp 6
+                                            </option>
+                                            <option value={"Lớp 7"}>
+                                              lớp 7
+                                            </option>
+                                            <option value={"Lớp 8"}>
+                                              lớp 8
+                                            </option>
+                                            <option value={"Lớp 9"}>
+                                              lớp 9
+                                            </option>
+                                          </optgroup>
+                                          <optgroup label="cấp 3">
+                                            <option value={"Lớp 10"}>
+                                              lớp 10
+                                            </option>
+                                            <option value={"Lớp 11"}>
+                                              lớp 11
+                                            </option>
+                                            <option value={"Lớp 12"}>
+                                              lớp 12
+                                            </option>
+                                          </optgroup>
                                         </select>
                                       </div>
                                     </div>
