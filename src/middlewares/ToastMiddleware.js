@@ -18,12 +18,20 @@ import {
   editTutorError,
   deleteTutorError,
 } from "../features/tutor/TutorSlice";
+
+import {
+  setLoginError,
+  setLoginSuccess,
+  setSignupError,
+  setSignupSuccess,
+} from "../components/auth/authenticationSlice";
+
 import { toast } from "react-toastify";
 
 const ToastMiddleware = () => (next) => (action) => {
   switch (action.type) {
     case setPosts.type:
-      toast.success("call api successfully");
+      toast.success("call api posts successfully");
       break;
     case newPost.type:
       toast.success("New post added successfully");
@@ -69,6 +77,18 @@ const ToastMiddleware = () => (next) => (action) => {
       break;
     case deleteTutorError.type:
       toast.error("Error deleting TuTor");
+      break;
+    case setLoginError.type:
+      toast.error("Login fail, please valid username or password");
+      break;
+    case setLoginSuccess.type:
+      toast.success("Login success");
+      break;
+    case setSignupError.type:
+      toast.error("Sign up  fail, username or email already taken");
+      break;
+    case setSignupSuccess.type:
+      toast.success("sign up success");
       break;
     default:
       break;

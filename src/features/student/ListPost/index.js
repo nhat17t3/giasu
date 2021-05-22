@@ -4,25 +4,71 @@ import Layout from "../../../components/Layout";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect, useHistory } from "react-router-dom";
-import { GetPosts, DeletePost } from "../../../api/postsApi";
+import { GetPosts, DeletePost, GetPostsByToken } from "../../../api/postsApi";
 import PostItem from "./PostItem";
 import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
-import userEvent from "@testing-library/user-event";
+import Pagination from "../../../components/Pagination";
 
 ListPost.propTypes = {};
 
 function ListPost(props) {
-  const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts.posts);
-  const editedPost = useSelector((state) => state.posts.posts.filter((x) => x.idcustomer === +2));
-  
-
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const [subject, setSubject] = useState("All");
+  const [grade, setGrade] = useState("All");
+  const [address, setAddress] = useState("All");
+  const [listpost, setListpost] = useState([]);
+
+  // const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(10);
 
   useEffect(() => {
     GetPosts(dispatch);
   }, []);
+
+  // useEffect(() => {
+  //   GetPostsByToken(dispatch);
+  // }, []);  
+
+  const userID = useSelector((state) => state.user.user.id);
+  let posts = useSelector((state) => state.posts.posts);
+
+  useEffect(() => {
+    const k = posts.filter((x) => x.idStudent === +userID);
+    setListpost(k);
+  }, [posts]);
+
+  // Get current tutors
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentTutors = listpost.slice(indexOfFirstPost, indexOfLastPost);
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const checkfilter = (subject, grade, address, post) => {
+    let checka = false;
+    let checkb = false;
+    let checkc = false;
+    if (subject == "All") checka = true;
+    else checka = post.subject === subject;
+    if (grade == "All") checkb = true;
+    else checkb = post.grade === grade;
+    if (address == "All") checkc = true;
+    else checkc = post.address.toLowerCase().includes(address.toLowerCase());
+    return checka && checkb && checkc;
+  };
+
+  const handlefillter = (e) => {
+    console.log(subject, grade, address);
+
+    const listfillter = posts.filter((tutor) =>
+      checkfilter(subject, grade, address, tutor)
+    );
+    console.log(listfillter);
+    setListpost(listfillter);
+  };
 
   const handlePostEditClick = (post) => {
     console.log("Edit: ", post);
@@ -32,7 +78,7 @@ function ListPost(props) {
 
   const handlePostViewClick = (post) => {
     console.log("View: ", post);
-    const viewPostUrl = `/listpostview/${post.id}`;
+    const viewPostUrl = `/postview/${post.id}`;
     history.push(viewPostUrl);
   };
 
@@ -44,7 +90,7 @@ function ListPost(props) {
   return (
     <>
       <Layout>
-        <ToastContainer />
+        
         <section className="home-category">
           <div className="container" style={{ paddingTop: "10px" }}>
             <div className="region region-content">
@@ -58,13 +104,16 @@ function ListPost(props) {
                       <div className="view-header">
                         <span>Lớp phù hợp với bạn</span>
                       </div>
-                      <div className="bg-gradient-pink">
-                        <div className="page-classes-filters">
-                          <form
-                            action="/class"
-                            method="get"
-                            id="views-exposed-form-nhom-hoc-chung-page-3"
-                            acceptCharset="UTF-8"
+                      <div
+                        className="bg-gradient-pink"
+                        style={{ padding: "0 10px" }}
+                      >
+                        <div className="view-filters box-search">
+                          <div
+                          // action=""
+                          // method="get"
+                          // id="views-exposed-form-users-page-2"
+                          // acceptCharset="UTF-8"
                           >
                             <div>
                               <div className="views-exposed-form">
@@ -79,35 +128,36 @@ function ListPost(props) {
                                           id="edit-place"
                                           name="place"
                                           className="form-select"
+                                          onChange={(e) =>
+                                            setAddress(e.target.value)
+                                          }
                                         >
                                           <option
                                             value="All"
                                             selected="selected"
+                                            defaultValue="All"
                                           >
                                             - Chọn địa điểm -
                                           </option>
                                           <optgroup label="Địa điểm phổ biến">
-                                            <option value={1}>Hà Nội</option>
-                                            <option value={2}>
-                                              Hồ Chí Minh
+                                            <option value={"Liên Chiểu"}>
+                                              Liên Chiểu
                                             </option>
-                                            <option value={10}>
-                                              Hải Phòng
+                                            <option value={"Ngũ Hành Sơn"}>
+                                              Ngũ Hành Sơn
                                             </option>
-                                            <option value={3}>Đà Nẵng</option>
-                                            <option value={11}>Cần Thơ</option>
-                                          </optgroup>
-                                          <optgroup label="Tỉnh, thành phố khác">
-                                            <option value={17}>An Giang</option>
-                                            <option value={18}>
-                                              Bà Rịa-Vũng Tàu
+                                            <option value={"Sơn Trà"}>
+                                              Sơn Trà
                                             </option>
-                                            <option value={21}>
-                                              Bắc Giang
+                                            <option value={"Thanh Khê"}>
+                                              Thanh Khê
                                             </option>
-                                            <option value={20}>Bắc Kạn</option>
-                                            <option value={19}>Bạc Liêu</option>
-                                            <option value={22}>Bắc Ninh</option>
+                                            <option value={"Hoà Vang"}>
+                                              Hoà Vang
+                                            </option>
+                                            <option value={"Hải Châu"}>
+                                              Hải Châu
+                                            </option>
                                           </optgroup>
                                         </select>
                                       </div>
@@ -123,6 +173,9 @@ function ListPost(props) {
                                           id="edit-subject"
                                           name="subject"
                                           className="form-select"
+                                          onChange={(e) =>
+                                            setSubject(e.target.value)
+                                          }
                                         >
                                           <option
                                             value="All"
@@ -131,19 +184,26 @@ function ListPost(props) {
                                             - Chọn môn học -
                                           </option>
                                           <optgroup label="Môn học phổ thông">
-                                            <option value={72}>Toán</option>
-                                            <option value={73}>Lý</option>
-                                            <option value={74}>Hóa</option>
-                                            <option value={76}>Văn</option>
-                                            <option value={677}>
+                                            <option value={"Toán"}>Toán</option>
+                                            <option value={"Lý"}>Lý</option>
+                                            <option value={"Hóa"}>Hóa</option>
+                                            <option value={"Tiếng Anh"}>
+                                              Tiếng Anh
+                                            </option>
+                                            <option value={"Ngữ Văn"}>
+                                              Văn
+                                            </option>
+                                            <option value={"Tiếng Việt"}>
                                               Tiếng Việt
                                             </option>
-                                            <option value={406}>Lịch sử</option>
-                                            <option value={407}>Địa lý</option>
-                                            <option value={81}>Sinh</option>
-                                            <option value={410}>
-                                              Môn phổ thông khác
+                                            <option value={"Lịch sử"}>
+                                              Lịch sử
                                             </option>
+                                            <option value={"Địa lý"}>
+                                              Địa lý
+                                            </option>
+                                            <option value={"Sinh"}>Sinh</option>
+                                            <option value={"Khác"}>khác</option>
                                           </optgroup>
                                         </select>
                                       </div>
@@ -157,15 +217,60 @@ function ListPost(props) {
                                       <div className="form-item form-type-select form-item-topic">
                                         <select
                                           id="edit-topic"
-                                          name="topic"
+                                          name="grade"
                                           className="form-select"
+                                          onChange={(e) =>
+                                            setGrade(e.target.value)
+                                          }
                                         >
                                           <option
                                             value="All"
                                             selected="selected"
                                           >
-                                            -Chọn lớp-
+                                            -Chọn Lớp-
                                           </option>
+                                          <optgroup label="cấp 1">
+                                            <option value={"Lớp 1"}>
+                                              lớp 1
+                                            </option>
+                                            <option value={"Lớp 2"}>
+                                              lớp 2
+                                            </option>
+                                            <option value={"Lớp 3"}>
+                                              lớp 3
+                                            </option>
+                                            <option value={"Lớp 4"}>
+                                              lớp 4
+                                            </option>
+                                            <option value={"Lớp 5"}>
+                                              lớp 5
+                                            </option>
+                                          </optgroup>
+                                          <optgroup label="cấp 2">
+                                            <option value={"Lớp 6"}>
+                                              lớp 6
+                                            </option>
+                                            <option value={"Lớp 7"}>
+                                              lớp 7
+                                            </option>
+                                            <option value={"Lớp 8"}>
+                                              lớp 8
+                                            </option>
+                                            <option value={"Lớp 9"}>
+                                              lớp 9
+                                            </option>
+                                          </optgroup>
+                                          <optgroup label="cấp 3">
+                                            <option value={"Lớp 10"}>
+                                              lớp 10
+                                            </option>
+                                            <option value={"Lớp 11"}>
+                                              lớp 11
+                                            </option>
+                                            <option value={"Lớp 12"}>
+                                              lớp 12
+                                            </option>
+                                          </optgroup>
                                         </select>
                                       </div>
                                     </div>
@@ -174,27 +279,16 @@ function ListPost(props) {
                                   <div className="views-exposed-widget views-submit-button">
                                     <button
                                       className="form-submit btn-yellowblacasa"
-                                      type="submit"
+                                      // type="submit"
+                                      onClick={handlefillter}
                                     >
                                       Áp dụng
                                     </button>
                                   </div>
-
-                                  <div
-                                    className="col-md-2 col-sm-2"
-                                    style={{ marginLeft: "350px" }}
-                                  >
-                                    <Link
-                                      className="btn-bla-big btn-yellowblacasa"
-                                      to ="/addpost"
-                                    >
-                                      Add New Post
-                                    </Link>
-                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </form>{" "}
+                          </div>{" "}
                         </div>
                       </div>
                       {/* <div className="row">
@@ -236,7 +330,7 @@ function ListPost(props) {
                           </div>
                         </div>
 
-                        {editedPost.map((post) => (
+                        {currentTutors.map((post) => (
                           <div key={post.id}>
                             <PostItem
                               post={post}
@@ -248,23 +342,11 @@ function ListPost(props) {
                         ))}
                       </div>
                       <h2 className="element-invisible">Pages</h2>
-                      <div className="item-list">
-                        <ul className="pager">
-                          <li className="pager-first first" />
-                          <li className="pager-current">1</li>
-                          <li className="pager-item">
-                            <a title="Go to page 2" href="/class?page=1">
-                              2
-                            </a>
-                          </li>
-                          <li className="pager-next">
-                            <a href="/class?page=1">sau ›</a>
-                          </li>
-                          <li className="pager-last last">
-                            <a href="/class?page=1">cuối »</a>
-                          </li>
-                        </ul>
-                      </div>{" "}
+                      <Pagination
+                        postsPerPage={postsPerPage}
+                        totalPosts={listpost.length}
+                        paginate={paginate}
+                      />
                     </div>
                   </div>
                 </div>

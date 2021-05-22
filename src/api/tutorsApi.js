@@ -13,7 +13,7 @@ import {
 export const GetTutors = async (dispatch) => {
   try {
     // api call
-    const { data } = await axiosClient.get("/tutors");
+    const { data } = await axiosClient.get("/tutor");
     dispatch(setTutors(data));
     return { data };
   } catch {
@@ -24,7 +24,7 @@ export const GetTutors = async (dispatch) => {
 export const NewTutor = async (dispatch, tutor) => {
   try {
     // api call
-    const { data } = await axiosClient.tutor("/tutors", tutor);
+    const { data } = await axiosClient.post("/tutor", tutor);
     dispatch(newTutor(data));
   } catch {
     dispatch(newTutorError());
@@ -34,7 +34,7 @@ export const NewTutor = async (dispatch, tutor) => {
 export const EditTutor = async (dispatch, tutor) => {
   try {
     // api call
-    await axiosClient.put(`/tutors/${tutor.id}`, tutor);
+    await axiosClient.put(`/tutor/${tutor.id}`, tutor);
     dispatch(editTutor(tutor));
   } catch {
     dispatch(editTutorError());
@@ -44,10 +44,12 @@ export const EditTutor = async (dispatch, tutor) => {
 export const DeleteTutor = async (dispatch, tutor) => {
   try {
     // api call
-    await axiosClient.delete(`/tutors/${tutor.id}`);
+    await axiosClient.delete(`/tutor/${tutor.id}`);
     // await axiosClient.delete('/tutors/${tutor.id}', { data: { ...tutor } });
     dispatch(deleteTutor(tutor));
   } catch {
     dispatch(deleteTutorError());
   }
 };
+
+

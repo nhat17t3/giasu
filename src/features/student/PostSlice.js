@@ -1,68 +1,5 @@
 import { createSlice, createAction } from "@reduxjs/toolkit";
 
-// const initialPosts = [
-//   {
-//     id: 1,
-//     idcustomer:1,
-//     title: "Tìm gia sư kèm Toán lớp 3 Yên Sở, Hoàng Mai",
-//     grade: "3",
-//     subject: "1",
-//     price: "200000",
-//     phonenumber: "0369621657",
-//     address: "Hà Nội",
-//     time: "Thứ 3 thứ 7",
-//     description: "Yêu cầu gia sư cần KIÊN NHẪN, NHIỆT TÌNH, CÓ KINH NGHIỆM",
-//   },
-//   {
-//     id: 2,
-//     idcustomer:2,
-//     title: "Tìm gia sư kèm Toán lớp 3 Yên Sở, Hoàng Mai",
-//     grade: "3",
-//     subject: "1",
-//     price: "200000",
-//     phonenumber: "0369621657",
-//     address: "Hà Nội",
-//     time: "Thứ 3 thứ 7",
-//     description: "Yêu cầu gia sư cần KIÊN NHẪN, NHIỆT TÌNH, CÓ KINH NGHIỆM",
-//   },
-//   {
-//     id:3,
-//     idcustomer:3,
-//     title: "Tìm gia sư kèm Toán lớp 3 Yên Sở, Hoàng Mai",
-//     grade: "3",
-//     subject: "1",
-//     price: "200000",
-//     phonenumber: "0369621657",
-//     address: "Hà Nội",
-//     time: "Thứ 3 thứ 7",
-//     description: "Yêu cầu gia sư cần KIÊN NHẪN, NHIỆT TÌNH, CÓ KINH NGHIỆM",
-//   },
-//   {
-//     id: 4,
-//     idcustomer:4,
-//     title: "Tìm gia sư kèm Toán lớp 3 Yên Sở, Hoàng Mai",
-//     grade: "3",
-//     subject: "1",
-//     price: "200000",
-//     phonenumber: "0369621657",
-//     address: "Hà Nội",
-//     time: "Thứ 3 thứ 7",
-//     description: "Yêu cầu gia sư cần KIÊN NHẪN, NHIỆT TÌNH, CÓ KINH NGHIỆM",
-//   },
-//   {
-//     id: 5,
-//     idcustomer:5,
-//     title: "Tìm gia sư kèm Toán lớp 3 Yên Sở, Hoàng Mai",
-//     grade: "3",
-//     subject: "1",
-//     price: "200000",
-//     phonenumber: "0369621657",
-//     address: "Hà Nội",
-//     time: "Thứ 3 thứ 7",
-//     description: "Yêu cầu gia sư cần KIÊN NHẪN, NHIỆT TÌNH, CÓ KINH NGHIỆM",
-//   },
-// ];
-
 export const setPostError = createAction("setPostError");
 export const newPostError = createAction("newPostError");
 export const editPostError = createAction("editPostError");
@@ -77,7 +14,7 @@ const PostSlice = createSlice({
   },
   reducers: {
     setPosts: (state, action) => {
-      return { ...state, posts: [...action.payload] };
+      return { ...state, posts: [...action.payload.post] };
     },
 
     newPost: (state, action) => {

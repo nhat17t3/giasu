@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GetTutors } from "../../../api/tutorsApi";
+import { NewInvitation } from "../../../api/invitationsApi";
+import { number } from "yup";
+import ListComment from "../../comment/ListComment";
+import AddComment from "../../comment/AddComment";
 
 InforTutor.propTypes = {};
 
@@ -12,21 +16,26 @@ function InforTutor(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { tutorId } = useParams();
-  const v = useSelector((state) => state.tutors.tutors);
+  const [disbutton, setDisbutton] = useState(false);
+  // const { roles } = useSelector((state) => state.user.user);
+  const role = localStorage.getItem('role')
+
   useEffect(() => {
     GetTutors(dispatch);
   }, []);
 
-  const viewTutor = useSelector((state) => {
+  const viewTutor1 = useSelector((state) => {
     const foundTutor = state.tutors.tutors.find((x) => x.id === +tutorId);
-
-    // console.log({ turors: state.tutorId, tutorId, foundTutor });
-
     return foundTutor;
   });
-  // console.log({ tutorId, viewTutor });
+
+  const idcustomer = useSelector((state) => state.user.user.id);
+
+  const tutor = viewTutor1;
+  console.log("tutorview", tutor);
+
+  const v = useSelector((state) => state.tutors.tutors);
   if (v.length == 0) return null;
-  const tutor = viewTutor;
 
   return (
     <>
@@ -114,11 +123,11 @@ function InforTutor(props) {
                     <div className="headblockSecond">
                       <span className="spanArea mr-15">
                         <i className="" />
-                        {"  Môn học:"} {tutor.subject}
+                        {"  Môn học:"} {tutor.subjects[0]}
                       </span>
                       <span className="spanArea mr-15">
                         <i className="" />
-                        {"  Lớp:"} {tutor.grade}
+                        {"  Lớp:"} {tutor.grades[0]}
                       </span>
                     </div>
                     {/*Place, teaching type: only for teacher*/}
@@ -134,12 +143,24 @@ function InforTutor(props) {
                         className="wrapBlockInvite"
                         style={{ marginTop: "10px" }}
                       >
-                        <a
-                          href=""
+                        {role == "ROLE_STUDENT" ? (
+                        <button
                           className="ctools-use-modal btnInvite btn btn-md  ctools-use-modal-processed"
+                          disabled={disbutton}
+                          onClick={(tutor) => {
+                            const invite = {
+                              // idcustomer,
+                              idTutor: Number(tutorId),
+                              // status: 0,
+                            };
+                            // alert(JSON.stringify(invite));
+                            NewInvitation(dispatch, invite);
+                            setDisbutton(true);
+                          }}
                         >
                           Mời dạy
-                        </a>
+                        </button>
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -208,59 +229,257 @@ function InforTutor(props) {
                         <div className="row-calendar">
                           <h3>Thứ 2</h3>
                           <ul>
-                            <li className="calendar-normal">SÁNG</li>
-                            <li className="calendar-active">CHIỀU</li>
-                            <li className="calendar-active">TỐI</li>
+                            <li
+                              className={
+                                tutor.schedules.sang_2
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Sáng
+                            </li>
+
+                            <li
+                              className={
+                                tutor.schedules.chieu_2
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Chiều
+                            </li>
+                            <li
+                              className={
+                                tutor.schedules.toi_2
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Tối
+                            </li>
                           </ul>
                         </div>
                         <div className="row-calendar">
                           <h3>Thứ 3</h3>
                           <ul>
-                            <li className="calendar-normal">SÁNG</li>
-                            <li className="calendar-active">CHIỀU</li>
-                            <li className="calendar-active">TỐI</li>
+                            <li
+                              className={
+                                tutor.schedules.sang_3
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Sáng
+                            </li>
+                            <li
+                              className={
+                                tutor.schedules.chieu_3
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Chiều
+                            </li>
+                            <li
+                              className={
+                                tutor.schedules.toi_3
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Tối
+                            </li>
                           </ul>
                         </div>
                         <div className="row-calendar">
                           <h3>Thứ 4</h3>
                           <ul>
-                            <li className="calendar-normal">SÁNG</li>
-                            <li className="calendar-active">CHIỀU</li>
-                            <li className="calendar-active">TỐI</li>
+                            <li
+                              className={
+                                tutor.schedules.sang_4
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Sáng
+                            </li>
+                            <li
+                              className={
+                                tutor.schedules.chieu_4
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Chiều
+                            </li>
+                            <li
+                              className={
+                                tutor.toi_4
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Tối
+                            </li>
                           </ul>
                         </div>
                         <div className="row-calendar">
                           <h3>Thứ 5</h3>
                           <ul>
-                            <li className="calendar-normal">SÁNG</li>
-                            <li className="calendar-active">CHIỀU</li>
-                            <li className="calendar-active">TỐI</li>
+                            <li
+                              className={
+                                tutor.schedules.sang_5
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Sáng
+                            </li>
+                            <li
+                              className={
+                                tutor.schedules.chieu_5
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Chiều
+                            </li>
+                            <li
+                              className={
+                                tutor.schedules.toi_5
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Tối
+                            </li>
                           </ul>
                         </div>
                         <div className="row-calendar">
                           <h3>Thứ 6</h3>
                           <ul>
-                            <li className="calendar-normal">SÁNG</li>
-                            <li className="calendar-active">CHIỀU</li>
-                            <li className="calendar-active">TỐI</li>
+                            <li
+                              className={
+                                tutor.schedules.sang_6
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Sáng
+                            </li>
+                            <li
+                              className={
+                                tutor.schedules.chieu_6
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Chiều
+                            </li>
+                            <li
+                              className={
+                                tutor.schedules.toi_6
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Tối
+                            </li>
                           </ul>
                         </div>
                         <div className="row-calendar">
                           <h3>Thứ 7</h3>
                           <ul>
-                            <li className="calendar-active">SÁNG</li>
-                            <li className="calendar-normal">CHIỀU</li>
-                            <li className="calendar-active">TỐI</li>
+                            <li
+                              className={
+                                tutor.schedules.sang_7
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Sáng
+                            </li>
+                            <li
+                              className={
+                                tutor.schedules.chieu_7
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Chiều
+                            </li>
+                            <li
+                              className={
+                                tutor.schedules.toi_7
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Tối
+                            </li>
                           </ul>
                         </div>
                         <div className="row-calendar">
-                          <h3>Chủ nhật</h3>
+                          <h3>CN</h3>
                           <ul>
-                            <li className="calendar-active">SÁNG</li>
-                            <li className="calendar-active">CHIỀU</li>
-                            <li className="calendar-active">TỐI</li>
+                            <li
+                              className={
+                                tutor.schedules.sang_8
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Sáng
+                            </li>
+                            <li
+                              className={
+                                tutor.schedules.chieu_8
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Chiều
+                            </li>
+                            <li
+                              className={
+                                tutor.schedules.toi_8
+                                  ? "calendar-active"
+                                  : "calendar-normal"
+                              }
+                            >
+                              Tối
+                            </li>
                           </ul>
                         </div>{" "}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {role == "ROLE_STUDENT" ? (
+                  <div className="list-categories">
+                    <div className="gblock-v2">
+                      <div className="">
+                        <h4>Bình Luận</h4>
+                      </div>
+                      <AddComment IDTUTOR={tutorId} />
+                    </div>
+                  </div>
+                ) : null}
+
+                <h4>Danh sách bình luận</h4>
+                <div>
+                  <div className="list-categories" style={{ width: "100%" }}>
+                    <div className="gblock-v2">
+                      <div
+                        className="body-block"
+                        style={{
+                          display: "block",
+                          background: "#fff",
+                          padding: "10px",
+                        }}
+                      >
+                        <ListComment IDTUTOR={tutorId} />
                       </div>
                     </div>
                   </div>

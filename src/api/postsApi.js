@@ -1,27 +1,3 @@
-// const postsApi = {
-//   getAll: async (params) => {
-//     const url = "/posts";
-//     return await axiosClient.get(url, { params });
-//   },
-
-//   get: (id) => {
-//     const url = `/posts/${id}`;
-//     return axiosClient.get(url);
-//   },
-//   add: (data) => {
-//     const url = `/posts`;
-//     return axiosClient.post(url, { data });
-//   },
-//   edit: ({id, data}) => {
-//     const url = `/posts/${id}`;
-//     return axiosClient.put(url, { data });
-//   },
-//   delete: (id) => {
-//     const url = `/posts/${id}`;
-//     return axiosClient.delete(url);
-//   },
-// };
-
 import axiosClient from "./axiosClient";
 import {
   setPosts,
@@ -37,9 +13,20 @@ import {
 export const GetPosts = async (dispatch) => {
   try {
     // api call
-    const { data } = await axiosClient.get("/posts");
+    const { data } = await axiosClient.get("/post");
     dispatch(setPosts(data));
-    return {data};
+    return { data };
+  } catch {
+    dispatch(setPostError());
+  }
+};
+
+export const GetPostsByToken = async (dispatch) => {
+  try {
+    // api call
+    const { data } = await axiosClient.get("/api/post");
+    dispatch(setPosts(data));
+    return { data };
   } catch {
     dispatch(setPostError());
   }
@@ -48,8 +35,8 @@ export const GetPosts = async (dispatch) => {
 export const NewPost = async (dispatch, post) => {
   try {
     // api call
-    const { data } = await axiosClient.post("/posts", post);
-    dispatch(newPost(data));
+    await axiosClient.post("/api/post", post);
+    dispatch(newPost(post));
   } catch {
     dispatch(newPostError());
   }
@@ -58,7 +45,7 @@ export const NewPost = async (dispatch, post) => {
 export const EditPost = async (dispatch, post) => {
   try {
     // api call
-    await axiosClient.put(`/posts/${post.id}`, post);
+    await axiosClient.put(`/api/post/${post.id}`, post);
     dispatch(editPost(post));
   } catch {
     dispatch(editPostError());
@@ -68,7 +55,7 @@ export const EditPost = async (dispatch, post) => {
 export const DeletePost = async (dispatch, post) => {
   try {
     // api call
-    await axiosClient.delete(`/posts/${post.id}`);
+    await axiosClient.delete(`/api/post/${post.id}`);
     // await axiosClient.delete('/posts/${post.id}', { data: { ...post } });
     dispatch(deletePost(post));
   } catch {

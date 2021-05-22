@@ -8,28 +8,73 @@ import TutorItem from "./TutorItem";
 import { ToastContainer } from "react-toastify";
 import { GetTutors } from "../../../api/tutorsApi";
 import { useEffect, useState } from "react";
+import Pagination from "../../../components/Pagination";
 
 ListTutor.propTypes = {};
 
 function ListTutor(props) {
-  const dispatch = useDispatch();
-  const tutors = useSelector((state) => state.tutors.tutors);
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const [subject, setSubject] = useState("All");
+  const [grade, setGrade] = useState("All");
+  const [address, setAddress] = useState("All");
+  const [listtutor, setListtutor] = useState([]);
+
+  // const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(8);
 
   useEffect(() => {
     GetTutors(dispatch);
   }, []);
 
+  let tutors = useSelector((state) => state.tutors.tutors);
+
+  useEffect(() => {
+    setListtutor(tutors);
+  }, [tutors]);
+
+  // Get current tutors
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentTutors = listtutor.slice(indexOfFirstPost, indexOfLastPost);
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const checkfilter = (subject, grade, address, tutor) => {
+    let checka = false;
+    let checkb = false;
+    let checkc = false;
+    if (subject == "All") checka = true;
+    else checka = tutor.subject === subject;
+    if (grade == "All") checkb = true;
+    else checkb = tutor.grade === grade;
+    if (address == "All") checkc = true;
+    else checkc = tutor.address.toLowerCase().includes(address.toLowerCase());
+    return checka && checkb && checkc;
+  };
+
+  const handlefillter = (e) => {
+    console.log(subject, grade, address);
+
+    const listfillter = tutors.filter((tutor) =>
+      checkfilter(subject, grade, address, tutor)
+    );
+    console.log(listfillter);
+    setListtutor(listfillter);
+  };
+
   const handleViewClick = (tutor) => {
-    console.log("xem: ", tutor);
-    const ViewUrl = `/listtutorview/${tutor.id}`;
+    // console.log("xem: ", tutor);
+    const ViewUrl = `/tutorview/${tutor.id}`;
     history.push(ViewUrl);
   };
 
   return (
     <>
       <Layout>
-      <ToastContainer />
+        <ToastContainer />
         <section className="home-category">
           <div className="container" style={{ paddingTop: "10px" }}>
             <div className="region region-content">
@@ -47,11 +92,11 @@ function ListTutor(props) {
                           style={{ padding: "0 10px" }}
                         >
                           <div className="view-filters box-search">
-                            <form
-                              action="/teacher"
-                              method="get"
-                              id="views-exposed-form-users-page-2"
-                              acceptCharset="UTF-8"
+                            <div
+                            // action=""
+                            // method="get"
+                            // id="views-exposed-form-users-page-2"
+                            // acceptCharset="UTF-8"
                             >
                               <div>
                                 <div className="views-exposed-form">
@@ -66,16 +111,25 @@ function ListTutor(props) {
                                             id="edit-place"
                                             name="place"
                                             className="form-select"
+                                            onChange={(e) =>
+                                              setAddress(e.target.value)
+                                            }
                                           >
                                             <option
                                               value="All"
                                               selected="selected"
+                                              defaultValue="All"
                                             >
                                               - Chọn địa điểm -
                                             </option>
                                             <optgroup label="Địa điểm phổ biến">
-                                              <option value={1}>Hà Nội</option>
-                                              <option value={2}>
+                                              <option value={"Hà Nội"}>
+                                                Hà Nội
+                                              </option>
+                                              <option value={"Nghệ An"}>
+                                                Nghệ An
+                                              </option>
+                                              {/* <option value={2}>
                                                 Hồ Chí Minh
                                               </option>
                                               <option value={10}>
@@ -84,7 +138,7 @@ function ListTutor(props) {
                                               <option value={3}>Đà Nẵng</option>
                                               <option value={11}>
                                                 Cần Thơ
-                                              </option>
+                                              </option> */}
                                             </optgroup>
                                           </select>
                                         </div>
@@ -100,6 +154,9 @@ function ListTutor(props) {
                                             id="edit-subject"
                                             name="subject"
                                             className="form-select"
+                                            onChange={(e) =>
+                                              setSubject(e.target.value)
+                                            }
                                           >
                                             <option
                                               value="All"
@@ -108,21 +165,27 @@ function ListTutor(props) {
                                               - Chọn môn học -
                                             </option>
                                             <optgroup label="Môn học phổ thông">
-                                              <option value={72}>Toán</option>
-                                              <option value={73}>Lý</option>
-                                              <option value={74}>Hóa</option>
-                                              <option value={76}>Văn</option>
-                                              <option value={677}>
+                                              <option value={"Toán"}>
+                                                Toán
+                                              </option>
+                                              <option value={"Lý"}>Lý</option>
+                                              <option value={"Hóa"}>Hóa</option>
+                                              <option value={"Văn"}>Văn</option>
+                                              <option value={"Tiếng Việt"}>
                                                 Tiếng Việt
                                               </option>
-                                              <option value={406}>
+                                              <option value={"Lịch sử"}>
                                                 Lịch sử
                                               </option>
-                                              <option value={407}>
+                                              <option value={"Địa lý"}>
                                                 Địa lý
                                               </option>
-                                              <option value={81}>Sinh</option>
-                                              <option value={410}>
+                                              <option value={"Sinh"}>
+                                                Sinh
+                                              </option>
+                                              <option
+                                                value={"Môn phổ thông khác"}
+                                              >
                                                 Môn phổ thông khác
                                               </option>
                                             </optgroup>
@@ -138,8 +201,11 @@ function ListTutor(props) {
                                         <div className="form-item form-type-select form-item-topic">
                                           <select
                                             id="edit-topic"
-                                            name="topic"
+                                            name="grade"
                                             className="form-select"
+                                            onChange={(e) =>
+                                              setGrade(e.target.value)
+                                            }
                                           >
                                             <option
                                               value="All"
@@ -147,26 +213,37 @@ function ListTutor(props) {
                                             >
                                               -Chọn Lớp-
                                             </option>
+                                            <option value={"Lớp 1"}>
+                                              Lớp 1
+                                            </option>
+                                            <option value={"Lớp 2"}>
+                                              Lớp 2
+                                            </option>
+                                            <option value={"Lớp 3"}>
+                                              Lớp 3
+                                            </option>
+                                            <option value={"Lớp 5"}>
+                                              Lớp 5
+                                            </option>
                                           </select>
                                         </div>
                                       </div>
                                     </div>
-                                    
-                                      
+
                                     <div className="views-exposed-widget views-submit-button">
-                                    <button
-                                      className="form-submit btn-yellowblacasa"
-                                      type="submit"
-                                    >
-                                      Áp dụng
-                                    </button>
+                                      <button
+                                        className="form-submit btn-yellowblacasa"
+                                        // type="submit"
+                                        onClick={handlefillter}
+                                      >
+                                        Áp dụng
+                                      </button>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </form>{" "}
+                            </div>{" "}
                           </div>
-                         
                         </div>
                         {/* if not empty, then show order by
                         <div className="header-block">
@@ -192,8 +269,6 @@ function ListTutor(props) {
                             </li>
                           </ul>
                         </div> */}
-
-
                         {/* /.header-block */}
                         {/* Tab panes */}
                         <div className="tab-content">
@@ -205,12 +280,13 @@ function ListTutor(props) {
                             <div className="view view-users view-id-users view-display-id-page_2 col-popover view-dom-id-b046246a230e0acb397239e119f93361">
                               <div className="view-content">
                                 <div className="row">
-                                  {tutors.map((tutor) => (
-                                    <TutorItem
-                          
-                                      tutor={tutor}
-                                      onViewClick={handleViewClick}
-                                    />
+                                  {currentTutors.map((tutor) => (
+                                    <div key={tutor.id}>
+                                      <TutorItem
+                                        tutor={tutor}
+                                        onViewClick={handleViewClick}
+                                      />
+                                    </div>
                                   ))}
                                 </div>
                               </div>
@@ -220,39 +296,11 @@ function ListTutor(props) {
                         </div>
                         {/* /.tab-content */}
                         <h2 className="element-invisible">Pages</h2>
-                        <div className="item-list">
-                          <ul className="pager">
-                            <li className="pager-first first" />
-                            <li className="pager-current">1</li>
-                            <li className="pager-item">
-                              <a title="Go to page 2" href="/teacher?page=1">
-                                2
-                              </a>
-                            </li>
-                            <li className="pager-item">
-                              <a title="Go to page 3" href="/teacher?page=2">
-                                3
-                              </a>
-                            </li>
-                            <li className="pager-item">
-                              <a title="Go to page 4" href="/teacher?page=3">
-                                4
-                              </a>
-                            </li>
-                            <li className="pager-item">
-                              <a title="Go to page 5" href="/teacher?page=4">
-                                5
-                              </a>
-                            </li>
-                            <li className="pager-ellipsis">…</li>
-                            <li className="pager-next">
-                              <a href="/teacher?page=1"> sau ›</a>
-                            </li>
-                            <li className="pager-last last">
-                              <a href="/teacher?page=1173">cuối ››</a>
-                            </li>
-                          </ul>
-                        </div>{" "}
+                        <Pagination
+                          postsPerPage={postsPerPage}
+                          totalPosts={listtutor.length}
+                          paginate={paginate}
+                        />
                       </div>
                       {/* /.content-category */}
                     </div>
