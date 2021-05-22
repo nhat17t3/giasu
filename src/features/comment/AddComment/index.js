@@ -29,11 +29,10 @@ function AddComment(props) {
   return (
     <>
       <Formik
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={async (values, { setSubmitting }) => {
           // alert(JSON.stringify(values));
-          NewComment(dispatch, values);
-          
-
+          await NewComment(dispatch, values);
+          window.location.reload();
           const Url = `/tutorview/${values.idTutor}`;
           history.push(Url);
         }}

@@ -17,7 +17,8 @@ function InforTutor(props) {
   const history = useHistory();
   const { tutorId } = useParams();
   const [disbutton, setDisbutton] = useState(false);
-  const { roles } = useSelector((state) => state.user.user);
+  // const { roles } = useSelector((state) => state.user.user);
+  const role = localStorage.getItem('role')
 
   useEffect(() => {
     GetTutors(dispatch);
@@ -142,6 +143,7 @@ function InforTutor(props) {
                         className="wrapBlockInvite"
                         style={{ marginTop: "10px" }}
                       >
+                        {role == "ROLE_STUDENT" ? (
                         <button
                           className="ctools-use-modal btnInvite btn btn-md  ctools-use-modal-processed"
                           disabled={disbutton}
@@ -158,6 +160,7 @@ function InforTutor(props) {
                         >
                           Mời dạy
                         </button>
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -453,7 +456,7 @@ function InforTutor(props) {
                   </div>
                 </div>
 
-                {roles[0] == "ROLE_STUDENT" ? (
+                {role == "ROLE_STUDENT" ? (
                   <div className="list-categories">
                     <div className="gblock-v2">
                       <div className="">

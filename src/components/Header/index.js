@@ -7,10 +7,10 @@ const Header = (props) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { isLoggedIn } = useSelector((state) => state.auth);
-  let k;
-  const { roles } = useSelector((state) => state.user.user);
-  if(typeof roles === 'undefined')  k=['a'];
-  else k=roles;
+  let role = localStorage.getItem('role');
+  // const { roles } = useSelector((state) => state.user.user);
+  // if(typeof roles === 'undefined')  k=['a'];
+  // else k=roles;
   
 
   
@@ -136,7 +136,7 @@ const Header = (props) => {
                   {/*Case 1: Đã đăng nhập*/}
                   {/*user's info; avatar+name*/}
                   <li className="avatar hidden-xs flex-row-nowrap common-tooltip">
-                    <a>{user.username}</a>
+                    <a>{user.name}</a>
                   </li>
                   {/*end avatar and name*/}
                   {/*user's info; message &  notification*/}
@@ -196,7 +196,7 @@ const Header = (props) => {
           </div>
         </nav>
 
-        {(k[0] === "ROLE_STUDENT") ? (
+        {(role === "ROLE_STUDENT") ? (
           <nav id="navbar-scroll">
             <div className="container" style={{ height: "100%" }}>
               <div className="row">

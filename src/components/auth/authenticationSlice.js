@@ -14,6 +14,8 @@ export const authenticationSlice = createSlice({
   reducers: {
     userAuthenticated: (state, action) => {
       localStorage.setItem("token", action.payload.accessToken);
+      localStorage.setItem("role", action.payload.roles);
+
 
       return {
         ...state,

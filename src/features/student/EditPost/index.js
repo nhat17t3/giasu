@@ -72,7 +72,7 @@ function EditPost1(props) {
     <>
       <Layout>
         <Formik
-          onSubmit={(values, setSubmitting) => {
+          onSubmit={async (values, setSubmitting) => {
             setSubmitting = false;
             //   alert(JSON.stringify(values));
             const {
@@ -102,7 +102,7 @@ function EditPost1(props) {
             };
 
             console.log(editPost);
-            EditPost(dispatch, editPost);
+            await EditPost(dispatch, editPost);
             setTimeout(async () => {
               history.push("/listpost");
             }, 500);

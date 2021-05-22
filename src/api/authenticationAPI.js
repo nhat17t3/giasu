@@ -1,13 +1,12 @@
+import * as axios from "axios";
 import {
   setLoginError,
   setLoginSuccess,
   setSignupError,
   setSignupSuccess,
-  userAuthenticated,
+  userAuthenticated
 } from "../components/auth/authenticationSlice";
-import * as axios from "axios";
 import { GetProfile } from "./userApi";
-import { useHistory } from "react-router";
 
 const axiosInstance = axios.create({
   baseURL: `https://manage-tutor-123.herokuapp.com/api`,

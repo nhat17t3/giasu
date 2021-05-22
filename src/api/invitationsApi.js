@@ -15,7 +15,7 @@ import {
 export const GetInvitations = async (dispatch) => {
   try {
     // api call
-    const { data } = await axiosClient.get("/api/invitation");
+    const { data } = await axiosClient.get("/invitation");
     dispatch(setInvitations(data));
     // return {data};
   } catch {

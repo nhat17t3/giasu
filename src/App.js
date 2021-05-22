@@ -32,8 +32,10 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
     if (token !== undefined && token !== null) {
-      dispatch(userAuthenticated({ accessToken: token }));
+      dispatch(userAuthenticated({ accessToken: token, roles: role }));
       GetProfile(dispatch);
       // GetTutorsByToken(dispatch);
     }

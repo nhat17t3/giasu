@@ -16,7 +16,8 @@ function InforPost(props) {
   const history = useHistory();
   const { postId } = useParams();
   const [disbutton, setDisbutton] = useState(false);
-  const { roles } = useSelector((state) => state.user.user);
+  // const { roles } = useSelector((state) => state.user.user);
+  const role = localStorage.getItem("role");
 
   useEffect(() => {
     GetPosts(dispatch);
@@ -134,7 +135,8 @@ function InforPost(props) {
                       className="wrapBlockInvite"
                       style={{ marginTop: "10px" }}
                     >
-                      {(roles[0] == "ROLE_TUTOR") ? (
+                      {/* {(roles[0] == "ROLE_TUTOR") ? ( */}
+                      {role == "ROLE_TUTOR" ? (
                         <button
                           className="  btn btn-bla-big   "
                           style={{ background: "blue", width: "120px" }}

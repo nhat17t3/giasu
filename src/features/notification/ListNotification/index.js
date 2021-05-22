@@ -14,9 +14,8 @@ import NotifyTutor from "../NotifyTutor";
 import NotifyCustomer from "../NotifyCustomer";
 import { GetSuggestions } from "../../../api/suggestionsApi";
 import { GetInvitations } from "../../../api/invitationsApi";
-import {  GetStudents } from "../../../api/studentsApi";
+import { GetStudents } from "../../../api/studentsApi";
 import { GetPosts } from "../../../api/postsApi";
-
 
 ListNotification.propTypes = {};
 
@@ -25,12 +24,13 @@ function ListNotification(props) {
   const history = useHistory();
   const [listnotify_customer, setListnotify_customer] = useState([]);
   const [listnotify_tutor, setListnotify_tutor] = useState([]);
-  const { role } = useSelector((state) => state.user.user);
+  // const { role } = useSelector((state) => state.user.user);
+  const role = localStorage.getItem('role')
 
-  useEffect( async() => {
+  useEffect(async () => {
     await GetTutors(dispatch);
     await GetStudents(dispatch);
-    await GetPosts(dispatch)
+    await GetPosts(dispatch);
   }, []);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ function ListNotification(props) {
             {/*Menu trái*/} {/* content */}
             <h1 style={{ textAlign: "center" }}>
               DANH SÁCH THÔNG BÁO{" "}
-              {role == "tutor" ? "FOR TUTOR" : "FOR STUDENT"}
+              {role == "ROLE_TUTOR" ? "FOR TUTOR" : "FOR STUDENT"}
             </h1>
             <div className="col-md-12">
               <div className="row-tittle hidden-xs ">
@@ -91,9 +91,9 @@ function ListNotification(props) {
                 </div>
               </div>
 
-              {role == "tutor"
+              {role == "ROLE_TUTOR"
                 ? listnotify_tutor.map((suggestion) => (
-                    <div key={suggestions.id}>
+                    <div key={suggestion.id}>
                       <NotifyTutor suggestion={suggestion} />
                     </div>
                   ))

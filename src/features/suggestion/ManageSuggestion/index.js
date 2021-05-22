@@ -27,30 +27,23 @@ function ManageSuggestion(props) {
   const history = useHistory();
   const [listsuggest, setListsuggest] = useState([]);
 
-  useEffect(async () => {
-    await GetTutors(dispatch);
-    await GetPosts(dispatch);
-    await GetSuggestionsByStudent(dispatch);
-  }, []);
-
-  // useEffect(() => {
-  //   GetSuggestions(dispatch);
-  // }, []);
-
-  // const userID = useSelector((state) => state.user.user.id);
-  // const suggestions = useSelector((state) => state.suggestions.suggestions);
-  // const suggest = suggestions.filter((x) => x.idStudent === +userID);
-
-  // useEffect(() => {
-  //   const suggest = suggestions.filter((x) => x.idStudent === +userID);
-  //   setListsuggest(suggest);
-  // }, [suggestions]);
-
   // useEffect(() => {
   //   GetSuggestionsByStudent(dispatch);
   // }, []);
+  // const suggestions = useSelector((state) => state.suggestions.suggestions);
 
+  useEffect(async () => {
+    await GetTutors(dispatch);
+    await GetPosts(dispatch);
+    await GetSuggestions(dispatch);
+  }, []);
+
+  const userID = useSelector((state) => state.user.user.id);
   const suggestions = useSelector((state) => state.suggestions.suggestions);
+  useEffect(() => {
+    const suggest = suggestions.filter((x) => x.idStudent === +userID);
+    setListsuggest(suggest);
+  }, [suggestions]);
 
   const handleEditAcceptClick = async (suggestion) => {
     console.log("Edit: ", suggestion);
@@ -81,7 +74,7 @@ function ManageSuggestion(props) {
 
     await RefuseSuggestion(dispatch, k);
 
-    await history.push("/managesuggestion");
+    history.push("/managesuggestion");
   };
 
   // const handleRemoveClick = async (suggestion) => {
@@ -135,7 +128,7 @@ function ManageSuggestion(props) {
               </div>
 
               {/* row */}
-              {suggestions.map((suggestion) => (
+              {listsuggest.map((suggestion) => (
                 <div key={suggestion.id}>
                   <SuggestionItem
                     suggestion={suggestion}

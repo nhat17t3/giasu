@@ -107,7 +107,7 @@ function AddPost(props) {
     <>
       <Layout>
         <Formik
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={async (values, { setSubmitting }) => {
             // setSubmitting = false;
             const { subject, ...rest } = values;
             const k = {
@@ -117,7 +117,7 @@ function AddPost(props) {
             // console.log(k);
             // alert(JSON.stringify(k));
 
-            NewPost(dispatch, k);
+            await NewPost(dispatch, k);
             history.push("/listpost");
           }}
           initialValues={initialValues}

@@ -37,7 +37,7 @@ import {
 export const GetSuggestions = async (dispatch) => {
   try {
     // api call
-    const { data } = await axiosClient.get("/suggestions");
+    const { data } = await axiosClient.get("/suggestion");
     dispatch(setSuggestions(data));
     // return {data};
   } catch {

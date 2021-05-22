@@ -26,15 +26,19 @@ function ListPost(props) {
   const [postsPerPage] = useState(10);
 
   useEffect(() => {
-    GetPostsByToken(dispatch);
+    GetPosts(dispatch);
   }, []);
 
-  // const userID = useSelector((state) => state.user.user.id);
+  // useEffect(() => {
+  //   GetPostsByToken(dispatch);
+  // }, []);  
+
+  const userID = useSelector((state) => state.user.user.id);
   let posts = useSelector((state) => state.posts.posts);
 
   useEffect(() => {
-    // const k = posts.filter((x) => x.idStudent === +4);
-    setListpost(posts);
+    const k = posts.filter((x) => x.idStudent === +userID);
+    setListpost(k);
   }, [posts]);
 
   // Get current tutors
