@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Layout from "../../../components/Layout";
+import Sidebar from "../../../components/SideBar";
+
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,13 +27,9 @@ function ListNotification(props) {
   const [listnotify_customer, setListnotify_customer] = useState([]);
   const [listnotify_tutor, setListnotify_tutor] = useState([]);
   // const { role } = useSelector((state) => state.user.user);
-  const role = localStorage.getItem('role')
+  const role = localStorage.getItem("role");
+  const [a, setA] = useState(false);
 
-  useEffect(async () => {
-    await GetTutors(dispatch);
-    await GetStudents(dispatch);
-    await GetPosts(dispatch);
-  }, []);
 
   useEffect(() => {
     GetSuggestions(dispatch);
@@ -57,56 +55,46 @@ function ListNotification(props) {
   return (
     <>
       <Layout>
-        <div
-          style={{
-            paddingLeft: "100px",
-            paddingRight: "100px",
-            paddingTop: "20px",
-          }}
-        >
-          <div>
-            {/*Menu trái*/} {/* content */}
-            <h1 style={{ textAlign: "center" }}>
-              DANH SÁCH THÔNG BÁO{" "}
-              {role == "ROLE_TUTOR" ? "FOR TUTOR" : "FOR STUDENT"}
-            </h1>
-            <div className="col-md-12">
-              <div className="row-tittle hidden-xs ">
-                <div>
-                  <div className="col-md-2 col-sm-2">
-                    <div>
-                      <h3>ID</h3>
+        <div className="app__container">
+          <div className="grid">
+            <div className="grid__row app__content">
+              <div className="grid__column-2" style={{ marginTop: "62px" }}>
+                <Sidebar />
+              </div>
+              <div className="grid__column-10">
+                <div className="notify">
+                  <h2 className="notify__heading">Thông báo</h2>
+                  <div className="grid__row " style={{ margin: "auto 0" }}>
+                    <div className="grid__column-2 notify-header__item ">
+                      Thời gian
+                    </div>
+                    <div className="grid__column-5 notify-header__item">
+                      Nội dung
+                    </div>
+                    <div className="grid__column-2 notify-header__item ">
+                      Liên hệ {role == "ROLE_TUTOR" ? "học sinh" : "gia sư"}
+                    </div>
+                    <div className="grid__column-3 notify-header__item">
+                      Hoạt động
                     </div>
                   </div>
-                  <div className="col-md-8 col-sm-8">
-                    <div>
-                      <h3>NỘI DUNG </h3>
-                    </div>
-                  </div>
-                  <div className="col-md-2 col-sm-2">
-                    <div>
-                      <h3>ACTION </h3>
-                    </div>
-                  </div>
+
+                  {role == "ROLE_TUTOR"
+                    ? listnotify_tutor.map((suggestion) => (
+                        <div className="notify-item" key={suggestion.id}>
+                          <NotifyTutor suggestion={suggestion} />
+                        </div>
+                      ))
+                    : listnotify_customer.map((invitation) => (
+                        <div className="notify-item" key={invitation.id}>
+                          <NotifyCustomer invitation={invitation} />
+                        </div>
+                      ))}
                 </div>
               </div>
-
-              {role == "ROLE_TUTOR"
-                ? listnotify_tutor.map((suggestion) => (
-                    <div key={suggestion.id}>
-                      <NotifyTutor suggestion={suggestion} />
-                    </div>
-                  ))
-                : listnotify_customer.map((invitation) => (
-                    <div key={invitation.id}>
-                      <NotifyCustomer invitation={invitation} />
-                    </div>
-                  ))}
             </div>
-            {/* end content */}
           </div>
         </div>
-        <div style={{ height: "480px" }}></div>
       </Layout>
     </>
   );

@@ -24,15 +24,22 @@ import {
   setLoginSuccess,
   setSignupError,
   setSignupSuccess,
+  setUpdatePassSucess,
+  setUpdatePassError,
 } from "../components/auth/authenticationSlice";
+
+import {
+  updateProfileError,
+  updateProfileSuccess,
+} from "../components/auth/userSlice.js";
 
 import { toast } from "react-toastify";
 
 const ToastMiddleware = () => (next) => (action) => {
   switch (action.type) {
-    case setPosts.type:
-      toast.success("call api posts successfully");
-      break;
+    // case setPosts.type:
+    //   toast.success("call api posts successfully");
+    //   break;
     case newPost.type:
       toast.success("New post added successfully");
       break;
@@ -54,9 +61,9 @@ const ToastMiddleware = () => (next) => (action) => {
     case deletePostError.type:
       toast.error("Error deleting post");
       break;
-    case setTutors.type:
-      toast.success("call api TuTor successfully");
-      break;
+    // case setTutors.type:
+    //   toast.success("call api TuTor successfully");
+    //   break;
     case newTutor.type:
       toast.success("New TuTor added successfully");
       break;
@@ -89,6 +96,18 @@ const ToastMiddleware = () => (next) => (action) => {
       break;
     case setSignupSuccess.type:
       toast.success("sign up success");
+      break;
+    case updateProfileError.type:
+      toast.error("error updateprofile");
+      break;
+    case updateProfileSuccess.type:
+      toast.success("updateprofile success");
+      break;
+    case setUpdatePassSucess.type:
+      toast.success("update password success");
+      break;
+    case setUpdatePassError.type:
+      toast.error("update password error");
       break;
     default:
       break;

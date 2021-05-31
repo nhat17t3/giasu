@@ -1,56 +1,61 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Sidebar = (props) => {
+  const role = localStorage.getItem("role");
+
   return (
     <>
-      <div className="col-md-3 ">
-        <div>
-          <ul id="accordion" className="accordion">
-            <li>
-              <div className="link">
-                <i className="fa fa-graduation-cap" aria-hidden="true" />
-                Quản lý yêu cầu
-              </div>
-            </li>
-            <li>
-              <div className="link">
-                <i className="fa fa-comments" />
-                <a href="/hoang-long-nhat/messages">Hội thoại và tin nhắn</a>
-              </div>
-            </li>
-            <li>
-              <div className="link">
-                <i className="fa fa-bell" aria-hidden="true" />
+      <nav className="category">
+        <h3 className="category__heading">
+          <i className="category__heading-icon fas fa-list" />
+          Danh Muc
+        </h3>
+        {role === "ROLE_TUTOR" ? (
+          <ul className="category-list">
+            {/* <li className="category-item category-item--active"><a href="# " className="category-item__link">Chuc nang 1</a></li> */}
+            <li className="category-item">
+              <Link to="/notifycation" className="category-item__link">
                 Thông báo
-              </div>
+              </Link>
             </li>
-            <li>
-              <div className="link">
-                <i className="fa fa-pencil-square" aria-hidden="true" />
-                Bài viết
-              </div>
+            <li className="category-item">
+              <Link to="/manageinvitation" className="category-item__link">
+                Danh sách mời dạy
+              </Link>
             </li>
-            <li>
-              <div className="link">
-                <i className="fa fa-heart-saved" />
-                Đã lưu
-              </div>
-            </li>
-            <li>
-              <div className="link">
-                <i className="fa fa-btc" />
-                <a href="/hoang-long-nhat/bpoint">Quản lý BPoint</a>
-              </div>
-            </li>
-            <li>
-              <div className="link">
-                <i className="fa fa-flag" aria-hidden="true" />
-                Thông tin cá nhân
-              </div>
+            <li className="category-item">
+              <Link to="#" className="category-item__link">
+                More
+              </Link>
             </li>
           </ul>
-        </div>
-      </div>
+        ) : (
+          <ul className="category-list">
+            {/* <li className="category-item category-item--active"><a href="# " className="category-item__link">Chuc nang 1</a></li> */}
+            <li className="category-item">
+              <Link to="/notifycation" className="category-item__link">
+                Thông báo
+              </Link>
+            </li>
+            <li className="category-item">
+              <Link to="/managesuggestion" className="category-item__link">
+                Danh sách đề nghị dạy
+              </Link>
+            </li>
+            <li className="category-item">
+              <Link to="/listpost" className="category-item__link">
+                Quản lí bài đăng
+              </Link>
+            </li>
+            <li className="category-item">
+              <Link to="#" className="category-item__link">
+                More
+              </Link>
+            </li>
+          </ul>
+        )}
+      </nav>
     </>
   );
 };

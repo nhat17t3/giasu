@@ -1,28 +1,25 @@
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { GetProfile } from "./api/userApi";
 import "./App.css";
-import { BrowserRouter, Link, Redirect, Route, Switch } from "react-router-dom";
-import Main from "./components/Main";
+import { userAuthenticated } from "./components/auth/authenticationSlice";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
-import ListPost from "./features/student/ListPost";
-import ListTutor from "./features/tutor/ListTutor";
-import UpdateTutor from "./features/tutor/UpdateTutor";
-import InforTutor from "./features/tutor/InforTutor";
-import InforPost from "./features/student/InforPost";
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-
-import { GetProfile } from "./api/userApi";
+import UpdatePass from "./components/auth/UpdatePass";
+import Main from "./components/Main";
+import ManageInvitation from "./features/invitation/ManageInvitation";
+import ListNotification from "./features/notification/ListNotification";
 import AddPost from "./features/student/AddPost";
 import EditPost1 from "./features/student/EditPost";
+import InforPost from "./features/student/InforPost";
+import ListPost from "./features/student/ListPost";
 import ListPostShare from "./features/student/ListPostShare";
-import ManageInvitation from "./features/invitation/ManageInvitation";
+import UpdateStudent from "./features/student/UpdateStudent";
 import ManageSuggestion from "./features/suggestion/ManageSuggestion";
-import ListNotification from "./features/notification/ListNotification";
-import AddComment from "./features/comment/AddComment";
-import ListComment from "./features/comment/ListComment";
-
-import { userAuthenticated } from "./components/auth/authenticationSlice";
-import { GetTutorsByToken } from "./api/mytutorApi";
+import InforTutor from "./features/tutor/InforTutor";
+import ListTutor from "./features/tutor/ListTutor";
+import UpdateTutor from "./features/tutor/UpdateTutor";
 
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -56,7 +53,7 @@ function App() {
             render={() => (isLoggedIn ? <Redirect to="/home" /> : <Login />)}
           />
 
-          <Route
+          {/* <Route
             exact
             path="/listpost"
             render={() => (!isLoggedIn ? <Login /> : <ListPost />)}
@@ -91,6 +88,10 @@ function App() {
             path="/updatetutor"
             render={() => (!isLoggedIn ? <Login /> : <UpdateTutor />)}
           />
+          <Route
+            path="/updatestudent"
+            render={() => (!isLoggedIn ? <Login /> : <UpdateStudent />)}
+          />
 
           <Route
             path="/manageinvitation"
@@ -103,7 +104,23 @@ function App() {
           <Route
             path="/notifycation"
             render={() => (!isLoggedIn ? <Login /> : <ListNotification />)}
-          />
+          /> */}
+
+          <Route path="/updatepass" component={UpdatePass} />
+          <Route path="/listpost" component={ListPost} />
+          <Route path="/listpostedit/:postId" component={EditPost1} />
+          <Route path="/addpost" component={AddPost} />
+          <Route path="/postview/:postId" component={InforPost} />
+          <Route path="/listpostshare" component={ListPostShare} />
+          <Route path="/updatestudent" component={UpdateStudent} />
+
+          <Route path="/listtutor" component={ListTutor} />
+          <Route path="/tutorview/:tutorId" component={InforTutor} />
+          <Route path="/updatetutor" component={UpdateTutor} />
+
+          <Route path="/manageinvitation" component={ManageInvitation} />
+          <Route path="/managesuggestion" component={ManageSuggestion} />
+          <Route path="/notifycation" component={ListNotification} />
         </Switch>
       </BrowserRouter>
     </div>

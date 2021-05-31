@@ -18,12 +18,9 @@ SuggestionItem.defaultProps = {
 };
 
 function SuggestionItem(props) {
-  const { suggestion, onViewClick, onEditRefuseClick, onEditAcceptClick } = props;
+  const { suggestion, onViewClick, onEditRefuseClick, onEditAcceptClick } =
+    props;
   const history = useHistory();
-
-  let tutor1 = useSelector((state) => state.tutors.tutors).find((x) => x.id === +suggestion.idTutor);
-  let post1 = useSelector((state) => state.posts.posts).find((x) => x.id === +suggestion.idPost);
-
 
   const handleEditAcceptClick = () => {
     if (onEditAcceptClick) onEditAcceptClick(suggestion);
@@ -39,83 +36,85 @@ function SuggestionItem(props) {
 
   return (
     <>
-      {/* bla-common-shadow */}
-      <div
-        className="row-request bla-common-shadow "
-        style={{ margin: "auto" }}
-      >
-        <div className="">
-          <div className="row">
-            <div className="col-md-2 col-sm-2">
-              <div className="">
-                <p className="creator-name">
-                  <div>suggestionID: {suggestion.id}</div>
-                </p>
-                {/* <p className="created-date">25/03/2021</p> */}
-              </div>
-            </div>
-            <div className="col-md-5 col-sm-5">
-              {/* <div onClick={history.push(`/postview/${suggestion.idpost}`)}> */}
-              <h2 className="row-request-title">
-                Tutor có name = {tutor1.name} idtutor = {suggestion.idTutor} đã
-                đề nghị dạy lớp idpost = {suggestion.idPost} {post1.title} của bạn
-                {/* Tutor có name =  idtutor = {suggestion.idTutor} đã
-                đề nghị dạy lớp idpost = {suggestion.idPost}  của bạn */}
-              </h2>
-              {/* </div> */}
-            </div>
-            <div className="col-md-2 col-sm-2">
-              <div className="">
-                <div className="green-text" style={{ color: "#FF961E" }}>
-                  <div
-                    style={{
-                      marginTop: "5px",
-                      fontSize: "18px",
-                      fontWeight: "bold",
-                      color: "#FF961E",
-                    }}
-                  >
-                    {/* {post.price} */}
-                    0369623657
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3 col-sm-3">
-              <div className="">
-                <div className="action-group text-right show-when-hover">
-                  <button
-                    className="  btn btn-bla-big   "
-                    style={{ background: "blue", width: "70px" }}
-                    onClick={handleEditAcceptClick}
-                    disabled={suggestion.status==1}
-                  >
-                    accept
-                  </button>
-                  <button
-                    className=" btn btn-bla-big "
-                    style={{ background: "red", width: "70px" }}
-                    onClick={handleEditRefuseClick}
-                    disabled={suggestion.status==2}
-                  >
-                    Từ chối
-                  </button>
-                  <button
-                    className=" btn btn-bla-big "
-                    style={{ background: "red", width: "100px" }}
-                    onClick={handleViewClick}
-                    
-                  >
-                    view tutor
-                  </button>
-                </div>
-              </div>
-            </div>
+      <div className="grid__row">
+        <div className="grid__column-2 notify-item__one ">
+          <div className="notify-item__time">20/5/2021</div>
+        </div>
+        <div className="grid__column-5 notify-item__content">
+          <div className="notify-item__description">
+            - Gia sư <span> {suggestion.nameTutor} </span> đã đề nghị dạy lớp
+            (id-bài đăng: {suggestion.idPost}) :{" "}
+            <span>{suggestion.titlePost}</span> của bạn
           </div>
         </div>
+        <div className="grid__column-2 notify-item__one ">
+          <div className="notify-item__time"> {suggestion.phoneNumberTutor}</div>
+        </div>
+        {suggestion.status == 0 ? (
+          <div className="grid__column-3 notify-item__action">
+            <a
+              href
+              className="btn  notify-item__accept-link"
+              onClick={handleEditAcceptClick}
+            >
+              Chấp nhận
+            </a>
+            <a
+              href
+              className="btn  notify-item__refuse-link"
+              onClick={handleEditRefuseClick}
+            >
+              Từ chối
+            </a>
+            <a
+              href
+              className="btn  notify-item__view-link"
+              onClick={handleViewClick}
+            >
+              Xem gia sư
+            </a>
+          </div>
+        ) : suggestion.status == 1 ? (
+          <div className="grid__column-3 notify-item__action">
+            <a href className="btn  notify-item__accept-link disabled">
+              Đã chấp nhận
+            </a>
+            <a
+              href
+              className="btn  notify-item__view-link"
+              onClick={handleViewClick}
+            >
+              Xem gia sư
+            </a>
+          </div>
+        ) : (
+          <div className="grid__column-3 notify-item__action">
+            <a href className="btn  notify-item__refuse-link disabled">
+              Đã từ chối
+            </a>
+            {/* <a
+              href
+              className="btn  notify-item__view-link"
+              onClick={handleViewClick}
+            >
+              Xem gia sư
+            </a> */}
+          </div>
+        )}
       </div>
     </>
   );
 }
 
 export default SuggestionItem;
+
+// className={
+//   suggestion.status == 1
+//     ? "btn  notify-item__accept-link  disabled"
+//     : "btn  notify-item__accept-link"
+// }
+// className={
+//   suggestion.status == 2
+//     ? "btn  notify-item__refuse-link  disabled"
+//     : "btn  notify-item__refuse-link"
+// }

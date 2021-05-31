@@ -6,7 +6,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { Container } from "reactstrap";
 import { GetPosts } from "../../../api/postsApi";
 import { useEffect } from "react";
-import { NewSuggestion } from "../../../api/suggestionsApi";
+import { GetSuggestions, NewSuggestion } from "../../../api/suggestionsApi";
 import { useState } from "react";
 
 InforPost.propTypes = {};
@@ -15,25 +15,38 @@ function InforPost(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { postId } = useParams();
-  const [disbutton, setDisbutton] = useState(false);
-  // const { roles } = useSelector((state) => state.user.user);
+  const userID = useSelector((state) => state.user.user.id);
   const role = localStorage.getItem("role");
+
+  const [a, setA] = useState(false);
+  const [disablebtn, setDisablebtn] = useState(false);
 
   useEffect(() => {
     GetPosts(dispatch);
   }, []);
 
+  useEffect(() => {
+    GetSuggestions(dispatch);
+  }, [a]);
+
   const Post = useSelector((state) => {
     const foundPost = state.posts.posts.find((x) => x.id === +postId);
-    // console.log({ posts: state.posts, postId, foundPost });
     return foundPost;
   });
 
-  const idtutor = useSelector((state) => state.user.user.id);
 
+  let suggestions = useSelector((state) => state.suggestions.suggestions);
+  useEffect(() => {
+    if (
+      suggestions.find((x) => x.idPost === +postId && x.idTutor === +userID)
+    )
+      setDisablebtn(true);
+  }, [suggestions]);
+
+  // const idtutor = useSelector((state) => state.user.user.id);
   const v = useSelector((state) => state.posts.posts);
   if (v.length == 0) return null;
-  // console.log({ postId, editedPost });
+
   const postview = Post;
   console.log("vieeeepost", postview);
   const idStudent = postview.idStudent;
@@ -41,405 +54,372 @@ function InforPost(props) {
   return (
     <>
       <Layout>
-        <div className=" bg-gradient-blue">
-          <div className="container">
-            <div className="row">
-              <h1>
-                <i
-                  className="fa fa-check-circle"
-                  aria-hidden="true"
-                  style={{
-                    fontSize: "26px",
-                    color: "#03ad03",
-                    marginRight: "2px",
-                  }}
-                  title="Đã xác thực thông tin"
-                ></i>
-                <span style={{ textTransform: "uppercase", fontSize: "24px" }}>
-                  {postview.title}
-                </span>
-              </h1>
-              <p
-                className="name inline"
-                style={{
-                  paddingRight: "20px",
-                  color: "green",
-                  fontSize: "18px",
-                }}
-              >
-                <i className="fa fa-user-o" />{" "}
-                <span> id student {postview.idStudent}</span>{" "}
-              </p>
-              {/* <p className="create inline" style={{ paddingRight: "20px" }}>
-                <i className="fa fa-calendar" /> 24.03.2021 - 11:28{" "}
-              </p> */}
-              {/* <p className="name inline">
-                Mã số lớp: <strong>7468</strong>
-              </p> */}
-              {/*Kiểu lớp: Tìm GIA SƯ*/}
-              <div
-                className="row"
-                style={{
-                  padding: "15px 0",
-                  borderTop: "1px solid #e7e7e7",
-                  fontSize: "16px",
-                  fontWeight: "revert",
-                }}
-              >
-                <div className="col-md-6 col-sm-6">
-                  <p className="no-padding">
-                    <i className="" /> Trạng thái:{" "}
-                    <span>Đang tìm giáo viên</span>
-                  </p>
-                  <p>
-                    <i className="" /> Môn: <span>{postview.subjects[0]} </span>
-                  </p>
-                  <p>
-                    <i className="" /> Lớp: <span>{postview.grade} </span>
-                  </p>
-                  {/* <p>
-                    <i className="fa fa-briefcase" /> Hình thức học: Offline
-                    (Gia sư)
-                  </p> */}
-                  <p>
-                    <i className="" /> Địa chỉ: <span>{postview.address} </span>
-                  </p>
+        <div className="post-infor">
+          <div className="grid">
+            <div className="grid__row app__content">
+              <div className="grid__column-3 post-infor__left ">
+                <div className="post-infor__heading">
+                  THÔNG TIN LỚP HỌC CHI TIẾT
                 </div>
-                <div className="col-md-6 col-sm-6">
-                  {/* <p>
-                    <i className="fa fa-venus-mars" /> Tìm gia sư: Nam, Nữ{" "}
-                  </p>
-                  <p>
-                    <i className="fa fa-user-o" />
-                    Số học viên : 1{" "}
-                  </p>
-                  <p>
-                    <i className="fa fa-book" />
-                    Thời lượng: Tuần 2 buổi (2h/buổi)
-                  </p> */}
-                  <p>
-                    <i className="" /> Học phí 1 buổi:{" "}
-                    <span>{postview.price} VND</span>
-                  </p>
-                  <p>
-                    <i className="" /> Số điện thoại liên hệ:{" "}
-                    <span>{postview.phoneNumber} </span>
-                  </p>
-                  {/* <p>
-                    <i className="" /> Lịch có thể học:{" "}
-                    <span>{postview.time} </span>
-                  </p> */}
-
-                  <div className="headblockThird">
-                    <div
-                      className="wrapBlockInvite"
-                      style={{ marginTop: "10px" }}
-                    >
-                      {/* {(roles[0] == "ROLE_TUTOR") ? ( */}
-                      {role == "ROLE_TUTOR" ? (
+                <ul className="post-infor__list">
+                  <li className="post-infor__item">
+                    <i className="fa fa-book post-infor__icon" />
+                    Môn học :
+                    {postview.subject.map((subject_item) => (
+                      <span>{subject_item} ,</span>
+                    ))}
+                  </li>
+                  <li className="post-infor__item">
+                    <i className="fa fa-briefcase post-infor__icon" />
+                    {postview.grade}
+                  </li>
+                  <li className="post-infor__item">
+                    <i className="fas fa-map-marker-alt post-infor__icon" />
+                    Địa chỉ: {postview.address}
+                  </li>
+                  <li className="post-infor__item">
+                    <i className="fas fa-phone post-infor__icon" />
+                    Số điện thoại: {postview.phonenumber}
+                  </li>
+                  <li className="post-infor__item">
+                    <i className="fas fa-dollar-sign post-infor__icon" />
+                    Học phí: {postview.price} VND/buổi
+                  </li>
+                  {role == "ROLE_TUTOR" ? (
+                    <li className="post-infor__item">
+                      {disablebtn === false ? (
                         <button
-                          className="  btn btn-bla-big   "
-                          style={{ background: "blue", width: "120px" }}
-                          disabled={disbutton}
-                          onClick={() => {
+                          className="btn btn--primary"
+                          onClick={async() => {
                             const suggestion = {
                               idPost: Number(postId),
                               idStudent: Number(idStudent),
-                              // idtutor,
-                              // status: 0,
                             };
                             // alert(JSON.stringify(suggestion));
-                            NewSuggestion(dispatch, suggestion);
-                            setDisbutton(true);
+                            await NewSuggestion(dispatch, suggestion);
+                            setA(!a);
                           }}
                         >
-                          de nghi dạy
+                          Đề nghị dạy
                         </button>
-                      ) : null}
+                      ) : (
+                        <button
+                          className="btn btn--primary btn--disable "
+                        >
+                          Đã đề nghị
+                        </button>
+                      )}
+                    </li>
+                  ) : null}
+                </ul>
+              </div>
+              <div className="grid__column-9">
+                <div className="post-infor__right">
+                  <div className="post-infor__right-top">
+                    <div className="post-infor__title">{postview.title}</div>
+                    <div className="post-infor__user-time">
+                      <i className="fas fa-user  post-infor__icon" />
+                      <span className="post-infor__name">
+                        ID STUDENT:{postview.idStudent}
+                      </span>
+                      <i className="fas fa-clock  post-infor__icon" />
+                      <span className="post-infor__time ">
+                        Ngày tạo lớp: 21/05/2021 09:05
+                      </span>
+                      <span className="post-infor__id"> Mã số lớp: 5336</span>
                     </div>
+                  </div>
+                  <div className="post-infor__right-bottom">
+                    <i className="fas fa-tasks post-infor__icon" />
+                    Yêu cầu học :
+                    <div className="post-infor__description">
+                      {postview.description}
+                    </div>
+                    <i className="fas fa-calendar-alt post-infor__icon" />
+                    Thời gian có thể học ( Màu XANH hiển thị những lịch có thể
+                    học ):
+
+                    <div className="calender">
+                      <div className="calendar__row">
+                        <h3 className="calendar__heading">Thứ 2</h3>
+                        <ul className="calendar-list">
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.sang_2
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Sáng
+                            </label>
+                          </li>
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.chieu_2
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Chiều
+                            </label>
+                          </li>
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.toi_2
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Tối
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div className="calendar__row">
+                        <h3 className="calendar__heading">Thứ 3</h3>
+                        <ul className="calendar-list">
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.sang_3
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Sáng
+                            </label>
+                          </li>
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.chieu_3
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Chiều
+                            </label>
+                          </li>
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.toi_3
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Tối
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div className="calendar__row">
+                        <h3 className="calendar__heading">Thứ 4</h3>
+                        <ul className="calendar-list">
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.sang_4
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Sáng
+                            </label>
+                          </li>
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.chieu_4
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Chiều
+                            </label>
+                          </li>
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.toi_4
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Tối
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div className="calendar__row">
+                        <h3 className="calendar__heading">Thứ 5</h3>
+                        <ul className="calendar-list">
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.sang_5
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Sáng
+                            </label>
+                          </li>
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.chieu_5
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Chiều
+                            </label>
+                          </li>
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.toi_5
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Tối
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div className="calendar__row">
+                        <h3 className="calendar__heading">Thứ 6</h3>
+                        <ul className="calendar-list">
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.sang_6
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Sáng
+                            </label>
+                          </li>
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.chieu_6
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Chiều
+                            </label>
+                          </li>
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.toi_6
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Tối
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div className="calendar__row">
+                        <h3 className="calendar__heading">Thứ 7</h3>
+                        <ul className="calendar-list">
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.sang_7
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Sáng
+                            </label>
+                          </li>
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.chieu_7
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Chiều
+                            </label>
+                          </li>
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.toi_7
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Tối
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div className="calendar__row">
+                        <h3 className="calendar__heading">Chủ nhật</h3>
+                        <ul className="calendar-list">
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.sang_8
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Sáng
+                            </label>
+                          </li>
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.chieu_8
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Chiều
+                            </label>
+                          </li>
+                          <li className="calendar-item">
+                            <label
+                              className={
+                                postview.schedules.toi_8
+                                  ? "calendar-label calendar-active"
+                                  : "calendar-label"
+                              }
+                            >
+                              Tối
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                 
                   </div>
                 </div>
-                {/* <div className="col-md-4 col-sm-4">
-                  <div className="header-study-group-right">
-                    <p>
-                      Phí nhận lớp:
-                      <span className="connection-fee"> 308,000 vnđ</span>
-                    </p>
-                    (<strong style={{ color: "#FF961E" }}>Trả phí sau </strong>{" "}
-                    <a href="/chinh-sach-phi" target="_blank">
-                      <i className="fa fa-exclamation-circle fa-first" />
-                    </a>
-                    )
-                    <p style={{ marginTop: "10px" }}>
-                      Chưa có đề nghị dạy nào!
-                    </p>
-                    <div className="class-actions">
-                      <a
-                        href="/lop-hoc-user/7468/dang-ky-day"
-                        className="btn-blueblacasa btn ctools-use-modal ctools-use-modal-processed"
-                      >
-                        Đề Nghị Dạy
-                      </a>{" "}
-                    </div>
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>
         </div>
-
-        <div className="study-group-sec-main-content">
-          <div className="container">
-            <div className="row group-study-detail">
-              <div className="gblock-v2 detail-content">
-                <div
-                  style={{
-                    padding: "15px 0",
-                    borderTop: "1px solid #e7e7e7",
-                    fontSize: "16px",
-                    fontWeight: "revert",
-                  }}
-                >
-                  <h4>
-                    <i className="fa fa-quote-right" aria-hidden="true" /> CHI
-                    TIẾT NỘI DUNG CẦN HỌC
-                  </h4>
-                  {postview.description}
-                </div>
-                {/*Lịch có thể học*/}
-                <div className="calender">
-                  <div className="list-categories">
-                    <div className="gblock-v2">
-                      <h4>
-                        <i className="fa fa-calendar" aria-hidden="true" /> LỊCH
-                        HỌC DỰ KIẾN
-                      </h4>
-                      <div className="body-block block-calender">
-                        <div className="row-calendar">
-                          <h3>Thứ 2</h3>
-                          <ul>
-                            <li
-                              className={
-                                postview.schedule.sang_2
-                                  ? "calendar-active"
-                                  : ""
-                              }
-                            >
-                              Sáng
-                            </li>
-
-                            <li
-                              className={
-                                postview.schedule.chieu_2
-                                  ? "calendar-active"
-                                  : ""
-                              }
-                            >
-                              Chiều
-                            </li>
-                            <li
-                              className={
-                                postview.schedule.toi_2 ? "calendar-active" : ""
-                              }
-                            >
-                              Tối
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="row-calendar">
-                          <h3>Thứ 3</h3>
-                          <ul>
-                            <li
-                              className={
-                                postview.schedule.sang_3
-                                  ? "calendar-active"
-                                  : ""
-                              }
-                            >
-                              Sáng
-                            </li>
-                            <li
-                              className={
-                                postview.schedule.chieu_3
-                                  ? "calendar-active"
-                                  : ""
-                              }
-                            >
-                              Chiều
-                            </li>
-                            <li
-                              className={
-                                postview.schedule.toi_3 ? "calendar-active" : ""
-                              }
-                            >
-                              Tối
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="row-calendar">
-                          <h3>Thứ 4</h3>
-                          <ul>
-                            <li
-                              className={
-                                postview.schedule.sang_4
-                                  ? "calendar-active"
-                                  : ""
-                              }
-                            >
-                              Sáng
-                            </li>
-                            <li
-                              className={
-                                postview.schedule.chieu_4
-                                  ? "calendar-active"
-                                  : ""
-                              }
-                            >
-                              Chiều
-                            </li>
-                            <li
-                              className={
-                                postview.schedule.toi_4 ? "calendar-active" : ""
-                              }
-                            >
-                              Tối
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="row-calendar">
-                          <h3>Thứ 5</h3>
-                          <ul>
-                            <li
-                              className={
-                                postview.schedule.sang_5
-                                  ? "calendar-active"
-                                  : ""
-                              }
-                            >
-                              Sáng
-                            </li>
-                            <li
-                              className={
-                                postview.schedule.chieu_5
-                                  ? "calendar-active"
-                                  : ""
-                              }
-                            >
-                              Chiều
-                            </li>
-                            <li
-                              className={
-                                postview.schedule.toi_5 ? "calendar-active" : ""
-                              }
-                            >
-                              Tối
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="row-calendar">
-                          <h3>Thứ 6</h3>
-                          <ul>
-                            <li
-                              className={
-                                postview.schedule.sang_6
-                                  ? "calendar-active"
-                                  : ""
-                              }
-                            >
-                              Sáng
-                            </li>
-                            <li
-                              className={
-                                postview.schedule.chieu_6
-                                  ? "calendar-active"
-                                  : ""
-                              }
-                            >
-                              Chiều
-                            </li>
-                            <li
-                              className={
-                                postview.schedule.toi_6 ? "calendar-active" : ""
-                              }
-                            >
-                              Tối
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="row-calendar">
-                          <h3>Thứ 7</h3>
-                          <ul>
-                            <li
-                              className={
-                                postview.schedule.sang_7
-                                  ? "calendar-active"
-                                  : ""
-                              }
-                            >
-                              Sáng
-                            </li>
-                            <li
-                              className={
-                                postview.schedule.chieu_7
-                                  ? "calendar-active"
-                                  : ""
-                              }
-                            >
-                              Chiều
-                            </li>
-                            <li
-                              className={
-                                postview.schedule.toi_7 ? "calendar-active" : ""
-                              }
-                            >
-                              Tối
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="row-calendar">
-                          <h3>CN</h3>
-                          <ul>
-                            <li
-                              className={
-                                postview.schedule.sang_8
-                                  ? "calendar-active"
-                                  : ""
-                              }
-                            >
-                              Sáng
-                            </li>
-                            <li
-                              className={
-                                postview.schedule.chieu_8
-                                  ? "calendar-active"
-                                  : ""
-                              }
-                            >
-                              Chiều
-                            </li>
-                            <li
-                              className={
-                                postview.schedule.toi_8 ? "calendar-active" : ""
-                              }
-                            >
-                              Tối
-                            </li>
-                          </ul>
-                        </div>{" "}
-                      </div>
-                      <div className="page-studygroup-detail-notes">
-                        <p>Màu xanh là những buổi có thể học trong tuần</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>{" "}
-                */
-              </div>
-            </div>
-          </div>{" "}
-          {/*page container*/}
-        </div>
-        {/* <div style={{ marginBottom: "200px" }}></div> */}
       </Layout>
     </>
   );

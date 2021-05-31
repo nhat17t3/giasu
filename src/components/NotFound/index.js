@@ -3,7 +3,7 @@ import React from "react";
 const NotFound = (props) => {
     return (
         <h1>
-            NOT FOUND
+            NOT FOUND PAGE
         </h1>
     )
 }

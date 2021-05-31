@@ -21,37 +21,17 @@ function ListComment(props) {
   const history = useHistory();
   const { IDTUTOR } = props;
 
-  const [listcomment, setListcomment] = useState([]);
-
-  useEffect( async () => {
-    await GetStudents(dispatch);
-    await GetComments(dispatch);
-  }, []);
-
-  // useEffect(() => {
-  //   GetComments(dispatch);
-  // }, []);
-
-  let comments = useSelector((state) => state.comments.comments);
-
-  useEffect(() => {
-    const k = comments.filter((x) => x.idTutor === +IDTUTOR);
-    setListcomment(k);
-  }, [comments]);
+  const { listcomment } = props;
 
   return (
     <>
-      <div>
-        <div>
-          {/* row */}
-          {listcomment.map((comment) => (
-            <div key={comment.id}>
-              <CommentItem comment={comment} />
-            </div>
-          ))}
-          {/* end row */}
-        </div>
-      </div>
+      <ul className="comment-list">
+        {listcomment.map((comment) => (
+          <li className="comment-item " key={comment.id}>
+            <CommentItem comment={comment} />
+          </li>
+        ))}
+      </ul>
     </>
   );
 }

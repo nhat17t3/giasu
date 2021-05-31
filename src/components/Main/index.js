@@ -1,130 +1,92 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Layout from "../Layout";
 
 const Main = (props) => {
   return (
     <>
+    <ToastContainer ></ToastContainer>
       <Layout>
-        <section className="home-banner banner-home">
-          <div
-            className="item home-banner-call-action"
-            style={{
-              background:
-                'url("https://static.tapchitaichinh.vn/images/upload/vuminh/01092019/education1.jpg") 0% 0% / cover',
-              height: "450px",
-            }}
-          >
-            <div className="banner-caption">
-              <h1 style={{ fontWeight: "bold", color: "rgb(0, 0, 0)" }}>
-                Tìm gia sư phù hợp
-              </h1>
-              <p
-                className="text-slogan"
-                style={{
-                  fontSize: "30px",
-                  color: "rgb(6, 157, 134)",
-                  margin: "20px 0px",
-                  fontWeight: "bold",
-                }}
-              >
-                Nhanh - Chủ động - Miễn phí
-              </p>
-              <p style={{ color: "rgb(0, 0, 0)", fontSize: "18px" }}>
-                Hãy để chúng tôi giúp bạn tiến bộ mỗi ngày <br /> với nền tảng
-                gia sư theo công nghệ 4.0
-              </p>
-              <p>
-                <Link
-                  to="/addpost"
-                  className="btn-bla-big p-home-feature-btn-action"
-                >
-                  ĐĂNG YÊU CẦU TÌM GIA SƯ
-                </Link>
-              </p>
+        <div className="grid__full-width banner">
+          <div className="banner-content">
+            <h1>Tìm gia sư phù hợp</h1>
+            <h2>Nhanh - Chủ động - Miễn phí</h2>
+            <p>Hãy để chúng tôi giúp bạn tiến bộ mỗi ngày</p>
+            <p> với nền tảng gia sư theo công nghệ 4.0</p>
+            <Link to="/register" className="btn btn--primary">
+              Đăng kí ngay
+            </Link>
+          </div>
+        </div>
+        <div className="grid">
+          <div className="section-title">
+            <div className="section-title__center">
+              <b />
+              <span className="section-title__content">Tính năng nổi bật</span>
+              <b />
             </div>
           </div>
-        </section>
-
-        {/* <section className="p-home-section-feature">
-          <div className="container">
-            <div className="home-banner-statistic">
-              <div
-                className="container"
-                style={{
-                  display: "flex",
-                  justifyContent: "space-around",
-                  alignItems: "center",
-                }}
-              >
-                <a className="home-statistic-item col-md-4" href="/teacher">
-                  <i className="fa fa-graduation-cap home-statistic-icon" />
-                  <span className="home-statistic-text">
-                    <strong>15,000+ Gia sư</strong>Khắp cả nước
-                  </span>
-                </a>
-                <a
-                  className="home-statistic-item home-statistic-item-student col-md-4"
-                  href="#"
-                >
-                  <i className="fa fa-user-circle-o home-statistic-icon" />
-                  <span className="home-statistic-text">
-                    <strong>100,000+ Lượt truy cập</strong>Hàng quý
-                  </span>
-                </a>
-                <a className="home-statistic-item col-md-4" href="class">
-                  <i className="fa fa-handshake home-statistic-icon" />
-                  <span className="home-statistic-text">
-                    <strong>9500+ Yêu cầu tìm gia sư</strong>Tỷ lệ hài lòng 97%{" "}
-                  </span>
-                </a>
+        </div>
+        <div className="grid feature">
+          <div className="grid__row">
+            <div className="grid__column-6 feature-hot">
+              <div className="feature-hot__title">
+                <i className="fas fa-check-circle" />
+                CHẤT LƯỢNG
+              </div>
+              <div className="feature-hot__description">
+                Gia sư giỏi, kinh nghiệm từ các trường TOP đầu. Thông tin hồ sơ
+                rõ ràng
+              </div>
+            </div>
+            <div className="grid__column-6 feature-hot">
+              <div className="feature-hot__title">
+                <i className="fas fa-check-circle" />
+                HỌC PHÍ
+              </div>
+              <div className="feature-hot__description">
+              Tự chọn gia sư và tự chủ động đưa ra mức học phí phù hợp với yêu cầu
+              </div>
+            </div>
+            <div className="grid__column-6 feature-hot">
+              <div className="feature-hot__title">
+                <i className="fas fa-check-circle" />
+                NHANH CHÓNG
+              </div>
+              <div className="feature-hot__description">
+              Chỉ vài phút để tìm gia sư giỏi phù hợp với đúng yêu cầu của gia đình
+              </div>
+            </div>
+            <div className="grid__column-6 feature-hot">
+              <div className="feature-hot__title">
+                <i className="fas fa-check-circle" />
+                MIỄN PHÍ
+              </div>
+              <div className="feature-hot__description">
+              Nguời học không phải trả bất kỳ khoản phí kết nối tìm gia sư cho chúng tôi
+              </div>
+            </div>
+            <div className="grid__column-6 feature-hot">
+              <div className="feature-hot__title">
+                <i className="fas fa-check-circle" />
+                TIỆN LỢI
+              </div>
+              <div className="feature-hot__description">
+              Công nghệ 4.0 giúp bạn tự kết nối với hàng ngàn gia sư ngay trên Smartphone
+              </div>
+            </div>
+            <div className="grid__column-6 feature-hot">
+              <div className="feature-hot__title">
+                <i className="fas fa-check-circle" />
+                ĐA DẠNG
+              </div>
+              <div className="feature-hot__description">
+              Người học có thể lựa chọn gia sư là: Giáo viên, Sinh viên,.. 
               </div>
             </div>
           </div>
-        </section> */}
-        <section className="p-home-section-call-action">
-          <div className="container home-action-container">
-            <div
-              className="home-action-left"
-              style={{ borderRight: "1px solid rgb(204, 204, 204)" }}
-            >
-              <h2>Tìm gia sư, tìm giáo viên</h2>
-              <p>
-                Thật đơn giản, bạn chỉ cần gửi yêu cầu học, các giáo viên sẽ gửi
-                đề nghị dạy tới bạn cùng với mức học phí mong muốn. Bạn sẽ chủ
-                động chọn lựa giáo viên phù hợp với bạn nhất.
-              </p>
-              <div>
-                <a
-                  className="btn-bla-big btn-yellowblacasa"
-                  href="/tao-lop-hoc"
-                  style={{ fontWeight: "bold" }}
-                >
-                  {" "}
-                  Yêu cầu tìm gia sư
-                </a>
-              </div>
-            </div>
-            <div className="home-action-right">
-              <h2>Trở thành gia sư</h2>
-              <p>
-                Nếu bạn có một khả năng nào đó, hãy đăng ký trở thành gia sư
-                trên hệ thống , bạn sẽ được tiếp cận với hàng ngàn học viên và
-                có cơ hội được truyền đạt kiến thức của mình.
-              </p>
-              <div>
-                <a
-                  className="btn-bla-big btn-yellowblacasa"
-                  href="/dang-ky-gia-su"
-                  style={{ fontWeight: "bold" }}
-                >
-                  {" "}
-                  Trở thành gia sư
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
+        </div>
       </Layout>
     </>
   );

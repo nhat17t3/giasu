@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Layout from "../../../components/Layout";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -6,9 +6,10 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { EditTutor } from "../../../api/tutorsApi";
-import { GetProfile, UpdateProfile } from "../../../api/userApi";
+import { GetProfile, UpdateAvatar, UpdateProfile } from "../../../api/userApi";
 import { useEffect } from "react";
-import { GetTutorsByToken, UpdateMyTutor } from "../../../api/mytutorApi";
+import MultiSelect from "react-multi-select-component";
+import { ToastContainer } from "react-toastify";
 
 UpdateTutor.propTypes = {};
 
@@ -16,1017 +17,911 @@ function UpdateTutor(props) {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const [avatar, setAvatar] = useState(null);
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  const [subject, setSubject] = useState([]);
+  const [grade, setGrade] = useState([]);
+  const [phonenumber, setPhonenumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [qualification, setQualification] = useState("");
+  const [description, setDescription] = useState("");
+
+  const [sang_2, setSang_2] = useState(false);
+  const [chieu_2, setChieu_2] = useState(false);
+  const [toi_2, setToi_2] = useState(false);
+  const [sang_3, setSang_3] = useState(false);
+  const [chieu_3, setChieu_3] = useState(false);
+  const [toi_3, setToi_3] = useState(false);
+  const [sang_4, setSang_4] = useState(false);
+  const [chieu_4, setChieu_4] = useState(false);
+  const [toi_4, setToi_4] = useState(false);
+  const [sang_5, setSang_5] = useState(false);
+  const [chieu_5, setChieu_5] = useState(false);
+  const [toi_5, setToi_5] = useState(false);
+  const [sang_6, setSang_6] = useState(false);
+  const [chieu_6, setChieu_6] = useState(false);
+  const [toi_6, setToi_6] = useState(false);
+  const [sang_7, setSang_7] = useState(false);
+  const [chieu_7, setChieu_7] = useState(false);
+  const [toi_7, setToi_7] = useState(false);
+  const [sang_8, setSang_8] = useState(false);
+  const [chieu_8, setChieu_8] = useState(false);
+  const [toi_8, setToi_8] = useState(false);
+
+  const [a, setA] = useState(false);
+
   useEffect(() => {
-    GetTutorsByToken(dispatch);
-  }, []);
-
-  // const editedTutor = useSelector((state) => {
-  //   const getTutor = state.user.user;
-  //   return getTutor;
-  // });
-
-  // const initialValues = editedTutor;
-  // console.log(initialValues);
-
-  // if (initialValues.id == null) return null;
-
-  const editedPost = useSelector((state) => {
-    const getTutor = state.mytutor.mytutor;
+    GetProfile(dispatch);
+  }, [a]);
+  const editedTutor = useSelector((state) => {
+    const getTutor = state.user.user;
     return getTutor;
   });
-  if (editedPost.id == null) return null;
+  console.log("edit tutor:", editedTutor);
 
-  const initialValues = {
-    id: editedPost.id,
-    name: editedPost.name,
-    grade: editedPost.grades[0],
-    subject: editedPost.subjects[0],
-    // price: editedPost.price,
-    phonenumber: editedPost.phonenumber,
-    address: editedPost.address,
-    description: editedPost.description,
-    qualification: editedPost.qualification,
-    avatar: editedPost.avatar,
-    schedules: {
-      sang_2: editedPost.schedules.sang_2,
-      chieu_2: editedPost.schedules.chieu_2,
-      toi_2: editedPost.schedules.toi_2,
-      sang_3: editedPost.schedules.sang_3,
-      chieu_3: editedPost.schedules.chieu_3,
-      toi_3: editedPost.schedules.toi_3,
-      sang_4: editedPost.schedules.sang_4,
-      chieu_4: editedPost.schedules.chieu_4,
-      toi_4: editedPost.schedules.toi_4,
-      sang_5: editedPost.schedules.sang_5,
-      chieu_5: editedPost.schedules.chieu_5,
-      toi_5: editedPost.schedules.toi_5,
-      sang_6: editedPost.schedules.sang_6,
-      chieu_6: editedPost.schedules.chieu_6,
-      toi_6: editedPost.schedules.toi_6,
-      sang_7: editedPost.schedules.sang_7,
-      chieu_7: editedPost.schedules.chieu_7,
-      toi_7: editedPost.schedules.toi_7,
-      sang_8: editedPost.schedules.sang_8,
-      chieu_8: editedPost.schedules.chieu_8,
-      toi_8: editedPost.schedules.toi_8,
-    },
+  useEffect(() => {
+    if (editedTutor.name != null) {
+      let b = [];
+      for (const a of editedTutor.subject) {
+        let c = { label: a, value: a };
+        b.push(c);
+      }
+      let i = [];
+      for (const j of editedTutor.grade) {
+        let k = { label: j, value: j };
+        i.push(k);
+      }
+      setAvatar(editedTutor.avatar);
+      setName(editedTutor.name);
+      setAge(editedTutor.age);
+      setGender(editedTutor.gender);
+      setSubject(b);
+      setGrade(i);
+      setPhonenumber(editedTutor.phonenumber);
+      setAddress(editedTutor.address);
+      setQualification(editedTutor.qualification);
+      setDescription(editedTutor.description);
+
+      setSang_2(editedTutor.schedules.sang_2);
+      setChieu_2(editedTutor.schedules.chieu_2);
+      setToi_2(editedTutor.schedules.toi_2);
+      setSang_3(editedTutor.schedules.sang_3);
+      setChieu_3(editedTutor.schedules.chieu_3);
+      setToi_3(editedTutor.schedules.toi_3);
+      setSang_4(editedTutor.schedules.sang_4);
+      setChieu_4(editedTutor.schedules.chieu_4);
+      setToi_4(editedTutor.schedules.toi_4);
+      setSang_5(editedTutor.schedules.sang_5);
+      setChieu_5(editedTutor.schedules.chieu_5);
+      setToi_5(editedTutor.schedules.toi_5);
+      setSang_6(editedTutor.schedules.sang_6);
+      setChieu_6(editedTutor.schedules.chieu_6);
+      setToi_6(editedTutor.schedules.toi_6);
+      setSang_7(editedTutor.schedules.sang_7);
+      setChieu_7(editedTutor.schedules.chieu_7);
+      setToi_7(editedTutor.schedules.toi_7);
+      setSang_8(editedTutor.schedules.sang_8);
+      setChieu_8(editedTutor.schedules.chieu_8);
+      setToi_8(editedTutor.schedules.toi_8);
+    }
+  }, [editedTutor, a]);
+
+  // const [avatar, setAvatar] = useState(editedTutor.avatar);
+  // const [name, setName] = useState(editedTutor.name);
+  // const [age, setAge] = useState(editedTutor.age);
+  // const [subject, setSubject] = useState(editedTutor.subject[0]);
+  // const [grade, setGrade] = useState(editedTutor.grade[0]);
+  // const [phonenumber, setPhonenumber] = useState(editedTutor.phonenumber);
+  // const [address, setAddress] = useState(editedTutor.address);
+  // const [qualification, setQualification] = useState(editedTutor.qualification);
+  // const [description, setDescription] = useState(editedTutor.description);
+
+  // const [sang_2, setSang_2] = useState(editedTutor.schedules.sang_2);
+  // const [chieu_2, setChieu_2] = useState(editedTutor.schedules.chieu_2);
+  // const [toi_2, setToi_2] = useState(editedTutor.schedules.toi_2);
+  // const [sang_3, setSang_3] = useState(editedTutor.schedules.sang_3);
+  // const [chieu_3, setChieu_3] = useState(editedTutor.schedules.chieu_3);
+  // const [toi_3, setToi_3] = useState(editedTutor.schedules.toi_3);
+  // const [sang_4, setSang_4] = useState(editedTutor.schedules.sang_4);
+  // const [chieu_4, setChieu_4] = useState(editedTutor.schedules.chieu_4);
+  // const [toi_4, setToi_4] = useState(editedTutor.schedules.toi_4);
+  // const [sang_5, setSang_5] = useState(editedTutor.schedules.sang_5);
+  // const [chieu_5, setChieu_5] = useState(editedTutor.schedules.chieu_5);
+  // const [toi_5, setToi_5] = useState(editedTutor.schedules.toi_5);
+  // const [sang_6, setSang_6] = useState(editedTutor.schedules.sang_6);
+  // const [chieu_6, setChieu_6] = useState(editedTutor.schedules.chieu_6);
+  // const [toi_6, setToi_6] = useState(editedTutor.schedules.toi_6);
+  // const [sang_7, setSang_7] = useState(editedTutor.schedules.sang_7);
+  // const [chieu_7, setChieu_7] = useState(editedTutor.schedules.chieu_7);
+  // const [toi_7, setToi_7] = useState(editedTutor.schedules.toi_7);
+  // const [sang_8, setSang_8] = useState(editedTutor.schedules.sang_8);
+  // const [chieu_8, setChieu_8] = useState(editedTutor.schedules.chieu_8);
+  // const [toi_8, setToi_8] = useState(editedTutor.schedules.toi_8);
+
+  const optionAddress = (
+    <>
+      <option value="" hidden>
+        Địa chỉ
+      </option>
+      <option value={"Liên Chiểu"}>Liên Chiểu</option>
+      <option value={"Ngũ Hành Sơn"}>Ngũ Hành Sơn</option>
+      <option value={"Sơn Trà"}>Sơn Trà</option>
+      <option value={"Thanh Khê"}>Thanh Khê</option>
+      <option value={"Hoà Vang"}>Hoà Vang</option>
+      <option value={"Hải Châu"}>Hải Châu</option>
+    </>
+  );
+
+  // const optionSubject = (
+  //   <>
+  //     <option value={"Toán"}>Toán</option>
+  //     <option value={"Lý"}>Lý</option>
+  //     <option value={"Hóa"}>Hóa</option>
+  //     <option value={"Tiếng Anh"}>Tiếng Anh</option>
+  //     <option value={"Ngữ Văn"}>Văn</option>
+  //     <option value={"Tiếng Việt"}>Tiếng Việt</option>
+  //     <option value={"Lịch sử"}>Lịch sử</option>
+  //     <option value={"Địa lý"}>Địa lý</option>
+  //     <option value={"Sinh"}>Sinh</option>
+  //   </>
+  // );
+
+  // const optionGrade = (
+  //   <>
+  //     <option value={"Lớp 1"}>lớp 1</option>
+  //     <option value={"Lớp 2"}>lớp 2</option>
+  //     <option value={"Lớp 3"}>lớp 3</option>
+  //     <option value={"Lớp 4"}>lớp 4</option>
+  //     <option value={"Lớp 5"}>lớp 5</option>
+  //     <option value={"Lớp 6"}>lớp 6</option>
+  //     <option value={"Lớp 7"}>lớp 7</option>
+  //     <option value={"Lớp 8"}>lớp 8</option>
+  //     <option value={"Lớp 9"}>lớp 9</option>
+  //     <option value={"Lớp 10"}>lớp 10</option>
+  //     <option value={"Lớp 11"}>lớp 11</option>
+  //     <option value={"Lớp 12"}>lớp 12</option>
+  //   </>
+  // );
+  const optionSubject = [
+    { label: "Toán ", value: "Toán" },
+    { label: "Lý ", value: "Lý" },
+    { label: "Hóa", value: "Hóa" },
+    { label: "Tiếng Anh", value: "Tiếng Anh" },
+    { label: "Ngữ Văn", value: "Ngữ Văn" },
+    { label: "Tiếng Việt", value: "Tiếng Việt" },
+    { label: "Lịch Sử", value: "Lịch Sử" },
+  ];
+  const optionGrade = [
+    { label: "Lớp 1", value: "Lớp 1" },
+    { label: "Lớp 2", value: "Lớp 2" },
+    { label: "Lớp 3", value: "Lớp 3" },
+    { label: "Lớp 4", value: "Lớp 4" },
+    { label: "Lớp 5", value: "Lớp 5" },
+    { label: "Lớp 6", value: "Lớp 6" },
+    { label: "Lớp 7", value: "Lớp 7" },
+    { label: "Lớp 8", value: "Lớp 8" },
+    { label: "Lớp 9", value: "Lớp 9" },
+    { label: "Lớp 10", value: "Lớp 10" },
+    { label: "Lớp 11", value: "Lớp 11" },
+    { label: "Lớp 12", value: "Lớp 12" },
+  ];
+
+  const edittutor = async (e) => {
+    let listSubject = [];
+    for (const a of subject) {
+      listSubject.push(a.value);
+    }
+    let listGrade = [];
+    for (const a of grade) {
+      listGrade.push(a.value);
+    }
+    e.preventDefault();
+    const k = {
+      name,
+      age,
+      gender: Number(gender),
+      grade: listGrade,
+      subject: listSubject,
+      phonenumber,
+      address,
+      qualification,
+      description,
+      schedules: {
+        sang_2,
+        chieu_2,
+        toi_2,
+        sang_3,
+        chieu_3,
+        toi_3,
+        sang_4,
+        chieu_4,
+        toi_4,
+        sang_5,
+        chieu_5,
+        toi_5,
+        sang_6,
+        chieu_6,
+        toi_6,
+        sang_7,
+        chieu_7,
+        toi_7,
+        sang_8,
+        chieu_8,
+        toi_8,
+      },
+    };
+    console.log(k);
+    // alert(JSON.stringify(k));
+
+    await UpdateProfile(dispatch, k);
+    setA(!a);
+    history.push("/updatetutor");
   };
 
-  console.log(initialValues);
+  const update_avatar = async () => {
+    // Create an object of formData
+    const formData = new FormData();
 
-  return (
+    // Update the formData object
+    formData.append(
+      "file",
+      avatar
+      // avatar.name,
+    );
+    // Details of the uploaded file
+    console.log("update avatar", avatar);
+    await UpdateAvatar(dispatch, formData);
+    setA(!a);
+    // history.push("/updatetutor");
+  };
+
+  //  const  imageHandler = (e) => {
+  //     const reader = new FileReader();
+  //     reader.onload = () =>{
+  //       if(reader.readyState === 2){
+  //         setAvatar(reader.result )
+  //       }
+  //     }
+  //     reader.readAsDataURL(e.target.files[0])
+
+  //   };
+
+  return !editedTutor ? (
+    <span>Loading...</span>
+  ) : (
     <>
+      <ToastContainer />
       <Layout>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={(values) => {
-            const {
-              name,
-              avatar,
-              qualification,
-              grade,
-              subject,
-              price,
-              phonenumber,
-              address,
-              description,
-              schedules,
-            } = { ...values };
-            const k = {
-              // id: postId,
-              // idStudent,
-              // title,
-              name,
-              avatar,
-              qualification,
-              grade: [grade],
-              subjects: [subject],
-              // price,
-              phonenumber,
-              address,
-              description,
-              schedule: schedules,
-            };
-            // console.log("valueeee", values);
-            UpdateMyTutor(dispatch, k);
-            history.push("/updatetutor");
-          }}
-          validationSchema={Yup.object({
-            // avartar: Yup.string().required("Required"),
-            // grade: Yup.string().required("Required"),
-            // subject: Yup.string().required("Required"),
-            // name: Yup.string().required("Required"),
-            // price: Yup.string().required("Required"),
-            // phonenumber: Yup.number().required("Required").nullable(),
-            // address: Yup.string().required("Required"),
-            // time: Yup.string().required("Required"),
-            // description: Yup.string().required("Required"),
-            // qualification: Yup.string().required("Required"),
-          })}
-        >
-          {({
-            isSubmitting,
-            values,
-            /* and other goodies */
-          }) => (
-            <div
-              style={{
-                paddingLeft: "100px",
-                paddingRight: "100px",
-              }}
-            >
-              <div>
-                {/*Menu trái*/}
-                <div
-                  className="col-md-3 "
-                  style={{
-                    paddingTop: "20px",
-                  }}
-                >
-                  <div>
-                    <ul id="accordion" className="accordion">
-                      <li>
-                        <div className="link">
-                          <i
-                            className="fa fa-graduation-cap"
-                            aria-hidden="true"
+        <form className="app__container" onSubmit={edittutor}>
+          <div className="grid">
+            <h2 className="addpost__heading">CẬP NHẬT THÔNG TIN GIA SƯ</h2>
+            <div className="addpost__separate" />
+            <div className="addpost__content">
+              <div className>
+                <div className="grid__row">
+                  <div className="grid__column-6">
+                    <div className="tutor-avatar">
+                      <span>Ảnh đại diện ( chụp một mình,nhìn rõ mặt )</span>
+                      <div className="tutor-container ">
+                        <img
+                          src={
+                            avatar
+                              ? avatar
+                              : "../../../../assets/img/avatar.jpg"
+                          }
+                          // preview="$avatar"
+                          alt=""
+                          className="tutor-info-image"
+                        />
+                        <label>
+                          <i className="fa fa-camera hidden" />
+                          <input
+                            type="file"
+                            className="hidden"
+                            accept="image/*"
+                            id="avatar"
+                            name="avatar"
+                            file-upload
+                            // onChange={imageHandler}
+                            onChange={(e) => setAvatar(e.target.files[0])}
                           />
-                          Quản lý yêu cầu
-                        </div>
-                      </li>
-                      <li>
-                        <div className="link">
-                          <i className="fa fa-comments" />
-                          <a href="/hoang-long-nhat/messages">
-                            Hội thoại và tin nhắn
-                          </a>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="link">
-                          <i className="fa fa-bell" aria-hidden="true" />
-                          Thông báo
-                        </div>
-                      </li>
-                      <li>
-                        <div className="link">
-                          <i
-                            className="fa fa-pencil-square"
-                            aria-hidden="true"
-                          />
-                          Bài viết
-                        </div>
-                      </li>
-                      <li>
-                        <div className="link">
-                          <i className="fa fa-heart-saved" />
-                          Đã lưu
-                        </div>
-                      </li>
-                      <li>
-                        <div className="link">
-                          <i className="fa fa-btc" />
-                          <a href="/hoang-long-nhat/bpoint">Quản lý BPoint</a>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="link">
-                          <i className="fa fa-flag" aria-hidden="true" />
-                          Thông tin cá nhân
-                        </div>
-                      </li>
-                    </ul>
+                        </label>
+                        <button
+                          className="btn notify-item__accept-link "
+                          onClick={update_avatar}
+                        >
+                          Cập nhật avatar
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                  <div className="grid__column-6">
+                    <div className="form__group">
+                      <div className="form__lable">Họ và tên</div>
+                      <input
+                        type="text"
+                        name="name"
+                        className="form__input"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="form__group">
+                      <div className="form__lable">Tuổi</div>
+                      <input
+                        type="number"
+                        name="age"
+                        className="form__input"
+                        value={age}
+                        onChange={(e) => setAge(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="form__group">
+                      <div className="form__lable">Giới tính</div>
+                      <select
+                        name="gender"
+                        id
+                        className="form__input"
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
+                        required
+                      >
+                        <option value="" hidden>
+                          Giới tính
+                        </option>
+                        <option value="0">Nam</option>
+                        <option value="1">Nữ</option>
+                        <option value="2">khác</option>
+                      </select>
+                    </div>
+                    <div className="form__group">
+                      <div className="form__lable">Số điện thoại</div>
+                      <input
+                        type="number"
+                        name="phonenumber"
+                        className="form__input"
+                        value={phonenumber}
+                        onChange={(e) => setPhonenumber(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="grid__column-6">
+                    <div className="form__group">
+                      <div className="form__lable">Môn học</div>
+                      {/* <select
+                        name="subject"
+                        id
+                        className="form__input"
+                        value={subject}
+                        onChange={(e) => setSubject(e.target.value)}
+                        required
+                      >
+                        <option value selected hidden>
+                          Môn
+                        </option>
+                        {optionSubject}
+                      </select> */}
+                      <MultiSelect
+                        options={optionSubject}
+                        value={subject}
+                        onChange={setSubject}
+                        className="form__input-select"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="grid__column-6">
+                    <div className="form__group">
+                      <div className="form__lable">Lớp</div>
+                      {/* <select
+                        name="grade"
+                        id
+                        className="form__input"
+                        value={grade}
+                        onChange={(e) => setGrade(e.target.value)}
+                        required
+                      >
+                        <option value selected hidden>
+                          Lớp
+                        </option>
+                        {optionGrade}
+                      </select> */}
+                      <MultiSelect
+                        options={optionGrade}
+                        value={grade}
+                        onChange={setGrade}
+                        className="form__input-select"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="grid__column-6">
+                    <div className="form__group">
+                      <div className="form__lable">Địa chỉ</div>
+                      <select
+                        name="address"
+                        id
+                        className="form__input"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        required
+                      >
+                        {optionAddress}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="grid__column-6">
+                    <div className="form__group">
+                      <div className="form__lable">Bạn đang làm nghề gì</div>
+                      <input
+                        type="qualification"
+                        name="price"
+                        className="form__input"
+                        value={qualification}
+                        onChange={(e) => setQualification(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="grid__column-12">
+                    <div className="form__group">
+                      <div className="form__lable">
+                        Mô tả chi tiết nội dung muốn học
+                      </div>
+                      <textarea
+                        name="description"
+                        cols={30}
+                        rows={6}
+                        className="form__input"
+                        onChange={(e) => setDescription(e.target.value)}
+                        required
+                        value={description}
+                      >
+                        {description}
+                      </textarea>
+                    </div>
+                  </div>
+                  <div className="grid__column-12">
+                    <div className="form__group">
+                      <div className="form__lable">Thời gian có thể dạy</div>
+                      <div className="calendar-commment">
+                        ( Màu XANH hiển thị những lịch có thể dạy )
+                      </div>
 
-                <div
-                  className=" region region-content "
-                  // id="ajax-content-user-load"
-                  style={{ padding: 0 }}
-                >
-                  <div className="" style={{ marginBottom: "20px" }}>
-                    <div className="gform form-article form-product form-nhom-hoc">
-                      <div className="body-form">
-                        <div className="row" style={{ margin: 0 }}>
-                          <Form action="" method="post">
-                            <div className="col-md-1 "></div>
-                            <div
-                              className="col-md-9 col-sm-12"
-                              style={{ padding: "0 !important" }}
-                            >
-                              <div
-                                className="left-class-create bla-common-shadow"
-                                style={{ margin: "unset" }}
+                      <div className="calender">
+                        <div className="calendar__row">
+                          <h3 className="calendar__heading">Thứ 2</h3>
+                          <ul className="calendar-list">
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  sang_2
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
                               >
-                                <div className="header-form">
-                                  <h2 style={{ margin: 0, fontSize: "24px" }}>
-                                    Thông tin gia sư
-                                  </h2>
-                                </div>
-                                {/* <div className="row info-step-5 info-step group-row">
-                                <h3> Ảnh xác nhận thông tin gia sư</h3>
-                                <div className="verifired-img">
-                                  <div className="col-md-4">
-                                    <div className="row">
-                                      <div className="col-md-12">
-                                        <label className="title-update">
-                                          ẢNH ĐẠI DIỆN (PHẢI RÕ MẶT, CHỤP MỘT
-                                          MÌNH){" "}
-                                          <span className="teacher-alert">
-                                            *
-                                          </span>
-                                        </label>
-                                        <img
-                                          id="show_avatar"
-                                          className="show_avatar_default"
-                                          src="https://d1plicc6iqzi9y.cloudfront.net/sites/all/themes/blacasa/images/default/default_user.png"
-                                        />
-                                        <div className="box">
-                                          <input
-                                            type="file"
-                                            name="edit_avatar_account"
-                                            className="inputfile"
-                                            id="edit_avatar_account"
-                                            onchange="return ajax_update_image('edit_avatar_account','show_avatar',624,'/ajax-update-image/avatar/36379')"
-                                          />
-                                          <label htmlFor="edit_avatar_account">
-                                            <svg
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              width={20}
-                                              height={17}
-                                              viewBox="0 0 20 17"
-                                            >
-                                              <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z" />
-                                            </svg>{" "}
-                                            <span>Chọn ảnh…</span>
-                                          </label>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div> */}
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="sang_2"
+                                  value={sang_2}
+                                  onChange={() => setSang_2(!sang_2)}
+                                />
+                                Sáng
+                              </label>
+                            </li>
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  chieu_2
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="chieu_2"
+                                  onChange={() => setChieu_2(!chieu_2)}
+                                />
+                                Chiều
+                              </label>
+                            </li>
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  toi_2
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="toi_2"
+                                  onChange={() => setToi_2(!toi_2)}
+                                />
+                                Tối
+                              </label>
+                            </li>
+                          </ul>
+                        </div>
 
-                                {/*Tóm tắt + môn học + chủ đề*/}
-                                <div className="group-row">
-                                  <div className="row">
-                                    <div className="col-md-12 class-field">
-                                      <p className="p-create-class-title">
-                                        Họ và tên{" "}
-                                        <span className="class-field-alert">
-                                          *
-                                        </span>
-                                      </p>
+                        <div className="calendar__row">
+                          <h3 className="calendar__heading">Thứ 3</h3>
+                          <ul className="calendar-list">
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  sang_3
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="sang_3"
+                                  onChange={() => setSang_3(!sang_3)}
+                                />
+                                Sáng
+                              </label>
+                            </li>
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  chieu_3
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="chieu_3"
+                                  onChange={() => setChieu_3(!chieu_3)}
+                                />
+                                Chiều
+                              </label>
+                            </li>
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  toi_3
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="toi_3"
+                                  onChange={() => setToi_3(!toi_3)}
+                                />
+                                Tối
+                              </label>
+                            </li>
+                          </ul>
+                        </div>
 
-                                      <Field
-                                        name="name"
-                                        type="text"
-                                        placeholder="Ho va ten"
-                                      />
-                                      <div style={{ color: "red" }}>
-                                        <ErrorMessage name="name" />
-                                      </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                      <div className="class-field-5 class-field">
-                                        <p className="p-create-class-title">
-                                          Điện thoại liên hệ{" "}
-                                          <span className="class-field-alert">
-                                            *
-                                          </span>
-                                        </p>
+                        <div className="calendar__row">
+                          <h3 className="calendar__heading">Thứ 4</h3>
+                          <ul className="calendar-list">
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  sang_4
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="sang_4"
+                                  onChange={() => setSang_4(!sang_4)}
+                                  defaultValue="sang_4"
+                                />
+                                Sáng
+                              </label>
+                            </li>
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  chieu_4
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="chieu_4"
+                                  defaultValue="chieu_4"
+                                  onChange={() => setChieu_4(!chieu_4)}
+                                />
+                                Chiều
+                              </label>
+                            </li>
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  toi_4
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="toi_4"
+                                  defaultValue="toi_4"
+                                  onChange={() => setToi_4(!toi_4)}
+                                />
+                                Tối
+                              </label>
+                            </li>
+                          </ul>
+                        </div>
 
-                                        <Field
-                                          name="phonenumber"
-                                          type="text"
-                                          placeholder="Ví dụ: 091234567"
-                                        />
-                                        <div style={{ color: "red" }}>
-                                          <ErrorMessage name="phonenumber" />
-                                        </div>
-                                      </div>
-                                    </div>
-                                    {/*Môn học*/}
-                                    <div className="col-md-6">
-                                      <div className="class-field-4 class-field">
-                                        <p className="p-create-class-title">
-                                          Môn học{" "}
-                                          <span className="class-field-alert">
-                                            *
-                                          </span>
-                                        </p>
+                        <div className="calendar__row">
+                          <h3 className="calendar__heading">Thứ 5</h3>
+                          <ul className="calendar-list">
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  sang_5
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="sang_5"
+                                  defaultValue="sang_5"
+                                  onChange={() => setSang_5(!sang_5)}
+                                />
+                                Sáng
+                              </label>
+                            </li>
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  chieu_5
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="chieu_5"
+                                  defaultValue="chieu_5"
+                                  onChange={() => setChieu_5(!chieu_5)}
+                                />
+                                Chiều
+                              </label>
+                            </li>
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  toi_5
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="toi_5"
+                                  defaultValue="toi_5"
+                                  onChange={() => setToi_5(!toi_5)}
+                                />
+                                Tối
+                              </label>
+                            </li>
+                          </ul>
+                        </div>
 
-                                        <Field name="subject" as="select">
-                                          <option value></option>
-                                          <optgroup label="Môn học phổ thông">
-                                            <option value={"Toán"}>Toán</option>
-                                            <option value={"Lý"}>Lý</option>
-                                            <option value={"Hóa"}>Hóa</option>
-                                            <option value={"Tiếng Anh"}>
-                                              Tiếng Anh
-                                            </option>
-                                            <option value={"Ngữ Văn"}>
-                                              Văn
-                                            </option>
-                                            <option value={"Tiếng Việt"}>
-                                              Tiếng Việt
-                                            </option>
-                                            <option value={"Lịch sử"}>
-                                              Lịch sử
-                                            </option>
-                                            <option value={"Địa lý"}>
-                                              Địa lý
-                                            </option>
-                                            <option value={"Sinh"}>Sinh</option>
-                                            <option value={"Khác"}>khác</option>
-                                          </optgroup>
-                                        </Field>
-                                        <div style={{ color: "red" }}>
-                                          <ErrorMessage name="subject" />
-                                        </div>
-                                      </div>
-                                    </div>
+                        <div className="calendar__row">
+                          <h3 className="calendar__heading">Thứ 6</h3>
+                          <ul className="calendar-list">
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  sang_6
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="sang_6"
+                                  defaultValue="sang_6"
+                                  onChange={() => setSang_6(!sang_6)}
+                                />
+                                Sáng
+                              </label>
+                            </li>
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  chieu_6
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="chieu_6"
+                                  defaultValue="chieu_6"
+                                  onChange={() => setChieu_6(!chieu_6)}
+                                />
+                                Chiều
+                              </label>
+                            </li>
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  toi_6
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="toi_6"
+                                  defaultValue="toi_6"
+                                  onChange={() => setToi_6(!toi_6)}
+                                />
+                                Tối
+                              </label>
+                            </li>
+                          </ul>
+                        </div>
 
-                                    <div className="col-md-6">
-                                      <div className="class-field-4 class-field">
-                                        <p className="p-create-class-title">
-                                          Lớp{" "}
-                                          <span className="class-field-alert">
-                                            *
-                                          </span>
-                                        </p>
+                        <div className="calendar__row">
+                          <h3 className="calendar__heading">Thứ 7</h3>
+                          <ul className="calendar-list">
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  sang_7
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="sang_7"
+                                  defaultValue="sang_7"
+                                  onChange={() => setSang_7(!sang_7)}
+                                />
+                                Sáng
+                              </label>
+                            </li>
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  chieu_7
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="chieu_7"
+                                  defaultValue="chieu_7"
+                                  onChange={() => setChieu_7(!chieu_7)}
+                                />
+                                Chiều
+                              </label>
+                            </li>
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  toi_7
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="toi_7"
+                                  defaultValue="toi_7"
+                                  onChange={() => setToi_7(!toi_7)}
+                                />
+                                Tối
+                              </label>
+                            </li>
+                          </ul>
+                        </div>
 
-                                        <Field name="grade" as="select">
-                                          <option value></option>
-                                          <optgroup label="cấp 1">
-                                            <option value={"Lớp 1"}>
-                                              lớp 1
-                                            </option>
-                                            <option value={"Lớp 2"}>
-                                              lớp 2
-                                            </option>
-                                            <option value={"Lớp 3"}>
-                                              lớp 3
-                                            </option>
-                                            <option value={"Lớp 4"}>
-                                              lớp 4
-                                            </option>
-                                            <option value={"Lớp 5"}>
-                                              lớp 5
-                                            </option>
-                                          </optgroup>
-                                          <optgroup label="cấp 2">
-                                            <option value={"Lớp 6"}>
-                                              lớp 6
-                                            </option>
-                                            <option value={"Lớp 7"}>
-                                              lớp 7
-                                            </option>
-                                            <option value={"Lớp 8"}>
-                                              lớp 8
-                                            </option>
-                                            <option value={"Lớp 9"}>
-                                              lớp 9
-                                            </option>
-                                          </optgroup>
-                                          <optgroup label="cấp 3">
-                                            <option value={"Lớp 10"}>
-                                              lớp 10
-                                            </option>
-                                            <option value={"Lớp 11"}>
-                                              lớp 11
-                                            </option>
-                                            <option value={"Lớp 12"}>
-                                              lớp 12
-                                            </option>
-                                          </optgroup>
-                                        </Field>
-                                        <div style={{ color: "red" }}>
-                                          <ErrorMessage name="grade" />
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    {/*Chủ đề liên quan*/}
-                                    <div className="col-md-12">
-                                      <div className="group-tag"></div>
-                                    </div>
-                                  </div>
-                                </div>
-                                {/*Thông tin học phí, số giờ học, phone, place*/}
-                                <div className="group-row">
-                                  <div className="row">
-                                    <div className="col-md-6">
-                                      <div className="class-field-7 class-field class-address">
-                                        <p className="p-create-class-title">
-                                          Địa chỉ cụ thể diễn ra lớp học{" "}
-                                          <span className="class-field-alert">
-                                            *
-                                          </span>
-                                        </p>
-
-                                        <Field name="address" as="select">
-                                          <option value></option>
-                                          <option value={"Liên Chiểu"}>
-                                            Liên Chiểu
-                                          </option>
-                                          <option value={"Ngũ Hành Sơn"}>
-                                            Ngũ Hành Sơn
-                                          </option>
-                                          <option value={"Sơn Trà"}>
-                                            Sơn Trà
-                                          </option>
-                                          <option value={"Thanh Khê"}>
-                                            Thanh Khê
-                                          </option>
-                                          <option value={"Hoà Vang"}>
-                                            Hoà Vang
-                                          </option>
-                                          <option value={"Hải Châu"}>
-                                            Hải Châu
-                                          </option>
-                                        </Field>
-                                        <div style={{ color: "red" }}>
-                                          <ErrorMessage name="address" />
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                      <div className="class-field-4 class-field">
-                                        <p className="p-create-class-title">
-                                          Bạn là{" "}
-                                          <span className="class-field-alert">
-                                            *
-                                          </span>
-                                        </p>
-
-                                        <Field name="qualification" as="select">
-                                          <option value>
-                                            ban lam nghe gi???
-                                          </option>
-
-                                          <option value={"Sinh Viên"}>
-                                            Sinh viên
-                                          </option>
-                                          <option value={"Giáo Viên"}>
-                                            Giáo viên
-                                          </option>
-                                          <option value={"Thạc Sĩ"}>
-                                            Thạc sĩ
-                                          </option>
-                                          <option value={"Người đã đi làm"}>
-                                            Người đã đi làm
-                                          </option>
-                                        </Field>
-                                        <div style={{ color: "red" }}>
-                                          <ErrorMessage name="qualification" />
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  {/*address*/}
-                                </div>
-                                {/*Mô tả chi tiết nội dung  học*/}
-                                <div className="group-row">
-                                  <div className="row">
-                                    <div className="col-md-12">
-                                      <div className="class-field-12 class-field">
-                                        <p className="p-create-class-title">
-                                          <i
-                                            className="fa fa-quote-right"
-                                            aria-hidden="true"
-                                          />
-                                          Mô tả chi tiết bản thân{" "}
-                                          <span className="class-field-alert">
-                                            *
-                                          </span>
-                                        </p>
-
-                                        <Field
-                                          id="introduce-class"
-                                          name="description"
-                                          as="textarea"
-                                          placeholder="Mô tả các nội dung muốn học tại đây... "
-                                        />
-                                        <div style={{ color: "red" }}>
-                                          <ErrorMessage name="description" />
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div className="col-md-12">
-                                      <p className="p-create-class-title">
-                                        <i
-                                          className="fa fa-calendar"
-                                          aria-hidden="true"
-                                        />{" "}
-                                        Thời gian có thể học
-                                      </p>
-
-                                      <div className="calendar-list-picker">
-                                        <div className="row-calendar-check">
-                                          <h4>Thứ 2</h4>
-                                          <ul>
-                                            <li>
-                                              <label
-                                                htmlFor="morning-calendar-2"
-                                                className={
-                                                  values.schedules.sang_2
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Sáng
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="morning-calendar-2"
-                                                type="checkbox"
-                                                name="schedules.sang_2"
-                                                // value={sang_2}
-                                                // defaultValue={sang_2}
-                                                // onChange={() => setSang_2(!sang_2)}
-                                              />
-                                            </li>
-                                            <li>
-                                              <label
-                                                htmlFor="afternoon-calendar-2"
-                                                className={
-                                                  values.schedules.chieu_2
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Chiều
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="afternoon-calendar-2"
-                                                type="checkbox"
-                                                name="schedules.chieu_2"
-                                                // defaultValue="chieu_2"
-                                                // onChange={() => setChieu_2(!chieu_2)}
-                                              />
-                                            </li>
-                                            <li>
-                                              <label
-                                                htmlFor="evening-calendar-2"
-                                                className={
-                                                  values.schedules.toi_2
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Tối
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="evening-calendar-2"
-                                                type="checkbox"
-                                                name="schedules.toi_2"
-                                                // defaultValue="toi_2"
-                                                // onChange={() => setToi_2(!toi_2)}
-                                              />
-                                            </li>
-                                          </ul>
-                                        </div>
-                                        <div className="row-calendar-check">
-                                          <h4>Thứ 3</h4>
-                                          <ul>
-                                            <li>
-                                              <label
-                                                htmlFor="morning-calendar-3"
-                                                className={
-                                                  values.schedules.sang_3
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Sáng
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="morning-calendar-3"
-                                                type="checkbox"
-                                                name="schedules.sang_3"
-                                                // defaultValue="sang_3"
-                                                // onChange={() => setSang_3(!sang_3)}
-                                              />
-                                            </li>
-                                            <li>
-                                              <label
-                                                htmlFor="afternoon-calendar-3"
-                                                className={
-                                                  values.schedules.chieu_3
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Chiều
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="afternoon-calendar-3"
-                                                type="checkbox"
-                                                name="schedules.chieu_3"
-                                                // defaultValue="chieu_3"
-                                                // onChange={() => setChieu_3(!chieu_3)}
-                                              />
-                                            </li>
-                                            <li>
-                                              <label
-                                                htmlFor="evening-calendar-3"
-                                                className={
-                                                  values.schedules.toi_3
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Tối
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="evening-calendar-3"
-                                                type="checkbox"
-                                                name="schedules.toi_3"
-                                                // defaultValue="toi_3"
-                                                // onChange={() => setToi_3(!toi_3)}
-                                              />
-                                            </li>
-                                          </ul>
-                                        </div>
-                                        <div className="row-calendar-check">
-                                          <h4>Thứ 4</h4>
-                                          <ul>
-                                            <li>
-                                              <label
-                                                htmlFor="morning-calendar-4"
-                                                className={
-                                                  values.schedules.sang_4
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Sáng
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="morning-calendar-4"
-                                                type="checkbox"
-                                                name="schedules.sang_4"
-                                                // defaultValue="sang_4"
-                                                // onChange={() => setSang_4(!sang_4)}
-                                              />
-                                            </li>
-                                            <li>
-                                              <label
-                                                htmlFor="afternoon-calendar-4"
-                                                className={
-                                                  values.schedules.chieu_4
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Chiều
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="afternoon-calendar-4"
-                                                type="checkbox"
-                                                name="schedules.chieu_4"
-                                                // defaultValue="chieu_4"
-                                                // onChange={() => setChieu_4(!chieu_4)}
-                                              />
-                                            </li>
-                                            <li>
-                                              <label
-                                                htmlFor="evening-calendar-4"
-                                                className={
-                                                  values.schedules.toi_4
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Tối
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="evening-calendar-4"
-                                                type="checkbox"
-                                                name="schedules.toi_4"
-                                                // defaultValue="toi_4"
-                                                // onChange={() => setToi_4(!toi_4)}
-                                              />
-                                            </li>
-                                          </ul>
-                                        </div>
-                                        <div className="row-calendar-check">
-                                          <h4>Thứ 5</h4>
-                                          <ul>
-                                            <li>
-                                              <label
-                                                htmlFor="morning-calendar-5"
-                                                className={
-                                                  values.schedules.sang_5
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Sáng
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="morning-calendar-5"
-                                                type="checkbox"
-                                                name="schedules.sang_5"
-                                                // defaultValue="sang_5"
-                                                // onChange={() => setSang_5(!sang_5)}
-                                              />
-                                            </li>
-                                            <li>
-                                              <label
-                                                htmlFor="afternoon-calendar-5"
-                                                className={
-                                                  values.schedules.chieu_5
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Chiều
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="afternoon-calendar-5"
-                                                type="checkbox"
-                                                name="schedules.chieu_5"
-                                                // defaultValue="chieu_5"
-                                                // onChange={() => setChieu_5(!chieu_5)}
-                                              />
-                                            </li>
-                                            <li>
-                                              <label
-                                                htmlFor="evening-calendar-5"
-                                                className={
-                                                  values.schedules.toi_5
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Tối
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="evening-calendar-5"
-                                                type="checkbox"
-                                                name="schedules.toi_5"
-                                                // defaultValue="toi_5"
-                                                // onChange={() => setToi_5(!toi_5)}
-                                              />
-                                            </li>
-                                          </ul>
-                                        </div>
-                                        <div className="row-calendar-check">
-                                          <h4>Thứ 6</h4>
-                                          <ul>
-                                            <li>
-                                              <label
-                                                htmlFor="morning-calendar-6"
-                                                className={
-                                                  values.schedules.sang_6
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Sáng
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="morning-calendar-6"
-                                                type="checkbox"
-                                                name="schedules.sang_6"
-                                                // defaultValue="sang_6"
-                                                // onChange={() => setSang_6(!sang_6)}
-                                              />
-                                            </li>
-                                            <li>
-                                              <label
-                                                htmlFor="afternoon-calendar-6"
-                                                className={
-                                                  values.schedules.chieu_6
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Chiều
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="afternoon-calendar-6"
-                                                type="checkbox"
-                                                name="schedules.chieu_6"
-                                                // defaultValue="chieu_6"
-                                                // onChange={() => setChieu_6(!chieu_6)}
-                                              />
-                                            </li>
-                                            <li>
-                                              <label
-                                                htmlFor="evening-calendar-6"
-                                                className={
-                                                  values.schedules.toi_6
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Tối
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="evening-calendar-6"
-                                                type="checkbox"
-                                                name="schedules.toi_6"
-                                                // defaultValue="toi_6"
-                                                // onChange={() => setToi_6(!toi_6)}
-                                              />
-                                            </li>
-                                          </ul>
-                                        </div>
-                                        <div className="row-calendar-check">
-                                          <h4>Thứ 7</h4>
-                                          <ul>
-                                            <li>
-                                              <label
-                                                htmlFor="morning-calendar-7"
-                                                className={
-                                                  values.schedules.sang_7
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Sáng
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="morning-calendar-7"
-                                                type="checkbox"
-                                                name="schedules.sang_7"
-                                                // defaultValue="sang_7"
-                                                // onChange={() => setSang_7(!sang_7)}
-                                              />
-                                            </li>
-                                            <li>
-                                              <label
-                                                htmlFor="afternoon-calendar-7"
-                                                className={
-                                                  values.schedules.chieu_7
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Chiều
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="afternoon-calendar-7"
-                                                type="checkbox"
-                                                name="schedules.chieu_7"
-                                                // defaultValue="chieu_7"
-                                                // onChange={() => setChieu_7(!chieu_7)}
-                                              />
-                                            </li>
-                                            <li>
-                                              <label
-                                                htmlFor="evening-calendar-7"
-                                                className={
-                                                  values.schedules.toi_7
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Tối
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="evening-calendar-7"
-                                                type="checkbox"
-                                                name="schedules.toi_7"
-                                                // defaultValue="toi_7"
-                                                // onChange={() => setToi_7(!toi_7)}
-                                              />
-                                            </li>
-                                          </ul>
-                                        </div>
-                                        <div className="row-calendar-check">
-                                          <h4>Chủ nhật</h4>
-                                          <ul>
-                                            <li>
-                                              <label
-                                                htmlFor="morning-calendar-8"
-                                                className={
-                                                  values.schedules.sang_8
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Sáng
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="morning-calendar-8"
-                                                type="checkbox"
-                                                name="schedules.sang_8"
-                                                // defaultValue="sang_8"
-                                                // onChange={() => setSang_8(!sang_8)}
-                                              />
-                                            </li>
-                                            <li>
-                                              <label
-                                                htmlFor="afternoon-calendar-8"
-                                                className={
-                                                  values.schedules.chieu_8
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Chiều
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="afternoon-calendar-8"
-                                                type="checkbox"
-                                                name="schedules.chieu_8"
-                                                // defaultValue="chieu_8"
-                                                // onChange={() => setChieu_8(!chieu_8)}
-                                              />
-                                            </li>
-                                            <li>
-                                              <label
-                                                htmlFor="evening-calendar-8"
-                                                className={
-                                                  values.schedules.toi_8
-                                                    ? "lbl-active"
-                                                    : ""
-                                                }
-                                              >
-                                                Tối
-                                              </label>
-                                              <Field
-                                                className="radio-calendar"
-                                                id="evening-calendar-8"
-                                                type="checkbox"
-                                                name="schedules.toi_8"
-                                                // defaultValue="toi_8"
-                                                // onChange={() => setToi_8(!toi_8)}
-                                              />
-                                            </li>
-                                          </ul>
-                                        </div>
-                                      </div>
-
-                                      <div
-                                        style={{
-                                          width: "100%",
-                                          textAlign: "center",
-                                        }}
-                                      >
-                                        <p className="note-calender">
-                                          Bấm để chọn lịch.{" "}
-                                          <span>Màu xanh</span> là những buổi có
-                                          thể học.
-                                        </p>
-                                      </div>
-                                    </div>
-
-                                    <div
-                                      className="row"
-                                      style={{
-                                        textAlign: "center",
-                                        padding: "10px 0",
-                                      }}
-                                    >
-                                      <button
-                                        type="submit"
-                                        className="btn-bla-big btn-yellowblacasa"
-                                      >
-                                        Cập nhật
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </Form>
+                        <div className="calendar__row">
+                          <h3 className="calendar__heading">Chủ nhật</h3>
+                          <ul className="calendar-list">
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  sang_8
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="sang_8"
+                                  defaultValue="sang_8"
+                                  onChange={() => setSang_8(!sang_8)}
+                                />
+                                Sáng
+                              </label>
+                            </li>
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  chieu_8
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="chieu_8"
+                                  defaultValue="chieu_8"
+                                  onChange={() => setChieu_8(!chieu_8)}
+                                />
+                                Chiều
+                              </label>
+                            </li>
+                            <li className="calendar-item">
+                              <label
+                                className={
+                                  toi_8
+                                    ? "calendar-label calendar-active"
+                                    : "calendar-label"
+                                }
+                              >
+                                <input
+                                  className="radio-calendar"
+                                  type="checkbox"
+                                  name="toi_8"
+                                  defaultValue="toi_8"
+                                  onChange={() => setToi_8(!toi_8)}
+                                />
+                                Tối
+                              </label>
+                            </li>
+                          </ul>
                         </div>
                       </div>
-                      {/* /.body-form */}
                     </div>
-                    {/* /.gform */}
                   </div>
+                  <button
+                    className="btn btn--primary addpost-submit"
+                    type="submit"
+                  >
+                    Cập nhật
+                  </button>
                 </div>
               </div>
             </div>
-          )}
-        </Formik>
+          </div>
+        </form>
       </Layout>
     </>
   );

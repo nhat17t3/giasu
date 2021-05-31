@@ -1,295 +1,362 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { logout } from "../../components/auth/authenticationSlice";
 
 const Header = (props) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { isLoggedIn } = useSelector((state) => state.auth);
-  let role = localStorage.getItem('role');
-  // const { roles } = useSelector((state) => state.user.user);
-  // if(typeof roles === 'undefined')  k=['a'];
-  // else k=roles;
-  
-
-  
+  const role = localStorage.getItem("role");
+  const link_img = "/assets/img/avatar.jpg";
 
   return (
     <>
-      <header style={{ background: "rgb(255, 255, 255)" }}>
-        <nav className="navbar navbar-default">
-          <div
-            className="container flex-row-nowrap"
-            style={{ justifyContent: "space-between" }}
-          >
-            <div
-              className="flex-row-nowrap"
-              style={{ justifyContent: "flex-start", flex: "1 0 31px" }}
-            >
-              <div id="main-header-logo"></div>
-              <div
-                action="/"
-                method=""
-                id="blacasa-search-object-form"
-                acceptCharset="UTF-8"
-              >
-                <div>
-                  <div className="navbar-left hidden-xs">
-                    <div className="navbar-form">
-                      <div className="search-header">
-                        <div className="form-item form-type-textfield form-item-key">
-                          <input
-                            placeholder="Tìm gia sư theo môn học và địa điểm"
-                            className="form-control form-text"
-                            type="text"
-                            id="edit-key"
-                            name="key"
-                            size={60}
-                            maxLength={128}
-                            defaultValue=""
-                          />
-                        </div>
-                        <button title="Tìm gia sư">
-                          <i className="fa fa-search" />
-                        </button>
-                        <input
-                          type="hidden"
-                          name="form_build_id"
-                          defaultValue="form-16YwIICXQMVYnPKYqBKYF9I0k1WSfVb9iay1NRsFebI"
+      <header className="header">
+        <div className="grid">
+          <nav className="header__navbar">
+            <ul className="header__navbar-list">
+              <li className="header__navbar-item header__navbar-item--separate">
+                Ứng dụng kết nối gia sư Hoàng Long Nhật
+              </li>
+              <li className="header__navbar-item">
+                <span className="header__navbar-item-title">Kết nối</span>
+                <a href="#" className="header__navbar-icon-link">
+                  <i className="header__navbar-icon fab fa-facebook" />
+                </a>
+                <a href="#" className="header__navbar-icon-link">
+                  <i className="header__navbar-icon fab fa-instagram" />
+                </a>
+              </li>
+            </ul>
+            <ul className="header__navbar-list">
+              <li className="header__navbar-item display-notify">
+                <a href="#" className="header__navbar-item-link">
+                  <i className="header__navbar-icon fas fa-bell" />
+                  Thông báo
+                </a>
+                {/* <div className="header__notify">
+                  <header className="header__notify-header">
+                    <h3>Thông báo mới nhận</h3>
+                  </header>
+                  <ul className="header__notify-list">
+                    <li className="header__notify-item header__notify-item--viewed">
+                      <a href className="header__notify-link">
+                        <img
+                          src="https://cf.shopee.vn/file/91b9efe11c0aa54b4880328d4413a939_tn"
+                          alt=""
+                          className="header__notify-img"
                         />
-                        <input
-                          type="hidden"
-                          name="form_id"
-                          defaultValue="blacasa_search_object_form"
-                        />
-                        <div
-                          className="form-actions form-wrapper"
-                          id="edit-actions--3"
-                        >
-                          <input
-                            className="button form-submit"
-                            type="submit"
-                            id="edit-submit--3"
-                            name="op"
-                          />
+                        <div className="header__notify-info">
+                          <span className="header__notify-name">
+                            Mỹ phẩm chính hãng
+                          </span>
+                          <span className="header__notify-description">
+                            Mô tả sản phầm chính hãng
+                          </span>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="flex-row-nowrap"
-              id="bs-example-navbar-collapse-1"
-              style={{ justifyContent: "flex-end", padding: "0px" }}
-            >
+                      </a>
+                    </li>
+                    <li className="header__notify-item">
+                      <a href className="header__notify-link">
+                        <img
+                          src="https://cf.shopee.vn/file/91b9efe11c0aa54b4880328d4413a939_tn"
+                          alt=""
+                          className="header__notify-img"
+                        />
+                        <div className="header__notify-info">
+                          <span className="header__notify-name">
+                            Mỹ phẩm chính hãng
+                          </span>
+                          <span className="header__notify-description">
+                            Mô tả sản phầm chính hãng
+                          </span>
+                        </div>
+                      </a>
+                    </li>
+                    <li className="header__notify-item">
+                      <a href className="header__notify-link">
+                        <img
+                          src="https://cf.shopee.vn/file/91b9efe11c0aa54b4880328d4413a939_tn"
+                          alt=""
+                          className="header__notify-img"
+                        />
+                        <div className="header__notify-info">
+                          <span className="header__notify-name">
+                            Mỹ phẩm chính hãng
+                          </span>
+                          <span className="header__notify-description">
+                            Mô tả sản phầm chính hãng
+                          </span>
+                        </div>
+                      </a>
+                    </li>
+                    <li className="header__notify-item">
+                      <a href className="header__notify-link">
+                        <img
+                          src="https://cf.shopee.vn/file/91b9efe11c0aa54b4880328d4413a939_tn"
+                          alt=""
+                          className="header__notify-img"
+                        />
+                        <div className="header__notify-info">
+                          <span className="header__notify-name">
+                            Mỹ phẩm chính hãng
+                          </span>
+                          <span className="header__notify-description">
+                            Mô tả sản phầm chính hãng
+                          </span>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
+                  <footer className="header__notify-footer">
+                    <a href className="header__notify-footer-btn">
+                      Xem tất cả
+                    </a>
+                  </footer>
+                </div> */}
+              </li>
+              <li className="header__navbar-item">
+                <a href="#" className="header__navbar-item-link">
+                  <i className="header__navbar-icon far fa-question-circle" />
+                  Trợ giúp
+                </a>
+              </li>
               {!isLoggedIn ? (
-                <ul className="nav navbar-nav navbar-right">
-                  <li>
+                <>
+                  <li class="header__navbar-item  header__navbar-item--separate">
+                    <Link
+                      to="/register"
+                      className="header__navbar-item-link header__navbar-item--strong"
+                    >
+                      Đăng kí
+                    </Link>
+                  </li>
+                  <li class="header__navbar-item header__navbar-item--strong">
                     <Link
                       to="/login"
-                      className="popup-modal link-login "
-                      title="Đăng nhập"
-                      data-toggle="dropdown"
-                      role="button"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                      style={{ border: "none" }}
+                      className="header__navbar-item-link header__navbar-item--strong"
                     >
                       Đăng nhập
                     </Link>
                   </li>
-                  <li>
+                </>
+              ) : (
+                <li className="header__navbar-item header__navbar-user">
+                  {role === "ROLE_STUDENT" ? (
+                    <img
+                      src={link_img}
+                      alt="vv"
+                      className="header__navbar-user-img"
+                    />
+                  ) : (
+                    <img
+                      src={user.avatar ? user.avatar : link_img}
+                      alt=""
+                      className="header__navbar-user-img"
+                    />
+                  )}
+
+                  <span className="header__navbar-user-name">{user.name}</span>
+                  <ul className="header__navbar-user-menu">
+                    {role === "ROLE_TUTOR" ? (
+                      <li className="header__navbar-user-menu-item">
+                        <Link to="/updatetutor">Tài khoản</Link>
+                      </li>
+                    ) : (
+                      <li className="header__navbar-user-menu-item">
+                        <Link to="/updatestudent">Tài khoản</Link>
+                      </li>
+                    )}
+                    <li className="header__navbar-user-menu-item">
+                      <Link to="/updatepass">Đổi mật khẩu</Link>
+                    </li>
+                    {/* <li className="header__navbar-user-menu-item">
+                      <a href="#">Địa chỉ của tôi</a>
+                    </li>
+                    <li className="header__navbar-user-menu-item">
+                      <a href="#">Đơn mua</a>
+                    </li> */}
+                    <li className="header__navbar-user-menu-item">
+                      <a href="/home" onClick={() => dispatch(logout())}>
+                        Đăng xuất
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              )}
+            </ul>
+          </nav>
+          <div className="header-with-search">
+            <div className="header__logo">
+              <img
+                src="./assets/img/logo4.PNG"
+                alt=""
+                className="header__logo-img"
+              />
+            </div>
+            {role === "ROLE_STUDENT" ? (
+              <div className="header__search">
+                <ul className="header__search-list">
+                  <li className="header__search-item">
+                    <Link to="/listpostshare" className="header__search-link">
+                      Lớp mới
+                    </Link>
+                  </li>
+                  <li className="header__search-item">
+                    <Link to="/listtutor" href className="header__search-link">
+                      Tìm gia sư
+                    </Link>
+                  </li>
+
+                  <li className="header__search-item header__search-drop">
+                    <a href className="header__search-link">
+                      Dành cho học sinh
+                      <i className="fas fa-chevron-down" />
+                    </a>
+                    <ul className="header__search-menu">
+                      <li className="header__search-menu-item">
+                        <Link to="/updatestudent">
+                          Cập nhật thông tin học sinh
+                        </Link>
+                      </li>
+                      <li className="header__search-menu-item">
+                        <Link to="/addpost">Đăng bài</Link>
+                      </li>
+                      <li className="header__search-menu-item">
+                        <Link to="/listpost">Quản lí bài đăng</Link>
+                      </li>
+                      <li className="header__search-menu-item">
+                        <Link to="/managesuggestion">
+                          Danh sách đề nghị dạy
+                        </Link>
+                      </li>
+                      <li className="header__search-menu-item">
+                        <Link to="#">more</Link>
+                      </li>
+                    </ul>
+                  </li>
+                  <li className="header__search-item">
                     <Link
-                      to="/register"
-                      className="popup-modal header-main-register link-register"
-                      title="Đăng ký"
+                      to="/notifycation"
+                      href
+                      className="header__search-link"
                     >
-                      Đăng ký
+                      Thông báo
                     </Link>
                   </li>
                 </ul>
-              ) : (
-                // {/* <div className="call-now-header hidden-xs">
-                //   <div className="call-number">
-                //     <div className="call-number-icon">
-                //       <i
-                //         className="fa fa-phone"
-                //         style={{ color: "rgb(255, 255, 255)", fontSize: "36px" }}
-                //       />
-                //     </div>
-                //     <div className="call-info">
-                //       <p style={{ fontSize: "18px" }}>
-                //         <a href="tel:1900636342">1900 63 63 42</a>
-                //       </p>
-                //       <p style={{ fontSize: "10px", textTransform: "uppercase" }}>
-                //         Tư vấn miễn phí
-                //       </p>
-                //     </div>
-                //   </div>
-                // </div> */}
+              </div>
+            ) : role === "ROLE_TUTOR" ? (
+              <div className="header__search">
+                <ul className="header__search-list">
+                  <li className="header__search-item">
+                    <Link to="/listpostshare" className="header__search-link">
+                      Lớp mới
+                    </Link>
+                  </li>
+                  <li className="header__search-item">
+                    <Link to="/listtutor" href className="header__search-link">
+                      Tìm gia sư
+                    </Link>
+                  </li>
 
-                <ul className="nav navbar-nav navbar-right">
-                  {/*Case 1: Đã đăng nhập*/}
-                  {/*user's info; avatar+name*/}
-                  <li className="avatar hidden-xs flex-row-nowrap common-tooltip">
-                    <a>{user.name}</a>
-                  </li>
-                  {/*end avatar and name*/}
-                  {/*user's info; message &  notification*/}
-                  <li className="dropdown notification message-info common-tooltip">
-                    <a
-                      href="#"
-                      className="dropdown-toggle"
-                      data-toggle="dropdown"
-                      role="button"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                      data-type="view_message"
-                    >
-                      <i
-                        className="fa fa-comments header-main-icon"
-                        aria-hidden="true"
-                      />
-                      <div className="count" />
+                  <li className="header__search-item header__search-drop">
+                    <a href className="header__search-link">
+                      Dành cho gia sư
+                      <i className="fas fa-chevron-down" />
                     </a>
+                    <ul className="header__search-menu">
+                      <li className="header__search-menu-item">
+                        <Link to="/updatetutor">Cập nhật thông tin gia sư</Link>
+                      </li>
+                      <li className="header__search-menu-item">
+                        <Link to="/manageinvitation">Danh sách mời dạy</Link>
+                      </li>
+                      <li className="header__search-menu-item">
+                        <Link to="#">more</Link>
+                      </li>
+                    </ul>
                   </li>
-                  {/*Notifications*/}
-                  <li className="dropdown notification notification-info common-tooltip">
-                    {" "}
-                    {/* has-number*/}
-                    <a
-                      href="#"
-                      className="dropdown-toggle"
-                      data-toggle="dropdown"
-                      role="button"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                      data-type="view_notification"
-                    >
-                      <i
-                        className="fa fa-bell header-main-icon"
-                        aria-hidden="true"
-                      />
-                      <div className="count" />
-                    </a>
-                  </li>
-                  {/*end: đã đăng nhập*/}
-                  {/*Case 2: not login, register*/}
-                  {/*Menu on header*/}
 
-                  <li>
-                    <a
-                      href="/home"
-                      onClick={() => dispatch(logout())}
-                      className="popup-modal header-main-register link-register"
+                  <li className="header__search-item">
+                    <Link
+                      to="/notifycation"
+                      href
+                      className="header__search-link"
                     >
-                      Đăng xuất
-                    </a>
+                      Thông báo
+                    </Link>
                   </li>
                 </ul>
-              )}
+              </div>
+            ) : (
+              <div className="header__search">
+                <ul className="header__search-list">
+                  <li className="header__search-item">
+                    <Link to="/listpostshare" className="header__search-link">
+                      Lớp mới
+                    </Link>
+                  </li>
+                  <li className="header__search-item">
+                    <Link to="/listtutor" href className="header__search-link">
+                      Tìm gia sư
+                    </Link>
+                  </li>
+
+                  <li className="header__search-item header__search-drop">
+                    <a href className="header__search-link">
+                      Dành cho gia sư
+                      <i className="fas fa-chevron-down" />
+                    </a>
+                    <ul className="header__search-menu">
+                      <li className="header__search-menu-item">
+                        <Link>Cập nhật thông tin gia sư</Link>
+                      </li>
+                      <li className="header__search-menu-item">
+                        <Link>Danh sách mời dạy</Link>
+                      </li>
+                      <li className="header__search-menu-item">
+                        <Link to="#">more</Link>
+                      </li>
+                    </ul>
+                  </li>
+                  <li className="header__search-item header__search-drop">
+                    <a href className="header__search-link">
+                      Dành cho học sinh
+                      <i className="fas fa-chevron-down" />
+                    </a>
+                    <ul className="header__search-menu">
+                      <li className="header__search-menu-item">
+                        <Link>Cập nhật thông tin học sinh</Link>
+                      </li>
+                      <li className="header__search-menu-item">
+                        <Link>Đăng bài</Link>
+                      </li>
+                      <li className="header__search-menu-item">
+                        <Link>Quản lí bài đăng</Link>
+                      </li>
+                      <li className="header__search-menu-item">
+                        <Link>Danh sách đề nghị dạy</Link>
+                      </li>
+                      <li className="header__search-menu-item">
+                        <Link to="#">more</Link>
+                      </li>
+                    </ul>
+                  </li>
+                  <li className="header__search-item">
+                    <Link href className="header__search-link">
+                      Thông báo
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            )}
+            <div className="header__cart">
+              {/* <i className="header__cart-icon fas fa-cart-plus" /> */}
             </div>
           </div>
-        </nav>
-
-        {(role === "ROLE_STUDENT") ? (
-          <nav id="navbar-scroll">
-            <div className="container" style={{ height: "100%" }}>
-              <div className="row">
-                <ul>
-                  <li>
-                    <Link to="/addpost">
-                      <i className="fa fa-plus-circle" aria-hidden="true" />
-                      <span>Đăng yêu cầu</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/listpost">
-                      <i className="fa fa-book" aria-hidden="true" />
-                      <span>Quan li post</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/listtutor">
-                      <i className="fa fa-search" aria-hidden="true" />
-                      <span>Tìm gia sư</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/listpostshare">
-                      <i className="fa fa-book" aria-hidden="true" />
-                      <span>Danh sach post</span>
-                    </Link>
-                  </li>
-
-                  <li>
-                    <Link to="#">
-                      <i className="fa fa-book" aria-hidden="true" />
-                      <span>My Profile</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/managesuggestion">
-                      <i className="fa fa-book" aria-hidden="true" />
-                      <span>list đề nghị dạy</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/notifycation">
-                      <i className="fa fa-book" aria-hidden="true" />
-                      <span>thông báo</span>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </nav>
-        ) : (
-          <nav id="navbar-scroll">
-            <div className="container" style={{ height: "100%" }}>
-              <div className="row">
-                <ul>
-                  <li>
-                    <Link to="/listpostshare">
-                      <i className="fa fa-book" aria-hidden="true" />
-                      <span>Lớp mới</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/listtutor">
-                      <i className="fa fa-search" aria-hidden="true" />
-                      <span>danh sach gia sư</span>
-                    </Link>
-                  </li>
-
-                  <li>
-                    <Link to="/updatetutor">
-                      <i className="fa fa-book" aria-hidden="true" />
-                      <span>My Profile</span>
-                    </Link>
-                  </li>
-
-                  <li>
-                    <Link to="/manageinvitation">
-                      <i className="fa fa-book" aria-hidden="true" />
-                      <span>danh sách mời dạy</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/notifycation">
-                      <i className="fa fa-book" aria-hidden="true" />
-                      <span>thông báo</span>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </nav>
-        )}
+        </div>
       </header>
     </>
   );

@@ -7,7 +7,6 @@ import authenticationSlice from "../components/auth/authenticationSlice";
 import commentReducer from "../features/comment/CommentSlice";
 import studentReducer from "../features/student/StudentSlice";
 import userReducer from "../components/auth/userSlice";
-import mytutorReducer from "../features/tutor/MyTutorSlice";
 import ToastMiddleware from "../middlewares/ToastMiddleware";
 
 const rootReducer = {
@@ -19,7 +18,6 @@ const rootReducer = {
   comments: commentReducer,
   students: studentReducer,
   user: userReducer,
-  mytutor: mytutorReducer,
 };
 
 const store = configureStore({

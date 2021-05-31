@@ -4,6 +4,8 @@ export const setLoginError = createAction("setLoginError");
 export const setLoginSuccess = createAction("setLoginSuccess");
 export const setSignupError = createAction("setSignupError");
 export const setSignupSuccess = createAction("setSignupSuccess");
+export const setUpdatePassError = createAction("setUpdatePassError");
+export const setUpdatePassSucess = createAction("setUpdatePassSucess");
 
 export const authenticationSlice = createSlice({
   name: "authentication",

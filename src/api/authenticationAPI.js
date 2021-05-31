@@ -4,8 +4,11 @@ import {
   setLoginSuccess,
   setSignupError,
   setSignupSuccess,
-  userAuthenticated
+  userAuthenticated,
+  setUpdatePassError,
+  setUpdatePassSucess,
 } from "../components/auth/authenticationSlice";
+import axiosClient from "./axiosClient";
 import { GetProfile } from "./userApi";
 
 const axiosInstance = axios.create({
@@ -22,7 +25,6 @@ export const SignUp = async (dispatch, credentials) => {
     // };
     console.log(data);
     dispatch(setSignupSuccess());
-
     // dispatch(userAuthenticated(data));
     // GetProfile(dispatch);
   } catch {
@@ -50,5 +52,15 @@ export const SignIn = async (dispatch, credentials) => {
   } catch {
     console.log("Error sign in!");
     dispatch(setLoginError());
+  }
+};
+
+export const UpdatePassword = async (dispatch, pass) => {
+  try {
+    // api call
+    await axiosClient.put(`/api/user/password`, pass);
+    dispatch(setUpdatePassSucess());
+  } catch {
+    dispatch(setUpdatePassError());
   }
 };

@@ -1,173 +1,164 @@
-import React from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { Link, useHistory } from "react-router-dom";
-import { SignUp } from "../../../api/authenticationAPI";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { SignUp } from "../../../api/authenticationAPI";
+import Main from "../../Main";
 
 Register.propTypes = {};
 
 function Register(props) {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const [username, setUsername] = useState("");
+  const [phonenumber, setPhonenumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
+
+  const register = async (e) => {
+    e.preventDefault();
+    const send = {
+      username,
+      phonenumber,
+      email,
+      password,
+      role: [role],
+    };
+    // alert(JSON.stringify(send));
+    await SignUp(dispatch, send);
+    setUsername("");
+    setPhonenumber("");
+    setEmail("");
+    setPassword("");
+    setRole("");
+  };
   return (
     <>
-      <Formik
-        onSubmit={(values, { setSubmitting }) => {
-          const { role, ...rest } = values;
-          const send = {
-            ...rest,
-            role: [role],
-          };
-          // alert(JSON.stringify(send));
-          // setSubmitting = false;
-          SignUp(dispatch, send);
-        }}
-        initialValues={{
-          username: "",
-          email: "",
-          phonenumber: "",
-          password: "",
-          role: "",
-        }}
-        validationSchema={Yup.object({
-          username: Yup.string().required("Required"),
-          email: Yup.string()
-            .required("Required")
-            .email("Invalid email address"),
-          password: Yup.string().required("Required"),
-          phonenumber: Yup.number().required("Required"),
-          role: Yup.string()
-            .oneOf(["student", "tutor"], "Invalid object")
-            .required("Required"),
-        })}
-      >
-        {({
-          isSubmitting,
-          /* and other goodies */
-        }) => (
-          <div className="gform form-article form-product form-nhom-hoc region region-content">
-            <ToastContainer />
-            <div className="body-form">
-              <div className="row" style={{ margin: 0, paddingTop: "100px" }}>
-                <Form action="" method="post">
-                  <div className="col-md-4 "></div>
-                  <div
-                    className="col-md-4 "
-                    // style={{ padding: "0 !important" }}
-                  >
-                    <div
-                      className="left-class-create bla-common-shadow"
-                      style={{ margin: "" }}
-                    >
-                      <div className="header-form">
-                        <h2
-                          style={{
-                            margin: "5px",
-                            fontSize: "24px",
-                            textAlign: "center",
-                          }}
-                        >
-                          Register
-                        </h2>
-                      </div>
-                      <div className="group-row">
-                        <div className=" row">
-                          <div
-                            className="col-md-12 class-field  "
-                            style={{ marginTop: "20px" }}
-                          >
-                            <Field
-                              name="username"
-                              type="text"
-                              placeholder="Username"
-                            />
-                            <div style={{ color: "red" }}>
-                              <ErrorMessage name="username" />
-                            </div>
-                          </div>
-                          <div className="col-md-12 class-field">
-                            <Field
-                              name="email"
-                              type="text"
-                              placeholder="Email"
-                            />
-                            <div style={{ color: "red" }}>
-                              <ErrorMessage name="email" />
-                            </div>
-                          </div>
-                          <div className="col-md-12 class-field">
-                            <Field
-                              name="phonenumber"
-                              type="text"
-                              placeholder="Phonenumber"
-                            />
-                            <div style={{ color: "red" }}>
-                              <ErrorMessage name="phonenumber" />
-                            </div>
-                          </div>
-                          <div className="col-md-12 class-field">
-                            <Field
-                              name="password"
-                              type="password"
-                              placeholder="Password"
-                            />
-                            <div style={{ color: "red" }}>
-                              <ErrorMessage name="password" />
-                            </div>
-                          </div>
-                          <div className="col-md-12 class-field">
-                            <Field name="role" as="select">
-                              <option value>Bạn là học sinh hay gia sư?</option>
-                              <option value="student">Student</option>
-                              <option value="tutor">Tutor</option>
-                            </Field>
-                            <div style={{ color: "red" }}>
-                              <ErrorMessage name="object" />
-                            </div>
-                          </div>
-                          <div
-                            className="col-md-12 class-field"
-                            style={{
-                              textAlign: "end",
-                              marginRight: "25px",
-                              marginBottom: "15px",
-                            }}
-                          >
-                            <Link to="/login">
-                              <p style={{ fontSize: "15px" }}>
-                                You haven an account? Sign in{" "}
-                              </p>
-                            </Link>
-                          </div>
-
-                          <div
-                            className="row"
-                            style={{
-                              textAlign: "center",
-                              paddingBottom: "20px ",
-                            }}
-                          >
-                            <button
-                              type="submit"
-                              className="btn-bla-big btn-yellowblacasa"
-                              style={{ width: "150px" }}
-                              // disabled={isSubmitting}
-                            >
-                              Register
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Form>
+      <ToastContainer />
+      <Main />
+      <div className="modal">
+        <div className="modal__overlay"></div>
+        <div className="modal__body">
+          {/* Register form */}
+          <form className="auth-form" onSubmit={register}>
+            <div className="auth-form__container">
+              <div className="auth-form__header">
+                <h3 className="auth-form__heading">ĐĂNG KÍ</h3>
+                <Link to="/login" className="auth-form__switch-btn">
+                  ĐĂNG NHẬP
+                </Link>
+              </div>
+              <div className="auth-form__form">
+                <div className="auth-form__group">
+                  <input
+                    type="text"
+                    placeholder="Tên đăng nhập"
+                    className="auth-form__input"
+                    name="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="auth-form__group">
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="auth-form__input"
+                    name="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="auth-form__group">
+                  <input
+                    type="number"
+                    placeholder="Số điện thoại"
+                    className="auth-form__input"
+                    name="phonenumber"
+                    value={phonenumber}
+                    onChange={(e) => setPhonenumber(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="auth-form__group">
+                  <input
+                    type="password"
+                    placeholder="Mật khẩu của bạn"
+                    className="auth-form__input"
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                {/* <div class="auth-form__group">
+            <input type="password" placeholder="Nhập lại mật khẩu" class="auth-form__input">
+          </div> */}
+                <select
+                  name="role"
+                  id="role"
+                  className="auth-form__input"
+                  onChange={(e) => setRole(e.target.value)}
+                  required
+                >
+                  <option value="" hidden>
+                    Bạn là Gia sư hay học sinh
+                  </option>
+                  <option value="tutor">Gia sư</option>
+                  <option value="student">Học sinh</option>
+                </select>
+              </div>
+              <div className="auth-form__aside">
+                <p className="auth-form__policy-text">
+                  Bằng việc đăng kí, bạn đã đồng ý với chúng tôi về
+                  <a href="#" className="auth-form__policy-link">
+                    Điều khoản dịch vụ
+                  </a>
+                  và
+                  <a href="#" className="auth-form__policy-link">
+                    Chính sách bảo mật
+                  </a>
+                </p>
+              </div>
+              <div className="auth-form__controls">
+                <Link
+                  to="/home"
+                  className="btn btn--normal auth-form__controls-back  "
+                >
+                  TRỞ LẠI
+                </Link>
+                <button className="btn btn--primary" type="submit">
+                  ĐĂNG KÍ
+                </button>
               </div>
             </div>
-          </div>
-        )}
-      </Formik>
+            <div className="auth-form__socials">
+              <a
+                href="#"
+                className="btn auth-form__socials--facebook  btn--size-s btn--with-icon"
+              >
+                <i className="auth-form__socials-icon fab fa-facebook-square" />
+                <span className="auth-form__socials-label">
+                  Kết nối với Facebook
+                </span>
+              </a>
+              <a
+                href="#"
+                className="btn auth-form__socials--google btn--size-s btn--with-icon"
+              >
+                <i className="auth-form__socials-icon fab fa-google" />
+                <span className="auth-form__socials-label">
+                  Kết nối với Google
+                </span>
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
     </>
   );
 }

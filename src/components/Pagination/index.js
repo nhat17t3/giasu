@@ -1,6 +1,6 @@
 import React from "react";
 
-const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
+const Pagination = ({ postsPerPage, totalPosts, paginate ,currentPage }) => {
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
@@ -8,17 +8,17 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   }
 
   return (
-    <div className="item-list">
-      <ul className="pager">
+    <>
+      <ul className="pagination">
         {pageNumbers.map((number) => (
-          <li key={number} className="pager-item">
-            <a onClick={() => paginate(number)} href="#">
+          <li key={number} className={currentPage==number ?"pagination-item  pagination-item--active" : "pagination-item "} >
+            <a className="pagination-item__link" onClick={() => paginate(number)} href="#">
               {number}
             </a>
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 };
 

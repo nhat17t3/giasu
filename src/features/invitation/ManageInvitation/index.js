@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Layout from "../../../components/Layout";
+import Sidebar from "../../../components/SideBar";
+
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,13 +31,11 @@ function ManageInvitation(props) {
   const history = useHistory();
   const [listinvite, setListinvite] = useState([]);
 
-  useEffect(() => {
-    GetStudents(dispatch);
-  }, []);
+  const[a,setA]=useState(false);
 
   useEffect(() => {
     GetInvitationsByTutor(dispatch);
-  }, []);
+  }, [a]);
 
   // const userID = useSelector((state) => state.user.user.id);
   const invitations = useSelector((state) => state.invitations.invitations);
@@ -46,36 +46,26 @@ function ManageInvitation(props) {
   // }, [invitations]);
 
   const handleEditAcceptClick = async (invitation) => {
-    console.log("Edit: ", invitation);
-
+    console.log("Edit accept invitation: ", invitation);
     const editInvitation = {
-      // id: invitation.id,
       idStudent: invitation.idStudent,
-      // idTutor: invitation.idTutor,
-      // comment: invitation.comment,
-      // rating: invitation.rating,
-      // status: 1,
     };
-
-    AcceptInvitation(dispatch, editInvitation);
+    await AcceptInvitation(dispatch, editInvitation);
+    setA(!a)
+    
     setTimeout(async () => {
       history.push("/manageinvitation");
     }, 500);
   };
 
   const handleEditRefuseClick = async (invitation) => {
-    console.log("Edit: ", invitation);
-
+    console.log("Edit refuse invitation: ", invitation);
     const editInvitation = {
-      // id: invitation.id,
       idStudent: invitation.idStudent,
-      // idTutor: invitation.idTutor,
-      // comment: invitation.comment,
-      // rating: invitation.rating,
-      // status: 2,
     };
+    await RefuseInvitation(dispatch, editInvitation);
+    setA(!a)
 
-    RefuseInvitation(dispatch, editInvitation);
     setTimeout(async () => {
       history.push("/manageinvitation");
     }, 500);
@@ -88,109 +78,44 @@ function ManageInvitation(props) {
   return (
     <>
       <Layout>
-        <div
-          style={{
-            paddingLeft: "100px",
-            paddingRight: "100px",
-            paddingTop: "20px",
-          }}
-        >
-          <div>
-            {/*Menu trái*/}
-            <div className="col-md-3 ">
-              <div>
-                <ul id="accordion" className="accordion">
-                  <li>
-                    <div className="link">
-                      <i className="fa fa-graduation-cap" aria-hidden="true" />
-                      Quản lý yêu cầu
-                    </div>
-                  </li>
-                  <li>
-                    <div className="link">
-                      <i className="fa fa-comments" />
-                      <a href="/hoang-long-nhat/messages">
-                        Hội thoại và tin nhắn
-                      </a>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="link">
-                      <i className="fa fa-bell" aria-hidden="true" />
-                      Thông báo
-                    </div>
-                  </li>
-                  <li>
-                    <div className="link">
-                      <i className="fa fa-pencil-square" aria-hidden="true" />
-                      Bài viết
-                    </div>
-                  </li>
-                  <li>
-                    <div className="link">
-                      <i className="fa fa-heart-saved" />
-                      Đã lưu
-                    </div>
-                  </li>
-                  <li>
-                    <div className="link">
-                      <i className="fa fa-btc" />
-                      <a href="/hoang-long-nhat/bpoint">Quản lý BPoint</a>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="link">
-                      <i className="fa fa-flag" aria-hidden="true" />
-                      Thông tin cá nhân
-                    </div>
-                  </li>
-                </ul>
+        <div className="app__container">
+          <div className="grid">
+            <div className="grid__row app__content">
+              <div className="grid__column-2" style={{ marginTop: "62px" }}>
+                <Sidebar />
               </div>
-            </div>
-            {/* content */}
-            <h1 style={{ textAlign: "center" }}>DANH SÁCH STUDENT MỜI DẠY</h1>
-            <div className="col-md-9">
-              <div className="row-tittle hidden-xs ">
-                <div>
-                  <div className="col-md-2 col-sm-2">
-                    <div>
-                      <h3>ID</h3>
+              <div className="grid__column-10">
+                <div className="notify">
+                  <h2 className="notify__heading">Danh sách mời dạy</h2>
+                  <div className="grid__row " style={{ margin: "auto 0" }}>
+                    <div className="grid__column-2 notify-header__item ">
+                      Thời gian
+                    </div>
+                    <div className="grid__column-5 notify-header__item">
+                      Nội dung
+                    </div>
+                    <div className="grid__column-2 notify-header__item">
+                      Liên hệ học sinh
+                    </div>
+                    <div className="grid__column-3 notify-header__item">
+                      Hoạt động
                     </div>
                   </div>
-                  <div className="col-md-5 col-sm-5">
-                    <div>
-                      <h3>NỘI DUNG </h3>
-                    </div>
-                  </div>
-                  <div className="col-md-3 col-sm-3">
-                    <div className>
-                      <h3>LIÊN HỆ SĐT </h3>
-                    </div>
-                  </div>
-                  <div className="col-md-2 col-sm-2">
-                    <div className>
-                      <h3>HÀNH ĐỘNG</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              {/* row */}
-              {invitations.map((invitation) => (
-                <div key={invitation.id}>
-                  <InvitationItem
-                    invitation={invitation}
-                    onEditAcceptClick={handleEditAcceptClick}
-                    onEditRefuseClick={handleEditRefuseClick}
-                  />
+                  {invitations.map((invitation) => (
+                    <div className="notify-item" key={invitation.id}>
+                      <InvitationItem
+                        invitation={invitation}
+                        onEditAcceptClick={handleEditAcceptClick}
+                        onEditRefuseClick={handleEditRefuseClick}
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
-              {/* end row */}
+              </div>
             </div>
-            {/* end content */}
           </div>
         </div>
-        <div style={{ height: "480px" }}></div>
       </Layout>
     </>
   );

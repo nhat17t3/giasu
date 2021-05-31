@@ -3,51 +3,73 @@ import React from "react";
 const Footer = (props) => {
   return (
     <>
-      <div className="footer-blog">
-        
-  
-        <div className="footer-blog-copyright" >
-          <div className="container">
-            <div
-              className="row"
-              style={{ paddingTop: "20px" }}
-            >
-              <div className="col-md-7 col-sm-6 col-xs-12">
-                <div className="copy-text">
-                  <p>©  2021 Tổ chức giáo dục  Việt Nam</p>
-                  <p>
-                    Trụ sở: Kiệt 82/8 Nguyễn Lương Bằng-Liên Chiểu-Đà nẵng
-                    <br />
-                    {/* Giấy phép ĐKKD số 0107721396 do Sở kế hoạch và đầu tư thành
-                    phố Hà Nội cấp ngày 09/02/2017
-                    <br /> */}
-                  </p>
+      <footer className="footer">
+        <div className="grid">
+          <div className="grid__row">
+            <div className="grid__column-2-4">
+              <h3 className="footer__heading">Chăm sóc khách hàng</h3>
+              <ul className="footer-list">
+                <li className="footer-item"><a href className="footer-item__link">Trung tâm trợ giúp</a></li>
+                <li className="footer-item"><a href className="footer-item__link">Về trung tâm</a></li>
+                <li className="footer-item"><a href className="footer-item__link">Hướng dẫn sử dụng</a></li>
+              </ul>
+            </div>
+            <div className="grid__column-2-4">
+              <h3 className="footer__heading">Giới thiệu</h3>
+              <ul className="footer-list">
+                <li className="footer-item"><a href className="footer-item__link">Giới thiệu</a></li>
+                <li className="footer-item"><a href className="footer-item__link">Tuyển dụng</a></li>
+                <li className="footer-item"><a href className="footer-item__link">Điều khoản</a></li>
+              </ul>
+            </div>
+            <div className="grid__column-2-4">
+              <h3 className="footer__heading">Danh mục</h3>
+              <ul className="footer-list">
+                <li className="footer-item"><a href className="footer-item__link">Gia sư nổi bật</a></li>
+                <li className="footer-item"><a href className="footer-item__link">Các lớp mới đăng</a></li>
+                <li className="footer-item"><a href className="footer-item__link">Gia sư Tiếng anh</a></li>
+              </ul>
+            </div>
+            <div className="grid__column-2-4">
+              <h3 className="footer__heading">Liên hệ</h3>
+              <ul className="footer-list">
+                <li className="footer-item">
+                  <a href className="footer-item__link">
+                    <i className=" footer-item__icon fab fa-facebook" />
+                    Facebook
+                  </a>
+                </li>
+                <li className="footer-item">
+                  <a href className="footer-item__link">
+                    <i className="footer-item__icon fab fa-instagram" />
+                    Instagram
+                  </a>
+                </li>
+                <li className="footer-item">
+                  <a href className="footer-item__link">
+                    <i className="footer-item__icon fab fa-google" />
+                    Google
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="grid__column-2-4">
+              <h3 className="footer__heading">Tải ứng dụng</h3>
+              <div className="footer__download">
+                <img src alt="" />
+                <div className="footer__download-apps">
+                  <img className="footer__download-apps-img" src alt="" />
+                  <img className="footer__download-apps-img" src alt="" />
                 </div>
               </div>
-              <div className="col-md-3 col-sm-3 col-xs-6">
-                <ul>
-                  <li>
-                    <p>
-                      <b>Copyright By Hoàng Long Nhật</b>
-                    </p>
-                  </li>
-                  
-                  <li>
-                    <a
-                      href="http://online.gov.vn/HomePage/WebsiteDisplay.aspx?DocId=41413"
-                      rel="nofollow"
-                      target="_blank"
-                    >
-                      SGD 2018-0040/ĐK/TMĐT
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              
             </div>
           </div>
         </div>
-      
+      </footer>
+      <div className="copyright">
+        <div className="grid">
+          <p className="copyright__text">@ 2021-Bản quyền thuộc về Hoàng Long Nhật</p>
+        </div>
       </div>
     </>
   );

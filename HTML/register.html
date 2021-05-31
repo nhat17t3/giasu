@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SHOPEE</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+      integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./assets/css/base.css" />
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="./assets/fonts/fontawesome-free-5.15.3-web/css/all.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app">
+        <header class="header">
+          <div class="grid"> 
+            <nav class="header__navbar">
+                <ul class="header__navbar-list">
+                    <li class="header__navbar-item header__navbar-item--separate">Vào cửa hàng trên ứng dụng F8 Shop</li>
+                    <li class="header__navbar-item">
+                     <span class="header__navbar-item-title">Kết nối</span>
+                      <a href="#" class="header__navbar-icon-link">
+                        <i class="header__navbar-icon fab fa-facebook"></i>
+                      </a>
+                      <a href="#" class="header__navbar-icon-link">
+                        <i class="header__navbar-icon fab fa-instagram"></i>
+                      </a>
+                    </li>
+                </ul>
+  
+                <ul class="header__navbar-list">
+                  <li class="header__navbar-item">
+                    <a href="#" class="header__navbar-item-link">
+                      <i class="header__navbar-icon fas fa-bell"></i>
+                      Thông báo
+                    </a>   
+                  </li>
+                  <li class="header__navbar-item">
+                    <a href="#" class="header__navbar-item-link">
+                      <i class="header__navbar-icon far fa-question-circle"></i>
+                      Trợ giúp
+                    </a>
+                  </li>
+                  <li class="header__navbar-item header__navbar-item--strong header__navbar-item--separate">Đăng kí</li>
+                  <li class="header__navbar-item header__navbar-item--strong">Đăng nhập</li>
+              </ul>
+            </nav>
+          </div>
+        </header>
+
+        <div class="container">
+
+        </div>
+
+        <footer class="footer">
+
+        </footer>
+    </div>
+    <!-- Modal layout -->
+    <div class="modal">
+      <div class="modal__overlay">
+
+      </div>
+      <div class="modal__body">
+        <!-- Register form -->
+        <div class="auth-form">
+
+            <div class="auth-form__container">
+              <div class="auth-form__header">
+                <h3 class="auth-form__heading">ĐĂNG KÍ</h3>
+                <span class="auth-form__switch-btn">ĐĂNG NHẬP</span>
+              </div>
+  
+              <div class="auth-form__form">
+                <div class="auth-form__group">
+                  <input type="text" placeholder="Tên đăng nhập" class="auth-form__input">
+                </div>
+                 <div class="auth-form__group">
+                   <input type="text" placeholder="Email" class="auth-form__input">
+                 </div>
+                 <div class="auth-form__group">
+                    <input type="number" placeholder="Số điện thoại" class="auth-form__input">
+                  </div>
+                 <div class="auth-form__group">
+                  <input type="password" placeholder="Mật khẩu của bạn" class="auth-form__input">
+                </div>
+                <!-- <div class="auth-form__group">
+                  <input type="password" placeholder="Nhập lại mật khẩu" class="auth-form__input">
+                </div> -->
+                <select name="object" id="" class="auth-form__input"  >
+                    <option value="" disabled selected hidden>Bạn là Gia sư hay học sinh</option>
+                    <option value="tutor">Gia sư</option>
+                    <option value="student">Học sinh</option>
+                </select>
+              </div>
+
+              <div class="auth-form__aside">
+                <p class="auth-form__policy-text">
+                  Bằng việc đăng kí, bạn đã đồng ý với chúng tôi về 
+                  <a href="#" class="auth-form__policy-link">Điều khoản dịch vụ</a>
+                  và
+                  <a href="#" class="auth-form__policy-link">Chính sách bảo mật</a>
+                </p>
+              </div>
+  
+              <div class="auth-form__controls">
+                <button class="btn btn--normal auth-form__controls-back  ">
+                  TRỞ LẠI
+                </button>
+                <button class="btn btn--primary">
+                  ĐĂNG KÍ
+                </button>
+              </div>
+            </div>
+
+            <div class="auth-form__socials">
+              <a href="#" class="btn auth-form__socials--facebook  btn--size-s btn--with-icon">
+                <i class="auth-form__socials-icon fab fa-facebook-square"></i>              
+                <span class="auth-form__socials-label">
+                  Kết nối với Facebook
+                </span>
+              </a>
+              <a href="#" class="btn auth-form__socials--google btn--size-s btn--with-icon">
+                <i class="auth-form__socials-icon fab fa-google"></i>
+                <span class="auth-form__socials-label">
+                  Kết nối với Google
+                </span>
+              </a>
+            </div>
+        </div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

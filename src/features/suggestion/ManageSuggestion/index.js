@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Layout from "../../../components/Layout";
+import Sidebar from "../../../components/SideBar";
+
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,17 +28,16 @@ function ManageSuggestion(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const [listsuggest, setListsuggest] = useState([]);
+  const [a, setA] = useState(false);
 
   // useEffect(() => {
   //   GetSuggestionsByStudent(dispatch);
   // }, []);
   // const suggestions = useSelector((state) => state.suggestions.suggestions);
 
-  useEffect(async () => {
-    await GetTutors(dispatch);
-    await GetPosts(dispatch);
-    await GetSuggestions(dispatch);
-  }, []);
+  useEffect(() => {
+    GetSuggestions(dispatch);
+  }, [a]);
 
   const userID = useSelector((state) => state.user.user.id);
   const suggestions = useSelector((state) => state.suggestions.suggestions);
@@ -46,33 +47,24 @@ function ManageSuggestion(props) {
   }, [suggestions]);
 
   const handleEditAcceptClick = async (suggestion) => {
-    console.log("Edit: ", suggestion);
-
+    console.log("Edit accept sugesstion: ", suggestion);
     const k = {
-      // id: suggestion.id,
       idPost: suggestion.idPost,
-      // idStudent: suggestion.idStudent,
       idTutor: suggestion.idTutor,
-      // status: 1,
     };
-
     await AcceptSuggestion(dispatch, k);
-    setTimeout(async () => {
-      history.push("/managesuggestion");
-    }, 1000);
+    setA(!a);
+
+    history.push("/managesuggestion");
   };
   const handleEditRefuseClick = async (suggestion) => {
     console.log("Edit: ", suggestion);
-
     const k = {
-      // id: suggestion.id,
       idPost: suggestion.idPost,
-      // idStudent: suggestion.idStudent,
       idTutor: suggestion.idTutor,
-      // status: 2,
     };
-
     await RefuseSuggestion(dispatch, k);
+    setA(!a);
 
     history.push("/managesuggestion");
   };
@@ -90,60 +82,45 @@ function ManageSuggestion(props) {
   return (
     <>
       <Layout>
-        <div
-          style={{
-            paddingLeft: "100px",
-            paddingRight: "100px",
-            paddingTop: "20px",
-          }}
-        >
-          <div>
-            {/*Menu trái*/}
-            {/* content */}
-            <h1 style={{ textAlign: "center" }}>DANH SÁCH TUTOR ĐỀ NGHỊ DẠY</h1>
-            <div className="col-md-12">
-              <div className="row-tittle hidden-xs ">
-                <div>
-                  <div className="col-md-2 col-sm-2">
-                    <div>
-                      <h3>ID</h3>
+        <div className="app__container">
+          <div className="grid">
+            <div className="grid__row app__content">
+              <div className="grid__column-2" style={{ marginTop: "62px" }}>
+                <Sidebar />
+              </div>
+              <div className="grid__column-10">
+                <div className="notify">
+                  <h2 className="notify__heading">Danh sách đề nghị dạy</h2>
+                  <div className="grid__row " style={{ margin: "auto 0" }}>
+                    <div className="grid__column-2 notify-header__item ">
+                      Thời gian
+                    </div>
+                    <div className="grid__column-5 notify-header__item">
+                      Nội dung
+                    </div>
+                    <div className="grid__column-2 notify-header__item">
+                      Liên hệ gia sư
+                    </div>
+                    <div className="grid__column-3 notify-header__item">
+                      Hoạt động
                     </div>
                   </div>
-                  <div className="col-md-5 col-sm-5">
-                    <div>
-                      <h3>NỘI DUNG </h3>
+
+                  {listsuggest.map((suggestion) => (
+                    <div className="notify-item" key={suggestion.id}>
+                      <SuggestionItem
+                        suggestion={suggestion}
+                        onEditAcceptClick={handleEditAcceptClick}
+                        onEditRefuseClick={handleEditRefuseClick}
+                        onViewClick={handleViewClick}
+                      />
                     </div>
-                  </div>
-                  <div className="col-md-3 col-sm-3">
-                    <div className>
-                      <h3>LIÊN HỆ SĐT </h3>
-                    </div>
-                  </div>
-                  <div className="col-md-2 col-sm-2">
-                    <div className>
-                      <h3>HÀNH ĐỘNG</h3>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
-
-              {/* row */}
-              {listsuggest.map((suggestion) => (
-                <div key={suggestion.id}>
-                  <SuggestionItem
-                    suggestion={suggestion}
-                    onEditAcceptClick={handleEditAcceptClick}
-                    onEditRefuseClick={handleEditRefuseClick}
-                    onViewClick={handleViewClick}
-                  />
-                </div>
-              ))}
-              {/* end row */}
             </div>
-            {/* end content */}
           </div>
         </div>
-        <div style={{ height: "480px" }}></div>
       </Layout>
     </>
   );
