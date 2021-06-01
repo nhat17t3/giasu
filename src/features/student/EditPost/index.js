@@ -748,7 +748,7 @@ function EditPost1(props) {
                     type="submit"
                     // disabled={isSubmitting}
                   >
-                    Thêm
+                    Cập nhật
                   </button>
                 </div>
               </div>

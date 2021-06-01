@@ -62,17 +62,18 @@ function UpdateTutor(props) {
   console.log("edit tutor:", editedTutor);
 
   useEffect(() => {
-    if (editedTutor.name != null) {
+    if (editedTutor.schedules != null) {
       let b = [];
-      for (const a of editedTutor.subject) {
+      for (let a of editedTutor.subject) {
         let c = { label: a, value: a };
         b.push(c);
       }
       let i = [];
-      for (const j of editedTutor.grade) {
+      for (let j of editedTutor.grade) {
         let k = { label: j, value: j };
         i.push(k);
       }
+      console.log("vvvvv",editedTutor)
       setAvatar(editedTutor.avatar);
       setName(editedTutor.name);
       setAge(editedTutor.age);
@@ -471,7 +472,7 @@ function UpdateTutor(props) {
                   <div className="grid__column-12">
                     <div className="form__group">
                       <div className="form__lable">
-                        Mô tả chi tiết nội dung muốn học
+                        Mô tả bản thân
                       </div>
                       <textarea
                         name="description"

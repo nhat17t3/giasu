@@ -1230,6 +1230,7 @@
     background-color: green;
     color: white;
     margin-right: 2px;
+    font-size: 1.2rem;
 }
 
 .notify-item__accept-link.disabled {
@@ -1240,6 +1241,8 @@
     color: white;
     margin-right: 2px;
     cursor: text;
+    font-size: 1.2rem;
+
 }
 .notify-item__refuse-link {
     height: 28px;
@@ -1248,6 +1251,8 @@
     background-color: red;
     color: white;
     margin-right: 2px;
+    font-size: 1.2rem;
+
 
 
 }
@@ -1260,6 +1265,8 @@
     color: white;
     margin-right: 2px;
     cursor: text;
+    font-size: 1.2rem;
+
 
 }
 
@@ -1270,6 +1277,8 @@
     background-color: blue;
     color: white;
     margin-right: 2px;
+    font-size: 1.2rem;
+
 
 }
 
